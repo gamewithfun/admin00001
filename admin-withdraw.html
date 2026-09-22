@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Withdrawal & VIP Management | THE GAME WITH FUN</title>
+  <meta name="description" content="Administrative payout gateway, payment verification, and VIP order management control center for THE GAME WITH FUN.">
+
+  <style>
+    /* ==========================================================================
+       ADMIN ULTRA-PREMIUM CYBER/DARK DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-base: #06080d;
+      --bg-surface: #0a0e17;
+      --bg-card: rgba(14, 19, 32, 0.82);
+      --bg-card-hover: rgba(20, 27, 46, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(245, 158, 11, 0.35);
+      --border-cyan: rgba(0, 240, 255, 0.25);
+
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%);
+
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --cyan-gradient: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
+
+      --purple-neon: #a855f7;
+      --emerald-neon: #10b981;
+      --ruby-neon: #f43f5e;
+
+      --text-white: #ffffff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 10% 5%, rgba(245, 158, 11, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(0, 240, 255, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      outline: none;
+      border: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ==========================================================================
+       TOP APP HEADER
+       ========================================================================== */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 8, 13, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-menu-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .btn-menu-toggle {
+        display: none;
+      }
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(0, 240, 255, 0.2));
+      border: 1px solid var(--gold-glow);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle-tag {
+      font-size: 0.65rem;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header-action {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-header-action.refreshing svg {
+      animation: spinIcon 0.8s linear infinite;
+    }
+
+    @keyframes spinIcon {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 57px;
+      bottom: 0;
+      left: -260px;
+      width: 250px;
+      background: rgba(8, 12, 22, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+      transition: left 0.3s var(--smooth-ease);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        left: 0;
+        z-index: 50;
+      }
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-overlay.active {
+        display: none;
+      }
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--border-gold);
+      color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    }
+
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .main-workspace {
+      flex: 1;
+      padding: 1.5rem 1rem 3rem;
+      width: 100%;
+      transition: margin 0.3s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .main-workspace {
+        margin-left: 250px;
+        padding: 2rem 2rem 4rem;
+      }
+    }
+
+    /* ==========================================================================
+       PAGE BANNER
+       ========================================================================== */
+    .page-banner {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       TOP STATISTICS TILES (WITHDRAWALS & VIP)
+       ========================================================================== */
+    .stats-group-title {
+      font-size: 0.76rem;
+      font-weight: 900;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem 0.85rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      transition: all 0.2s var(--smooth-ease);
+    }
+
+    .stat-tile:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    .stat-num {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+
+    .stat-label {
+      font-size: 0.66rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================================================
+       PRIMARY WORKSPACE TABS (WITHDRAWALS / VIP ORDERS / SETTINGS)
+       ========================================================================== */
+    .module-tabs-bar {
+      display: flex;
+      gap: 8px;
+      background: rgba(14, 19, 32, 0.95);
+      padding: 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.25rem;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .module-tab-btn {
+      padding: 0.75rem 1.4rem;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .module-tab-btn.active {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--border-glow);
+      color: var(--gold-primary);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+    }
+
+    /* ==========================================================================
+       FILTERS, SEARCH & SORT CONTROLS
+       ========================================================================== */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .filter-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .search-box-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.95rem;
+      gap: 8px;
+    }
+
+    .search-box-wrap:focus-within {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .filter-dropdowns {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select-control {
+      background: #0f1424;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .select-control:focus {
+      border-color: var(--cyan-neon);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       DATA TABLES SECTIONS
+       ========================================================================== */
+    .ui-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      margin-bottom: 1.5rem;
+    }
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .data-table th {
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .status-badge.approved,
+    .status-badge.paid,
+    .status-badge.completed {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--emerald-neon);
+    }
+
+    .status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold-primary);
+    }
+
+    .status-badge.rejected {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+    }
+
+    .btn-action-inspect {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan-neon);
+      font-size: 0.72rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-action-inspect:hover {
+      background: var(--cyan-neon);
+      color: #04060a;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    /* Pagination */
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-page-step {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-page-step:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-page-step:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ==========================================================================
+       MODALS: WITHDRAWAL & VIP DETAILS & CONTROLS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #0d1222;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-head-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-sub-title {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-section-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 600px) {
+      .modal-section-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .modal-info-box {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-box-title {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 4px;
+    }
+
+    .modal-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .modal-info-key {
+      color: var(--text-muted);
+    }
+
+    .modal-info-val {
+      font-weight: 800;
+      color: #fff;
+      font-family: monospace;
+    }
+
+    /* Modal Controls Box */
+    .modal-controls-card {
+      background: rgba(245, 158, 11, 0.04);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .admin-note-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .admin-note-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .decision-btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-approve-action {
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: var(--emerald-neon);
+      color: #04060a;
+      transition: all 0.2s ease;
+    }
+
+    .btn-approve-action:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-reject-action {
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: var(--ruby-neon);
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-reject-action:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+    }
+
+    .processed-notice-badge {
+      text-align: center;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(10, 14, 23, 0.95);
+      border: 1px solid var(--cyan-neon);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(16px);
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--smooth-ease);
+      transform: translateY(15px);
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="toast-popup" role="status" aria-live="polite">
+    <span id="toastMessage">Action completed successfully</span>
+  </div>
+
+  <!-- ==========================================================================
+       TOP APP HEADER
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button type="button" class="btn-menu-toggle" id="btnMenuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="brand-meta">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+              <line x1="6" y1="12" x2="10" y2="12"></line>
+              <line x1="8" y1="10" x2="8" y2="14"></line>
+              <circle cx="15" cy="12" r="1"></circle>
+              <circle cx="18" cy="10" r="1"></circle>
+            </svg>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">THE GAME WITH FUN</span>
+            <span class="brand-subtitle-tag">ADMIN • WITHDRAWAL & VIP MANAGEMENT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="admin.html" class="btn-header-action" aria-label="Back to Admin Home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Admin Home</span>
+        </a>
+
+        <button type="button" class="btn-header-action" id="btnRefreshData" aria-label="Refresh Data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== -->
+  <div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- RESPONSIVE SIDEBAR -->
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="admin.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="admin-users.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Users</span>
+      </a>
+      <a href="admin-tasks.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Tasks</span>
+      </a>
+      <a href="admin-withdraw.html" class="sidebar-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+        <span>Withdrawals & VIP</span>
+      </a>
+      <a href="index.html" class="sidebar-nav-item" style="margin-top: auto; border-color: rgba(255,255,255,0.08);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+        <span>Main Website</span>
+      </a>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- Page Banner -->
+      <div class="page-banner">
+        <h1 class="page-title">
+          <span>💸</span>
+          <span>WITHDRAWAL & VIP ORDERS</span>
+        </h1>
+        <p class="page-subtitle">Verify player payout requests, review mobile payments, activate VIP tiers, and inspect financial balances.</p>
+      </div>
+
+      <!-- 1. LIVE TOP STATISTICS (WITHDRAWALS & VIP) -->
+      <div class="stats-group-title"><span>💸</span> Withdrawal Telemetry (/withdrawals)</div>
+      <div class="stats-grid">
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithTotal">--</span>
+          <span class="stat-label">Total Requests</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithPending" style="color:var(--gold-primary);">--</span>
+          <span class="stat-label">Pending Payouts</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithApproved" style="color:var(--emerald-neon);">--</span>
+          <span class="stat-label">Approved Payouts</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithRejected" style="color:var(--ruby-neon);">--</span>
+          <span class="stat-label">Rejected Payouts</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithTotalReqAmt" style="color:var(--cyan-neon);">--</span>
+          <span class="stat-label">Total Requested Amount</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithTotalAppAmt" style="color:var(--emerald-neon);">--</span>
+          <span class="stat-label">Total Approved Amount</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithTodayReq">--</span>
+          <span class="stat-label">Today's Requests</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sWithTodayAppAmt" style="color:var(--gold-primary);">--</span>
+          <span class="stat-label">Today's Approved Amount</span>
+        </div>
+      </div>
+
+      <div class="stats-group-title"><span>👑</span> VIP Orders Telemetry (/vipOrders)</div>
+      <div class="stats-grid">
+        <div class="stat-tile">
+          <span class="stat-num" id="sVipTotal">--</span>
+          <span class="stat-label">Total VIP Orders</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sVipPending" style="color:var(--gold-primary);">--</span>
+          <span class="stat-label">Pending VIP</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sVipApproved" style="color:var(--emerald-neon);">--</span>
+          <span class="stat-label">Approved VIP</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="sVipRejected" style="color:var(--ruby-neon);">--</span>
+          <span class="stat-label">Rejected VIP</span>
+        </div>
+        <div class="stat-tile" style="grid-column: span 2;">
+          <span class="stat-num" id="sVipSalesTotal" style="color:var(--gold-primary);">--</span>
+          <span class="stat-label">Total VIP Sales Volume</span>
+        </div>
+      </div>
+
+      <!-- 2. PRIMARY MODULE TABS -->
+      <div class="module-tabs-bar">
+        <button type="button" class="module-tab-btn active" id="tabBtnWithdrawals">
+          <span>💸 Withdrawal Requests</span>
+        </button>
+        <button type="button" class="module-tab-btn" id="tabBtnVipOrders">
+          <span>👑 VIP Upgrade Orders</span>
+        </button>
+        <button type="button" class="module-tab-btn" id="tabBtnPaymentSettings">
+          <span>⚙️ Payment Numbers</span>
+        </button>
+      </div>
+
+      <!-- 3. WITHDRAWALS MODULE CONTAINER -->
+      <div id="moduleWithdrawals">
+        <div class="filter-panel">
+          <div class="search-box-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-dim); flex-shrink: 0;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="withSearchInput" class="search-input" placeholder="Search by Username, UID, Withdrawal ID, or Account..." autocomplete="off">
+          </div>
+
+          <div class="filter-dropdowns">
+            <select id="withStatusFilter" class="select-control">
+              <option value="all">Status: All</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved / Paid</option>
+              <option value="rejected">Rejected</option>
+            </select>
+
+            <select id="withMethodFilter" class="select-control">
+              <option value="all">Method: All</option>
+              <option value="bKash">bKash</option>
+              <option value="Nagad">Nagad</option>
+            </select>
+
+            <select id="withDateFilter" class="select-control">
+              <option value="all">Date: All Time</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+            </select>
+
+            <select id="withAmountFilter" class="select-control">
+              <option value="newest">Sort: Newest</option>
+              <option value="oldest">Sort: Oldest</option>
+              <option value="high">Amount: High to Low</option>
+              <option value="low">Amount: Low to High</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ui-panel">
+          <div class="table-scroll-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>UID</th>
+                  <th>Method</th>
+                  <th>Masked Account</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Requested Date</th>
+                  <th>Processed Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="tableWithdrawalsBody">
+                <tr><td colspan="9" class="empty-placeholder">Loading withdrawals telemetry...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <span id="withPageInfo">Showing 0 of 0 records</span>
+            <div class="pagination-buttons">
+              <button type="button" id="withBtnPrev" class="btn-page-step" disabled>Previous</button>
+              <button type="button" id="withBtnNext" class="btn-page-step" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. VIP ORDERS MODULE CONTAINER -->
+      <div id="moduleVipOrders" style="display:none;">
+        <div class="filter-panel">
+          <div class="search-box-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-dim); flex-shrink: 0;">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="vipSearchInput" class="search-input" placeholder="Search VIP orders by Username, UID, TrxID..." autocomplete="off">
+          </div>
+
+          <div class="filter-dropdowns">
+            <select id="vipStatusFilter" class="select-control">
+              <option value="all">Status: All</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+
+            <select id="vipMethodFilter" class="select-control">
+              <option value="all">Method: All</option>
+              <option value="bKash">bKash</option>
+              <option value="Nagad">Nagad</option>
+            </select>
+
+            <select id="vipSortFilter" class="select-control">
+              <option value="newest">Sort: Newest</option>
+              <option value="oldest">Sort: Oldest</option>
+              <option value="high">Amount: High to Low</option>
+              <option value="low">Amount: Low to High</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="ui-panel">
+          <div class="table-scroll-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>VIP Tier</th>
+                  <th>Method</th>
+                  <th>Transaction ID</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Submitted Date</th>
+                  <th>Processed Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="tableVipBody">
+                <tr><td colspan="9" class="empty-placeholder">Loading VIP orders telemetry...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <span id="vipPageInfo">Showing 0 of 0 records</span>
+            <div class="pagination-buttons">
+              <button type="button" id="vipBtnPrev" class="btn-page-step" disabled>Previous</button>
+              <button type="button" id="vipBtnNext" class="btn-page-step" disabled>Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. PAYMENT SETTINGS MODULE CONTAINER -->
+      <div id="modulePaymentSettings" style="display:none;">
+        <div class="ui-panel" style="max-width: 600px;">
+          <h3 style="font-size:1.15rem; font-weight:900; color:#fff; margin-bottom:0.4rem;">Configured Payment Numbers</h3>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.5rem;">
+            These mobile numbers are dynamically rendered to players on the VIP deposit checkout page (/paymentSettings).
+          </p>
+
+          <form id="paymentSettingsForm" novalidate>
+            <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem;">
+              <div>
+                <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--gold-primary); text-transform:uppercase; margin-bottom:6px;">bKash Receiving Number</label>
+                <input type="text" id="cfgBkashInput" class="admin-note-input" placeholder="01310504728" style="margin-bottom:0;" required>
+              </div>
+
+              <div>
+                <label style="display:block; font-size:0.75rem; font-weight:800; color:var(--gold-primary); text-transform:uppercase; margin-bottom:6px;">Nagad Receiving Number</label>
+                <input type="text" id="cfgNagadInput" class="admin-note-input" placeholder="01310504728" style="margin-bottom:0;" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-approve-action" style="width:100%;">SAVE PAYMENT SETTINGS</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: WITHDRAWAL DETAILS & AUDIT PROCESSING
+       ========================================================================== -->
+  <div id="withModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseWithModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title">Withdrawal Request</h3>
+      <div class="modal-sub-title" id="mWithIdSub">ID: --</div>
+
+      <div class="modal-section-grid">
+        <!-- Payout Info -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Payout Request</span>
+          <div class="modal-info-row"><span class="modal-info-key">Username:</span><span class="modal-info-val" id="mWithUsername">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">UID:</span><span class="modal-info-val" id="mWithUid">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Method:</span><span class="modal-info-val" id="mWithMethod">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Account (Masked):</span><span class="modal-info-val" id="mWithAccount" style="color:var(--cyan-neon);">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Amount Requested:</span><span class="modal-info-val" id="mWithAmount" style="color:var(--gold-primary);">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Current Status:</span><span class="modal-info-val" id="mWithStatus">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Requested Date:</span><span class="modal-info-val" id="mWithReqDate">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Processed Date:</span><span class="modal-info-val" id="mWithProcDate">--</span></div>
+        </div>
+
+        <!-- Live Player Wallet State -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Live Player Wallet (/users/{uid})</span>
+          <div class="modal-info-row"><span class="modal-info-key">Available Balance:</span><span class="modal-info-val" id="mUserBal" style="color:var(--gold-primary);">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Total Earnings:</span><span class="modal-info-val" id="mUserEarn">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Total Withdrawn:</span><span class="modal-info-val" id="mUserWith">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Standing:</span><span class="modal-info-val" id="mUserVip">None</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Expiry:</span><span class="modal-info-val" id="mUserVipExp">None</span></div>
+        </div>
+      </div>
+
+      <!-- Action Panel -->
+      <div id="withActionControls" class="modal-controls-card">
+        <label style="display:block; font-size:0.72rem; font-weight:800; color:var(--gold-primary); text-transform:uppercase; margin-bottom:6px;">Administrator Audit Note / Reason</label>
+        <textarea id="withAdminNoteInput" class="admin-note-input" placeholder="Optional audit memo or reason for rejection..."></textarea>
+
+        <div class="decision-btn-row">
+          <button type="button" id="btnApproveWith" class="btn-approve-action">APPROVE WITHDRAWAL</button>
+          <button type="button" id="btnRejectWith" class="btn-reject-action">REJECT WITHDRAWAL</button>
+        </div>
+      </div>
+
+      <div id="withAlreadyProcessedNotice" class="processed-notice-badge" style="display:none;">
+        ALREADY PROCESSED
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: VIP ORDER DETAILS & AUDIT PROCESSING
+       ========================================================================== -->
+  <div id="vipModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseVipModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title">VIP Order Upgrade</h3>
+      <div class="modal-sub-title" id="mVipIdSub">Order ID: --</div>
+
+      <div class="modal-section-grid">
+        <!-- Order Info -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Order Info</span>
+          <div class="modal-info-row"><span class="modal-info-key">Username:</span><span class="modal-info-val" id="mVipUsername">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">UID:</span><span class="modal-info-val" id="mVipUid">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Requested:</span><span class="modal-info-val" id="mVipLevelReq" style="color:var(--gold-primary);">VIP --</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Method:</span><span class="modal-info-val" id="mVipMethod">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">TrxID:</span><span class="modal-info-val" id="mVipTrx" style="color:var(--cyan-neon);">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Amount Paid:</span><span class="modal-info-val" id="mVipAmount">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Submitted:</span><span class="modal-info-val" id="mVipSubDate">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Processed:</span><span class="modal-info-val" id="mVipProcDate">--</span></div>
+        </div>
+
+        <!-- Current VIP Status -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Current User VIP (/users/{uid})</span>
+          <div class="modal-info-row"><span class="modal-info-key">Current Level:</span><span class="modal-info-val" id="mVipCurLevel">None</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Current Status:</span><span class="modal-info-val" id="mVipCurStatus">Inactive</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Active Expiry:</span><span class="modal-info-val" id="mVipCurExp">None</span></div>
+          <div class="modal-info-row" style="margin-top:6px; border-top:1px solid rgba(255,255,255,0.06); padding-top:6px;"><span class="modal-info-key">Rule:</span><span style="font-size:0.72rem; color:var(--text-dim);">Duration: 20 Days</span></div>
+        </div>
+      </div>
+
+      <!-- Action Panel -->
+      <div id="vipActionControls" class="modal-controls-card">
+        <label style="display:block; font-size:0.72rem; font-weight:800; color:var(--gold-primary); text-transform:uppercase; margin-bottom:6px;">Administrator Audit Note / Reason</label>
+        <textarea id="vipAdminNoteInput" class="admin-note-input" placeholder="Optional audit memo or reason for rejection..."></textarea>
+
+        <div class="decision-btn-row">
+          <button type="button" id="btnApproveVip" class="btn-approve-action">APPROVE & ACTIVATE VIP</button>
+          <button type="button" id="btnRejectVip" class="btn-reject-action">REJECT VIP ORDER</button>
+        </div>
+      </div>
+
+      <div id="vipAlreadyProcessedNotice" class="processed-notice-badge" style="display:none;">
+        ALREADY PROCESSED
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FIREBASE REALTIME DATABASE ONLY (DIRECT ACCESS)
+       ========================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      get, 
+      update, 
+      push, 
+      set 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // ------------------------------------------------------------------------
+    // FIREBASE CONFIGURATION
+    // ------------------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
+      authDomain: "game-with-fun-a1988.firebaseapp.com",
+      databaseURL: "https://game-with-fun-a1988-default-rtdb.firebaseio.com",
+      projectId: "game-with-fun-a1988",
+      storageBucket: "game-with-fun-a1988.firebasestorage.app",
+      messagingSenderId: "226037846599",
+      appId: "1:226037846599:web:415dc67b9d06007646d762"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // ------------------------------------------------------------------------
+    // UI HOOKS
+    // ------------------------------------------------------------------------
+    const btnMenuToggle = document.getElementById('btnMenuToggle');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const btnRefreshData = document.getElementById('btnRefreshData');
+
+    // Stats Elements
+    const sWithTotal = document.getElementById('sWithTotal');
+    const sWithPending = document.getElementById('sWithPending');
+    const sWithApproved = document.getElementById('sWithApproved');
+    const sWithRejected = document.getElementById('sWithRejected');
+    const sWithTotalReqAmt = document.getElementById('sWithTotalReqAmt');
+    const sWithTotalAppAmt = document.getElementById('sWithTotalAppAmt');
+    const sWithTodayReq = document.getElementById('sWithTodayReq');
+    const sWithTodayAppAmt = document.getElementById('sWithTodayAppAmt');
+
+    const sVipTotal = document.getElementById('sVipTotal');
+    const sVipPending = document.getElementById('sVipPending');
+    const sVipApproved = document.getElementById('sVipApproved');
+    const sVipRejected = document.getElementById('sVipRejected');
+    const sVipSalesTotal = document.getElementById('sVipSalesTotal');
+
+    // Tabs
+    const tabBtnWithdrawals = document.getElementById('tabBtnWithdrawals');
+    const tabBtnVipOrders = document.getElementById('tabBtnVipOrders');
+    const tabBtnPaymentSettings = document.getElementById('tabBtnPaymentSettings');
+    const moduleWithdrawals = document.getElementById('moduleWithdrawals');
+    const moduleVipOrders = document.getElementById('moduleVipOrders');
+    const modulePaymentSettings = document.getElementById('modulePaymentSettings');
+
+    // Withdrawal Controls
+    const withSearchInput = document.getElementById('withSearchInput');
+    const withStatusFilter = document.getElementById('withStatusFilter');
+    const withMethodFilter = document.getElementById('withMethodFilter');
+    const withDateFilter = document.getElementById('withDateFilter');
+    const withAmountFilter = document.getElementById('withAmountFilter');
+    const tableWithdrawalsBody = document.getElementById('tableWithdrawalsBody');
+    const withPageInfo = document.getElementById('withPageInfo');
+    const withBtnPrev = document.getElementById('withBtnPrev');
+    const withBtnNext = document.getElementById('withBtnNext');
+
+    // VIP Controls
+    const vipSearchInput = document.getElementById('vipSearchInput');
+    const vipStatusFilter = document.getElementById('vipStatusFilter');
+    const vipMethodFilter = document.getElementById('vipMethodFilter');
+    const vipSortFilter = document.getElementById('vipSortFilter');
+    const tableVipBody = document.getElementById('tableVipBody');
+    const vipPageInfo = document.getElementById('vipPageInfo');
+    const vipBtnPrev = document.getElementById('vipBtnPrev');
+    const vipBtnNext = document.getElementById('vipBtnNext');
+
+    // Settings Form
+    const paymentSettingsForm = document.getElementById('paymentSettingsForm');
+    const cfgBkashInput = document.getElementById('cfgBkashInput');
+    const cfgNagadInput = document.getElementById('cfgNagadInput');
+
+    // Modals
+    const withModal = document.getElementById('withModal');
+    const btnCloseWithModal = document.getElementById('btnCloseWithModal');
+    const mWithIdSub = document.getElementById('mWithIdSub');
+    const mWithUsername = document.getElementById('mWithUsername');
+    const mWithUid = document.getElementById('mWithUid');
+    const mWithMethod = document.getElementById('mWithMethod');
+    const mWithAccount = document.getElementById('mWithAccount');
+    const mWithAmount = document.getElementById('mWithAmount');
+    const mWithStatus = document.getElementById('mWithStatus');
+    const mWithReqDate = document.getElementById('mWithReqDate');
+    const mWithProcDate = document.getElementById('mWithProcDate');
+    const mUserBal = document.getElementById('mUserBal');
+    const mUserEarn = document.getElementById('mUserEarn');
+    const mUserWith = document.getElementById('mUserWith');
+    const mUserVip = document.getElementById('mUserVip');
+    const mUserVipExp = document.getElementById('mUserVipExp');
+    const withAdminNoteInput = document.getElementById('withAdminNoteInput');
+    const withActionControls = document.getElementById('withActionControls');
+    const withAlreadyProcessedNotice = document.getElementById('withAlreadyProcessedNotice');
+    const btnApproveWith = document.getElementById('btnApproveWith');
+    const btnRejectWith = document.getElementById('btnRejectWith');
+
+    const vipModal = document.getElementById('vipModal');
+    const btnCloseVipModal = document.getElementById('btnCloseVipModal');
+    const mVipIdSub = document.getElementById('mVipIdSub');
+    const mVipUsername = document.getElementById('mVipUsername');
+    const mVipUid = document.getElementById('mVipUid');
+    const mVipLevelReq = document.getElementById('mVipLevelReq');
+    const mVipMethod = document.getElementById('mVipMethod');
+    const mVipTrx = document.getElementById('mVipTrx');
+    const mVipAmount = document.getElementById('mVipAmount');
+    const mVipSubDate = document.getElementById('mVipSubDate');
+    const mVipProcDate = document.getElementById('mVipProcDate');
+    const mVipCurLevel = document.getElementById('mVipCurLevel');
+    const mVipCurStatus = document.getElementById('mVipCurStatus');
+    const mVipCurExp = document.getElementById('mVipCurExp');
+    const vipAdminNoteInput = document.getElementById('vipAdminNoteInput');
+    const vipActionControls = document.getElementById('vipActionControls');
+    const vipAlreadyProcessedNotice = document.getElementById('vipAlreadyProcessedNotice');
+    const btnApproveVip = document.getElementById('btnApproveVip');
+    const btnRejectVip = document.getElementById('btnRejectVip');
+
+    const toastNotification = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // ------------------------------------------------------------------------
+    // RUNTIME DATA STORES
+    // ------------------------------------------------------------------------
+    let allWithdrawals = [];
+    let filteredWithdrawals = [];
+    let withPage = 1;
+
+    let allVipOrders = [];
+    let filteredVipOrders = [];
+    let vipPage = 1;
+
+    const PAGE_SIZE = 20;
+
+    let currentSelectedWithdrawal = null;
+    let currentSelectedVipOrder = null;
+    let toastTimeout = null;
+
+    // ------------------------------------------------------------------------
+    // NAVIGATION DRAWER & TOAST
+    // ------------------------------------------------------------------------
+    function toggleSidebar() {
+      sidebarMenu.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active');
+    }
+    btnMenuToggle.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    function showToast(msg) {
+      toastMessage.textContent = msg;
+      toastNotification.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastNotification.classList.remove('show');
+      }, 2500);
+    }
+
+    // ------------------------------------------------------------------------
+    // TAB NAVIGATION SWITCHER
+    // ------------------------------------------------------------------------
+    tabBtnWithdrawals.addEventListener('click', () => switchTab('withdrawals'));
+    tabBtnVipOrders.addEventListener('click', () => switchTab('vip'));
+    tabBtnPaymentSettings.addEventListener('click', () => switchTab('settings'));
+
+    function switchTab(tab) {
+      tabBtnWithdrawals.classList.toggle('active', tab === 'withdrawals');
+      tabBtnVipOrders.classList.toggle('active', tab === 'vip');
+      tabBtnPaymentSettings.classList.toggle('active', tab === 'settings');
+
+      moduleWithdrawals.style.display = tab === 'withdrawals' ? 'block' : 'none';
+      moduleVipOrders.style.display = tab === 'vip' ? 'block' : 'none';
+      modulePaymentSettings.style.display = tab === 'settings' ? 'block' : 'none';
+    }
+
+    // ------------------------------------------------------------------------
+    // REALTIME DATABASE LISTENERS
+    // ------------------------------------------------------------------------
+    function initDatabaseListeners() {
+      // 1. /withdrawals Listener
+      onValue(ref(database, 'withdrawals'), (snapshot) => {
+        allWithdrawals = [];
+        let total = 0, pending = 0, approved = 0, rejected = 0;
+        let totalReqAmt = 0, totalAppAmt = 0, todayReq = 0, todayAppAmt = 0;
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((id) => {
+            const w = data[id] || {};
+            w.withdrawalId = id;
+            allWithdrawals.push(w);
+            total++;
+
+            const amt = Number(w.amount || 0);
+            totalReqAmt += amt;
+
+            const st = (w.status || 'pending').toLowerCase();
+            const ts = extractTimestamp(w.createdAt || w.requestedAt);
+
+            if (isToday(ts)) todayReq++;
+
+            if (st === 'pending') {
+              pending++;
+            } else if (st === 'approved' || st === 'paid' || st === 'completed') {
+              approved++;
+              totalAppAmt += amt;
+              if (isToday(extractTimestamp(w.processedAt || w.createdAt))) {
+                todayAppAmt += amt;
+              }
+            } else if (st === 'rejected') {
+              rejected++;
+            }
+          });
+        }
+
+        sWithTotal.textContent = total;
+        sWithPending.textContent = pending;
+        sWithApproved.textContent = approved;
+        sWithRejected.textContent = rejected;
+        sWithTotalReqAmt.textContent = `৳${totalReqAmt.toFixed(2)}`;
+        sWithTotalAppAmt.textContent = `৳${totalAppAmt.toFixed(2)}`;
+        sWithTodayReq.textContent = todayReq;
+        sWithTodayAppAmt.textContent = `৳${todayAppAmt.toFixed(2)}`;
+
+        applyWithdrawalFilters();
+      });
+
+      // 2. /vipOrders Listener
+      onValue(ref(database, 'vipOrders'), (snapshot) => {
+        allVipOrders = [];
+        let total = 0, pending = 0, approved = 0, rejected = 0, sales = 0;
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((id) => {
+            const ord = data[id] || {};
+            ord.orderId = id;
+            allVipOrders.push(ord);
+            total++;
+
+            const amt = Number(ord.amount || ord.price || 0);
+            const st = (ord.status || 'pending').toLowerCase();
+
+            if (st === 'pending') {
+              pending++;
+            } else if (st === 'approved') {
+              approved++;
+              sales += amt;
+            } else if (st === 'rejected') {
+              rejected++;
+            }
+          });
+        }
+
+        sVipTotal.textContent = total;
+        sVipPending.textContent = pending;
+        sVipApproved.textContent = approved;
+        sVipRejected.textContent = rejected;
+        sVipSalesTotal.textContent = `৳${sales.toFixed(2)}`;
+
+        applyVipFilters();
+      });
+
+      // 3. /paymentSettings Listener
+      onValue(ref(database, 'paymentSettings'), (snapshot) => {
+        if (snapshot.exists()) {
+          const cfg = snapshot.val();
+          cfgBkashInput.value = cfg.bkashNumber || '01310504728';
+          cfgNagadInput.value = cfg.nagadNumber || '01310504728';
+        } else {
+          cfgBkashInput.value = '01310504728';
+          cfgNagadInput.value = '01310504728';
+        }
+      });
+    }
+
+    btnRefreshData.addEventListener('click', () => {
+      btnRefreshData.classList.add('refreshing');
+      initDatabaseListeners();
+      setTimeout(() => btnRefreshData.classList.remove('refreshing'), 700);
+    });
+
+    // ------------------------------------------------------------------------
+    // WITHDRAWALS FILTERING & RENDERING
+    // ------------------------------------------------------------------------
+    function applyWithdrawalFilters() {
+      const q = withSearchInput.value.trim().toLowerCase();
+      const s = withStatusFilter.value.toLowerCase();
+      const m = withMethodFilter.value;
+      const d = withDateFilter.value;
+      const sort = withAmountFilter.value;
+
+      filteredWithdrawals = allWithdrawals.filter((w) => {
+        if (q) {
+          const uName = (w.username || '').toLowerCase();
+          const uid = (w.uid || '').toLowerCase();
+          const id = (w.withdrawalId || '').toLowerCase();
+          const acc = (w.accountNumber || '').toLowerCase();
+          if (!uName.includes(q) && !uid.includes(q) && !id.includes(q) && !acc.includes(q)) return false;
+        }
+
+        if (s !== 'all') {
+          const st = (w.status || 'pending').toLowerCase();
+          if (s === 'approved') {
+            if (st !== 'approved' && st !== 'paid' && st !== 'completed') return false;
+          } else if (st !== s) return false;
+        }
+
+        if (m !== 'all' && (w.method || 'bKash') !== m) return false;
+
+        if (d !== 'all') {
+          const ts = extractTimestamp(w.createdAt || w.requestedAt);
+          if (d === 'today' && !isToday(ts)) return false;
+          if (d === 'week' && !isThisWeek(ts)) return false;
+          if (d === 'month' && !isThisMonth(ts)) return false;
+        }
+
+        return true;
+      });
+
+      // Sort
+      filteredWithdrawals.sort((a, b) => {
+        if (sort === 'newest') {
+          return extractTimestamp(b.createdAt || b.requestedAt) - extractTimestamp(a.createdAt || a.requestedAt);
+        } else if (sort === 'oldest') {
+          return extractTimestamp(a.createdAt || a.requestedAt) - extractTimestamp(b.createdAt || b.requestedAt);
+        } else if (sort === 'high') {
+          return Number(b.amount || 0) - Number(a.amount || 0);
+        } else if (sort === 'low') {
+          return Number(a.amount || 0) - Number(b.amount || 0);
+        }
+        return 0;
+      });
+
+      renderWithdrawalsTable();
+    }
+
+    withSearchInput.addEventListener('input', () => { withPage = 1; applyWithdrawalFilters(); });
+    withStatusFilter.addEventListener('change', () => { withPage = 1; applyWithdrawalFilters(); });
+    withMethodFilter.addEventListener('change', () => { withPage = 1; applyWithdrawalFilters(); });
+    withDateFilter.addEventListener('change', () => { withPage = 1; applyWithdrawalFilters(); });
+    withAmountFilter.addEventListener('change', () => { withPage = 1; applyWithdrawalFilters(); });
+
+    function renderWithdrawalsTable() {
+      tableWithdrawalsBody.innerHTML = '';
+      const total = filteredWithdrawals.length;
+
+      if (total === 0) {
+        tableWithdrawalsBody.innerHTML = '<tr><td colspan="9" class="empty-placeholder">No withdrawal requests found.</td></tr>';
+        withPageInfo.textContent = 'Showing 0 of 0 records';
+        withBtnPrev.disabled = true;
+        withBtnNext.disabled = true;
+        return;
+      }
+
+      const totalPages = Math.ceil(total / PAGE_SIZE);
+      if (withPage > totalPages) withPage = totalPages;
+
+      const start = (withPage - 1) * PAGE_SIZE;
+      const end = Math.min(start + PAGE_SIZE, total);
+      const items = filteredWithdrawals.slice(start, end);
+
+      withPageInfo.textContent = `Showing ${start + 1}–${end} of ${total} records (Page ${withPage}/${totalPages})`;
+      withBtnPrev.disabled = withPage <= 1;
+      withBtnNext.disabled = withPage >= totalPages;
+
+      items.forEach((w) => {
+        const tr = document.createElement('tr');
+        const st = (w.status || 'pending').toLowerCase();
+        const amt = Number(w.amount || 0).toFixed(2);
+        const masked = maskAccountNumber(w.accountNumber);
+        const reqDate = formatDate(w.createdAt || w.requestedAt);
+        const procDate = w.processedAt ? formatDate(w.processedAt) : '--';
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(w.username || 'Player')}</strong></td>
+          <td><span style="font-family:monospace; color:var(--text-dim);">${maskId(w.uid)}</span></td>
+          <td>${escapeHtml(w.method || 'bKash')}</td>
+          <td><span style="font-family:monospace; color:var(--cyan-neon);">${masked}</span></td>
+          <td><strong style="color:var(--gold-primary);">৳${amt}</strong></td>
+          <td><span class="status-badge ${st}">${st}</span></td>
+          <td>${reqDate}</td>
+          <td>${procDate}</td>
+          <td>
+            <button type="button" class="btn-action-inspect btn-with-details">Inspect</button>
+          </td>
+        `;
+
+        tr.querySelector('.btn-with-details').addEventListener('click', () => openWithdrawalModal(w));
+        tableWithdrawalsBody.appendChild(tr);
+      });
+    }
+
+    withBtnPrev.addEventListener('click', () => { if (withPage > 1) { withPage--; renderWithdrawalsTable(); } });
+    withBtnNext.addEventListener('click', () => { const totalP = Math.ceil(filteredWithdrawals.length / PAGE_SIZE); if (withPage < totalP) { withPage++; renderWithdrawalsTable(); } });
+
+    // ------------------------------------------------------------------------
+    // VIP ORDERS FILTERING & RENDERING
+    // ------------------------------------------------------------------------
+    function applyVipFilters() {
+      const q = vipSearchInput.value.trim().toLowerCase();
+      const s = vipStatusFilter.value.toLowerCase();
+      const m = vipMethodFilter.value;
+      const sort = vipSortFilter.value;
+
+      filteredVipOrders = allVipOrders.filter((ord) => {
+        if (q) {
+          const uName = (ord.username || '').toLowerCase();
+          const uid = (ord.uid || ord.userId || '').toLowerCase();
+          const trx = (ord.transactionId || '').toLowerCase();
+          if (!uName.includes(q) && !uid.includes(q) && !trx.includes(q)) return false;
+        }
+
+        if (s !== 'all' && (ord.status || 'pending').toLowerCase() !== s) return false;
+        if (m !== 'all' && (ord.paymentMethod || 'bKash') !== m) return false;
+
+        return true;
+      });
+
+      filteredVipOrders.sort((a, b) => {
+        if (sort === 'newest') {
+          return extractTimestamp(b.createdAt) - extractTimestamp(a.createdAt);
+        } else if (sort === 'oldest') {
+          return extractTimestamp(a.createdAt) - extractTimestamp(b.createdAt);
+        } else if (sort === 'high') {
+          return Number(b.amount || b.price || 0) - Number(a.amount || a.price || 0);
+        } else if (sort === 'low') {
+          return Number(a.amount || a.price || 0) - Number(b.amount || b.price || 0);
+        }
+        return 0;
+      });
+
+      renderVipTable();
+    }
+
+    vipSearchInput.addEventListener('input', () => { vipPage = 1; applyVipFilters(); });
+    vipStatusFilter.addEventListener('change', () => { vipPage = 1; applyVipFilters(); });
+    vipMethodFilter.addEventListener('change', () => { vipPage = 1; applyVipFilters(); });
+    vipSortFilter.addEventListener('change', () => { vipPage = 1; applyVipFilters(); });
+
+    function renderVipTable() {
+      tableVipBody.innerHTML = '';
+      const total = filteredVipOrders.length;
+
+      if (total === 0) {
+        tableVipBody.innerHTML = '<tr><td colspan="9" class="empty-placeholder">No VIP orders found.</td></tr>';
+        vipPageInfo.textContent = 'Showing 0 of 0 records';
+        vipBtnPrev.disabled = true;
+        vipBtnNext.disabled = true;
+        return;
+      }
+
+      const totalPages = Math.ceil(total / PAGE_SIZE);
+      if (vipPage > totalPages) vipPage = totalPages;
+
+      const start = (vipPage - 1) * PAGE_SIZE;
+      const end = Math.min(start + PAGE_SIZE, total);
+      const items = filteredVipOrders.slice(start, end);
+
+      vipPageInfo.textContent = `Showing ${start + 1}–${end} of ${total} records (Page ${vipPage}/${totalPages})`;
+      vipBtnPrev.disabled = vipPage <= 1;
+      vipBtnNext.disabled = vipPage >= totalPages;
+
+      items.forEach((ord) => {
+        const tr = document.createElement('tr');
+        const st = (ord.status || 'pending').toLowerCase();
+        const amt = Number(ord.amount || ord.price || 0).toFixed(2);
+        const subDate = formatDate(ord.createdAt);
+        const procDate = ord.processedAt ? formatDate(ord.processedAt) : '--';
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(ord.username || 'User')}</strong></td>
+          <td><span class="status-badge" style="background:rgba(245,158,11,0.12); color:var(--gold-primary);">VIP ${ord.vipLevel || '1'}</span></td>
+          <td>${escapeHtml(ord.paymentMethod || 'bKash')}</td>
+          <td><span style="font-family:monospace; color:var(--cyan-neon);">${escapeHtml(maskTrx(ord.transactionId))}</span></td>
+          <td><strong style="color:#fff;">৳${amt}</strong></td>
+          <td><span class="status-badge ${st}">${st}</span></td>
+          <td>${subDate}</td>
+          <td>${procDate}</td>
+          <td>
+            <button type="button" class="btn-action-inspect btn-vip-details">Inspect</button>
+          </td>
+        `;
+
+        tr.querySelector('.btn-vip-details').addEventListener('click', () => openVipModal(ord));
+        tableVipBody.appendChild(tr);
+      });
+    }
+
+    vipBtnPrev.addEventListener('click', () => { if (vipPage > 1) { vipPage--; renderVipTable(); } });
+    vipBtnNext.addEventListener('click', () => { const totalP = Math.ceil(filteredVipOrders.length / PAGE_SIZE); if (vipPage < totalP) { vipPage++; renderVipTable(); } });
+
+    // ------------------------------------------------------------------------
+    // WITHDRAWAL DETAILS MODAL & APPROVAL / REJECTION ENGINE
+    // ------------------------------------------------------------------------
+    async function openWithdrawalModal(w) {
+      currentSelectedWithdrawal = w;
+      mWithIdSub.textContent = `Withdrawal ID: ${w.withdrawalId}`;
+      mWithUsername.textContent = w.username || 'Player';
+      mWithUid.textContent = w.uid || '--';
+      mWithMethod.textContent = w.method || 'bKash';
+      mWithAccount.textContent = maskAccountNumber(w.accountNumber);
+      mWithAmount.textContent = `৳${Number(w.amount || 0).toFixed(2)}`;
+      mWithStatus.textContent = (w.status || 'pending').toUpperCase();
+      mWithReqDate.textContent = formatDate(w.createdAt || w.requestedAt);
+      mWithProcDate.textContent = w.processedAt ? formatDate(w.processedAt) : '--';
+      withAdminNoteInput.value = w.adminNote || '';
+
+      const isPending = (w.status || 'pending').toLowerCase() === 'pending';
+      withActionControls.style.display = isPending ? 'block' : 'none';
+      withAlreadyProcessedNotice.style.display = isPending ? 'none' : 'block';
+
+      // Live fetch player wallet data (/users/{uid})
+      mUserBal.textContent = 'Loading...';
+      mUserEarn.textContent = '--';
+      mUserWith.textContent = '--';
+      mUserVip.textContent = '--';
+      mUserVipExp.textContent = '--';
+
+      if (w.uid) {
+        try {
+          const userSnap = await get(ref(database, `users/${w.uid}`));
+          if (userSnap.exists()) {
+            const u = userSnap.val();
+            mUserBal.textContent = `৳${Number(u.balance || 0).toFixed(2)}`;
+            mUserEarn.textContent = `৳${Number(u.totalEarnings || 0).toFixed(2)}`;
+            mUserWith.textContent = `৳${Number(u.totalWithdrawal || 0).toFixed(2)}`;
+            mUserVip.textContent = u.vipStatus === 'active' && u.vipLevel ? `VIP ${u.vipLevel}` : 'Free Tier';
+            mUserVipExp.textContent = u.vipExpiry ? formatDate(u.vipExpiry) : 'None';
+          } else {
+            mUserBal.textContent = 'User Node Missing';
+          }
+        } catch {
+          mUserBal.textContent = 'Error Loading';
+        }
+      }
+
+      withModal.classList.add('open');
+    }
+
+    btnCloseWithModal.addEventListener('click', () => withModal.classList.remove('open'));
+    withModal.addEventListener('click', (e) => { if (e.target === withModal) withModal.classList.remove('open'); });
+
+    // Double-Processing Protected Approve
+    btnApproveWith.addEventListener('click', async () => {
+      if (!currentSelectedWithdrawal) return;
+      const wId = currentSelectedWithdrawal.withdrawalId;
+      const uid = currentSelectedWithdrawal.uid;
+      const amount = Number(currentSelectedWithdrawal.amount || 0);
+
+      const confirmMsg = `Are you sure you want to APPROVE this withdrawal request?\n\nAmount: ৳${amount.toFixed(2)}\nUser: ${currentSelectedWithdrawal.username || uid}`;
+      if (!confirm(confirmMsg)) return;
+
+      btnApproveWith.disabled = true;
+
+      try {
+        // Double-check latest status in database
+        const freshSnap = await get(ref(database, `withdrawals/${wId}`));
+        if (!freshSnap.exists() || (freshSnap.val().status || '').toLowerCase() !== 'pending') {
+          alert('This request has already been processed.');
+          withModal.classList.remove('open');
+          return;
+        }
+
+        const now = Date.now();
+        const note = withAdminNoteInput.value.trim() || 'Approved by Administrator';
+
+        // 1. Update /withdrawals/{id}
+        await update(ref(database, `withdrawals/${wId}`), {
+          status: 'approved',
+          processedAt: now,
+          adminNote: note
+        });
+
+        // 2. Safely deduct balance and increment totalWithdrawal in /users/{uid}
+        if (uid) {
+          const userSnap = await get(ref(database, `users/${uid}`));
+          if (userSnap.exists()) {
+            const uData = userSnap.val();
+            const curBal = Number(uData.balance || 0);
+            const curWith = Number(uData.totalWithdrawal || 0);
+            const newBal = Math.max(0, curBal - amount);
+            const newWith = curWith + amount;
+
+            await update(ref(database, `users/${uid}`), {
+              balance: newBal,
+              totalWithdrawal: newWith
+            });
+
+            // 3. Record in audit transactions /transactions/{uid}
+            const txRef = push(ref(database, `transactions/${uid}`));
+            await set(txRef, {
+              type: "withdrawal",
+              amount: -amount,
+              withdrawalId: wId,
+              status: "approved",
+              createdAt: now,
+              adminAction: true,
+              note: note
+            });
+          }
+        }
+
+        showToast('Withdrawal request APPROVED successfully.');
+        withModal.classList.remove('open');
+      } catch (err) {
+        console.error('Approval failed:', err);
+        alert('Unable to process approval. Please retry.');
+      } finally {
+        btnApproveWith.disabled = false;
+      }
+    });
+
+    // Reject Withdrawal
+    btnRejectWith.addEventListener('click', async () => {
+      if (!currentSelectedWithdrawal) return;
+      const wId = currentSelectedWithdrawal.withdrawalId;
+
+      const reason = withAdminNoteInput.value.trim();
+      const promptConfirm = confirm(`Are you sure you want to REJECT this withdrawal?\nNote: ${reason || 'No note provided'}`);
+      if (!promptConfirm) return;
+
+      btnRejectWith.disabled = true;
+
+      try {
+        const freshSnap = await get(ref(database, `withdrawals/${wId}`));
+        if (!freshSnap.exists() || (freshSnap.val().status || '').toLowerCase() !== 'pending') {
+          alert('This request has already been processed.');
+          withModal.classList.remove('open');
+          return;
+        }
+
+        const now = Date.now();
+        await update(ref(database, `withdrawals/${wId}`), {
+          status: 'rejected',
+          processedAt: now,
+          adminNote: reason || 'Rejected by Administrator'
+        });
+
+        showToast('Withdrawal marked as REJECTED.');
+        withModal.classList.remove('open');
+      } catch (err) {
+        console.error('Rejection failed:', err);
+        alert('Unable to process rejection.');
+      } finally {
+        btnRejectWith.disabled = false;
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // VIP ORDER DETAILS MODAL & APPROVAL / REJECTION ENGINE
+    // ------------------------------------------------------------------------
+    async function openVipModal(ord) {
+      currentSelectedVipOrder = ord;
+      mVipIdSub.textContent = `Order ID: ${ord.orderId}`;
+      mVipUsername.textContent = ord.username || 'User';
+      mVipUid.textContent = ord.uid || ord.userId || '--';
+      mVipLevelReq.textContent = `VIP ${ord.vipLevel || '1'}`;
+      mVipMethod.textContent = ord.paymentMethod || 'bKash';
+      mVipTrx.textContent = ord.transactionId || 'None';
+      mVipAmount.textContent = `৳${Number(ord.amount || ord.price || 0).toFixed(2)}`;
+      mVipSubDate.textContent = formatDate(ord.createdAt);
+      mVipProcDate.textContent = ord.processedAt ? formatDate(ord.processedAt) : '--';
+      vipAdminNoteInput.value = ord.adminNote || '';
+
+      const isPending = (ord.status || 'pending').toLowerCase() === 'pending';
+      vipActionControls.style.display = isPending ? 'block' : 'none';
+      vipAlreadyProcessedNotice.style.display = isPending ? 'none' : 'block';
+
+      // Load user's current VIP standing
+      mVipCurLevel.textContent = 'Loading...';
+      mVipCurStatus.textContent = '--';
+      mVipCurExp.textContent = '--';
+
+      const userTargetId = ord.uid || ord.userId;
+      if (userTargetId) {
+        try {
+          const userSnap = await get(ref(database, `users/${userTargetId}`));
+          if (userSnap.exists()) {
+            const u = userSnap.val();
+            mVipCurLevel.textContent = u.vipLevel ? `VIP ${u.vipLevel}` : 'None';
+            mVipCurStatus.textContent = u.vipStatus || 'Inactive';
+            mVipCurExp.textContent = u.vipExpiry ? formatDate(u.vipExpiry) : 'None';
+          } else {
+            mVipCurLevel.textContent = 'User Missing';
+          }
+        } catch {
+          mVipCurLevel.textContent = 'Error Loading';
+        }
+      }
+
+      vipModal.classList.add('open');
+    }
+
+    btnCloseVipModal.addEventListener('click', () => vipModal.classList.remove('open'));
+    vipModal.addEventListener('click', (e) => { if (e.target === vipModal) vipModal.classList.remove('open'); });
+
+    // Approve VIP Order & Activate 20 Days
+    btnApproveVip.addEventListener('click', async () => {
+      if (!currentSelectedVipOrder) return;
+      const ordId = currentSelectedVipOrder.orderId;
+      const uid = currentSelectedVipOrder.uid || currentSelectedVipOrder.userId;
+      const requestedLvl = Number(currentSelectedVipOrder.vipLevel || 1);
+
+      if (!confirm(`Are you sure you want to APPROVE this VIP Order and ACTIVATE VIP ${requestedLvl} for 20 days?`)) return;
+
+      btnApproveVip.disabled = true;
+
+      try {
+        // Double-check latest status in database
+        const freshSnap = await get(ref(database, `vipOrders/${ordId}`));
+        if (!freshSnap.exists() || (freshSnap.val().status || '').toLowerCase() !== 'pending') {
+          alert('This VIP order has already been processed.');
+          vipModal.classList.remove('open');
+          return;
+        }
+
+        const now = Date.now();
+        const durationMs = 20 * 24 * 60 * 60 * 1000; // 20 days in ms
+        const expiryIso = new Date(now + durationMs).toISOString();
+        const note = vipAdminNoteInput.value.trim() || 'Approved & Activated by Administrator';
+
+        // 1. Update /vipOrders/{id}
+        await update(ref(database, `vipOrders/${ordId}`), {
+          status: 'approved',
+          processedAt: now,
+          adminNote: note
+        });
+
+        // 2. Update player profile in /users/{uid}
+        if (uid) {
+          await update(ref(database, `users/${uid}`), {
+            vipLevel: requestedLvl,
+            vipStatus: 'active',
+            vipExpiry: expiryIso
+          });
+
+          // 3. Record audit transaction in /transactions/{uid}
+          const txRef = push(ref(database, `transactions/${uid}`));
+          await set(txRef, {
+            type: "vip_upgrade",
+            amount: Number(currentSelectedVipOrder.amount || currentSelectedVipOrder.price || 0),
+            vipOrderId: ordId,
+            vipLevel: requestedLvl,
+            status: "approved",
+            createdAt: now,
+            adminAction: true,
+            note: note
+          });
+        }
+
+        showToast(`VIP ${requestedLvl} activated successfully for 20 days.`);
+        vipModal.classList.remove('open');
+      } catch (err) {
+        console.error('VIP approval failed:', err);
+        alert('Failed to approve VIP order. Verify connection.');
+      } finally {
+        btnApproveVip.disabled = false;
+      }
+    });
+
+    // Reject VIP Order
+    btnRejectVip.addEventListener('click', async () => {
+      if (!currentSelectedVipOrder) return;
+      const ordId = currentSelectedVipOrder.orderId;
+      const reason = vipAdminNoteInput.value.trim();
+
+      if (!confirm(`Are you sure you want to REJECT this VIP order?\nReason: ${reason || 'No note'}`)) return;
+
+      btnRejectVip.disabled = true;
+
+      try {
+        const freshSnap = await get(ref(database, `vipOrders/${ordId}`));
+        if (!freshSnap.exists() || (freshSnap.val().status || '').toLowerCase() !== 'pending') {
+          alert('This VIP order has already been processed.');
+          vipModal.classList.remove('open');
+          return;
+        }
+
+        const now = Date.now();
+        await update(ref(database, `vipOrders/${ordId}`), {
+          status: 'rejected',
+          processedAt: now,
+          adminNote: reason || 'Rejected by Administrator'
+        });
+
+        showToast('VIP order marked as REJECTED.');
+        vipModal.classList.remove('open');
+      } catch (err) {
+        console.error('VIP rejection failed:', err);
+        alert('Failed to reject order.');
+      } finally {
+        btnRejectVip.disabled = false;
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // PAYMENT SETTINGS SAVE
+    // ------------------------------------------------------------------------
+    paymentSettingsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const bNum = cfgBkashInput.value.trim();
+      const nNum = cfgNagadInput.value.trim();
+
+      if (!bNum || !nNum) {
+        alert('Both bKash and Nagad numbers are required.');
+        return;
+      }
+
+      try {
+        await update(ref(database, 'paymentSettings'), {
+          bkashNumber: bNum,
+          nagadNumber: nNum,
+          updatedAt: Date.now()
+        });
+        showToast('Payment receiving numbers updated.');
+      } catch (err) {
+        console.error('Settings save failed:', err);
+        alert('Could not update payment numbers.');
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // DATE, MASKING & SANITIZATION HELPERS
+    // ------------------------------------------------------------------------
+    function extractTimestamp(val) {
+      if (!val) return 0;
+      if (typeof val === 'number') return val < 1e11 ? val * 1000 : val;
+      const p = new Date(val).getTime();
+      return isNaN(p) ? 0 : p;
+    }
+
+    function isToday(ts) {
+      if (!ts) return false;
+      return new Date(ts).toDateString() === new Date().toDateString();
+    }
+
+    function isThisWeek(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return Math.abs(now - d) <= (7 * 24 * 60 * 60 * 1000);
+    }
+
+    function isThisMonth(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    }
+
+    function formatDate(val) {
+      if (!val) return '--';
+      const ts = extractTimestamp(val);
+      if (!ts) return '--';
+      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function maskAccountNumber(num) {
+      if (!num) return '--';
+      const s = String(num).trim();
+      if (s.length < 8) return s;
+      return s.slice(0, 5) + '******' + s.slice(-2);
+    }
+
+    function maskTrx(trx) {
+      if (!trx) return '--';
+      const s = String(trx).trim();
+      if (s.length < 6) return s;
+      return s.slice(0, 3) + '***' + s.slice(-2);
+    }
+
+    function maskId(id) {
+      if (!id) return '--';
+      const s = String(id);
+      if (s.length < 8) return s;
+      return s.slice(0, 4) + '...' + s.slice(-4);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize Telemetry Data Streaming
+    initDatabaseListeners();
+  </script>
+</body>
+</html>
