@@ -68,7 +68,7 @@
         radial-gradient(circle at 90% 15%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
         radial-gradient(circle at 50% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
       background-attachment: fixed;
-      padding-bottom: 95px; /* Room for mobile fixed bottom nav */
+      padding-bottom: 95px; /* Room for mobile bottom nav */
     }
 
     @media (min-width: 1024px) {
@@ -139,7 +139,7 @@
     }
 
     /* ==========================================================================
-       ACCESS DENIED SCREEN (SHOWN IF USER IS NOT IN ADMIN_UIDS)
+       ACCESS DENIED SCREEN (/adminUsers check failed)
        ========================================================================== */
     .access-denied-screen {
       display: none;
@@ -158,7 +158,7 @@
       border: 1px solid var(--ruby-neon);
       border-radius: var(--radius-lg);
       padding: 2.5rem 1.75rem;
-      max-width: 460px;
+      max-width: 480px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
       display: flex;
       flex-direction: column;
@@ -185,7 +185,7 @@
       border-radius: var(--radius-sm);
       padding: 0.75rem;
       font-family: monospace;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       color: var(--cyan-neon);
       word-break: break-all;
       user-select: all;
@@ -262,11 +262,11 @@
       gap: 6px;
       padding: 5px 12px;
       border-radius: var(--radius-full);
-      background: rgba(0, 240, 255, 0.06);
-      border: 1px solid var(--border-cyan);
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid var(--border-glow);
       font-size: 0.74rem;
       font-weight: 800;
-      color: var(--cyan-neon);
+      color: var(--gold-primary);
     }
 
     @media (min-width: 640px) {
@@ -406,7 +406,7 @@
     }
 
     /* ==========================================================================
-       QUICK ACTIONS BAR
+       QUICK ACTIONS GRID
        ========================================================================== */
     .quick-actions-grid {
       display: grid;
@@ -720,26 +720,31 @@
        ========================================================================== -->
   <div id="authCheckingOverlay" class="auth-resolving-overlay">
     <div class="auth-spinner"></div>
-    <div class="auth-loading-text">AUTHENTICATING ADMIN...</div>
+    <div class="auth-loading-text">AUTHENTICATING ADMIN ACCESS...</div>
   </div>
 
   <!-- ==========================================================================
-       ACCESS DENIED SCREEN
+       ACCESS DENIED SCREEN (/adminUsers authorization verification failed)
        ========================================================================== -->
   <div id="accessDeniedScreen" class="access-denied-screen">
     <div class="denied-card">
       <div class="denied-icon">🚫</div>
-      <h2 style="font-size: 1.4rem; font-weight: 900; color: #fff;">Access Denied</h2>
+      <h2 style="font-size: 1.4rem; font-weight: 900; color: #fff;">Admin Access Denied</h2>
       <p style="font-size: 0.86rem; color: var(--text-muted); line-height: 1.5;">
-        You are authenticated, but your user ID is not registered in the authorized <strong>ADMIN_UIDS</strong> list.
+        You are authenticated with Firebase, but this user account is not authorized as an Administrator in <strong>/adminUsers/{uid}</strong>.
       </p>
       
       <div style="font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; font-weight: 800;">Your User UID:</div>
       <div class="denied-uid-box" id="deniedUserUidText">Loading UID...</div>
 
-      <a href="dashboard.html" style="width: 100%; padding: 0.85rem; border-radius: var(--radius-sm); background: var(--cyan-gradient); color: #04060a; font-weight: 800; font-size: 0.84rem; text-transform: uppercase;">
-        Return to Player Portal
-      </a>
+      <div style="display:flex; flex-direction:column; gap:8px; width:100%;">
+        <a href="admin-login.html" style="width: 100%; padding: 0.85rem; border-radius: var(--radius-sm); background: var(--gold-gradient); color: #04060a; font-weight: 900; font-size: 0.84rem; text-transform: uppercase;">
+          Sign In with Admin Account
+        </a>
+        <a href="dashboard.html" style="width: 100%; padding: 0.85rem; border-radius: var(--radius-sm); background: rgba(255,255,255,0.05); color: #fff; font-weight: 800; font-size: 0.84rem; text-transform: uppercase;">
+          Return to Player Portal
+        </a>
+      </div>
     </div>
   </div>
 
@@ -767,7 +772,7 @@
       <div class="header-right">
         <div class="admin-pill" id="adminEmailBadge">
           <span>🛡️</span>
-          <span id="adminIdentifierText">admin</span>
+          <span id="adminIdentifierText">Admin</span>
         </div>
 
         <button type="button" id="btnRefreshData" class="btn-header-action btn-refresh" aria-label="Refresh Data">
@@ -1037,7 +1042,7 @@
   </nav>
 
   <!-- ==========================================================================
-       FIREBASE INTEGRATION & ADMIN DASHBOARD ENGINE
+       FIREBASE INTEGRATION & SECURE ADMIN AUTHORIZATION
        ========================================================================== -->
   <script type="module">
     // ------------------------------------------------------------------------
@@ -1056,15 +1061,7 @@
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     // ------------------------------------------------------------------------
-    // 2. CONFIGURABLE ADMIN ACCESS LIST
-    // Insert your authorized Firebase Authentication UID here.
-    // ------------------------------------------------------------------------
-    const ADMIN_UIDS = [
-      "YOUR_ADMIN_UID_HERE"
-    ];
-
-    // ------------------------------------------------------------------------
-    // 3. FIREBASE CONFIGURATION
+    // 2. FIREBASE CONFIGURATION
     // ------------------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
@@ -1081,7 +1078,7 @@
     const database = getDatabase(app);
 
     // ------------------------------------------------------------------------
-    // 4. UI HOOKS
+    // 3. UI HOOKS
     // ------------------------------------------------------------------------
     const authCheckingOverlay = document.getElementById('authCheckingOverlay');
     const accessDeniedScreen = document.getElementById('accessDeniedScreen');
@@ -1116,31 +1113,56 @@
     const announcementsList = document.getElementById('announcementsList');
 
     // ------------------------------------------------------------------------
-    // 5. ASYNC AUTHENTICATION OBSERVATION & ACCESS CONTROL
+    // 4. SECURE ADMIN AUTHORIZATION VIA /adminUsers/{uid}
     // ------------------------------------------------------------------------
     let currentAdminUser = null;
+
+    /* ============================================================================
+       FIREBASE BOOTSTRAP INSTRUCTION FOR ADMINISTRATOR ROLE:
+       ----------------------------------------------------------------------------
+       To authorize the admin account (0131050428 / RAFSAN20):
+       1. Log into Firebase Console -> Authentication -> Users.
+       2. Find the user: 0131050428@thegamewithfun.com and copy the UID.
+       3. In Realtime Database, create the node at /adminUsers/{UID}:
+          /adminUsers/{UID}
+          {
+            "role": "admin",
+            "active": true
+          }
+       ============================================================================ */
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         currentAdminUser = user;
         
-        // Verify against ADMIN_UIDS list
-        if (!ADMIN_UIDS.includes(user.uid)) {
-          // Denied access: display notification, do NOT log out automatically
+        // Check authorization in Realtime Database: /adminUsers/{uid}
+        const adminAuthRef = ref(database, `adminUsers/${user.uid}`);
+        
+        onValue(adminAuthRef, (snapshot) => {
+          if (snapshot.exists()) {
+            const adminRecord = snapshot.val();
+            if (adminRecord.role === "admin" && adminRecord.active === true) {
+              // Access Authorized
+              hideOverlay();
+              adminIdentifierText.textContent = user.email ? user.email.split('@')[0] : "Admin";
+              initAdminTelemetry();
+              return;
+            }
+          }
+
+          // Not authorized in /adminUsers
           hideOverlay();
           deniedUserUidText.textContent = user.uid;
           accessDeniedScreen.style.display = 'flex';
-          return;
-        }
-
-        // Admin Access Granted
-        adminIdentifierText.textContent = user.email || user.uid.slice(0, 8);
-        hideOverlay();
-        initAdminTelemetry();
+        }, (err) => {
+          console.warn("Authorization verification note:", err);
+          hideOverlay();
+          errorBanner.style.display = 'flex';
+        });
 
       } else {
-        // Only redirect to login when Firebase Auth confirms that there is no session
-        window.location.href = "login.html";
+        // Unauthenticated -> redirect to admin login
+        window.location.replace("admin-login.html");
       }
     });
 
@@ -1152,7 +1174,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 6. INITIALIZE ADMIN TELEMETRY STREAMS
+    // 5. INITIALIZE ADMIN TELEMETRY STREAMS
     // ------------------------------------------------------------------------
     function initAdminTelemetry() {
       errorBanner.style.display = 'none';
@@ -1280,12 +1302,10 @@
     }
 
     btnRetrySync.addEventListener('click', initAdminTelemetry);
-    btnRefreshData.addEventListener('click', () => {
-      initAdminTelemetry();
-    });
+    btnRefreshData.addEventListener('click', initAdminTelemetry);
 
     // ------------------------------------------------------------------------
-    // 7. RENDER TELEMETRY TABLES
+    // 6. RENDER TELEMETRY TABLES
     // ------------------------------------------------------------------------
     function renderRecentVipOrders(orders) {
       tableVipOrdersBody.innerHTML = '';
@@ -1384,7 +1404,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 8. LOGOUT CONFIRMATION MODAL & HANDLERS
+    // 7. LOGOUT MODAL & HANDLERS
     // ------------------------------------------------------------------------
     btnOpenLogoutModal.addEventListener('click', () => {
       logoutModal.classList.add('open');
@@ -1398,12 +1418,12 @@
       try {
         await signOut(auth);
       } finally {
-        window.location.href = "login.html";
+        window.location.replace("admin-login.html");
       }
     });
 
     // ------------------------------------------------------------------------
-    // 9. SECURITY & DATA MASKING HELPERS
+    // 8. SECURITY & DATA MASKING HELPERS
     // ------------------------------------------------------------------------
     function maskIdentifier(id) {
       if (!id) return '---';
