@@ -1,0 +1,1931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Task & Ads Management | THE GAME WITH FUN</title>
+  <meta name="description" content="Direct-access administrative task management control center for THE GAME WITH FUN. Create missions, set timers, allocate rewards, and audit completions.">
+
+  <style>
+    /* ==========================================================================
+       ADMIN ULTRA-PREMIUM CYBER/DARK DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-base: #06080d;
+      --bg-surface: #0a0e17;
+      --bg-card: rgba(14, 19, 32, 0.82);
+      --bg-card-hover: rgba(20, 27, 46, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 240, 255, 0.3);
+      --border-gold: rgba(245, 158, 11, 0.35);
+
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%);
+
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --cyan-gradient: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
+
+      --purple-neon: #a855f7;
+      --emerald-neon: #10b981;
+      --ruby-neon: #f43f5e;
+
+      --text-white: #ffffff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 10% 5%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      outline: none;
+      border: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ==========================================================================
+       TOP APP HEADER
+       ========================================================================== */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 8, 13, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-menu-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .btn-menu-toggle {
+        display: none;
+      }
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(0, 240, 255, 0.2));
+      border: 1px solid var(--gold-glow);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle-tag {
+      font-size: 0.65rem;
+      color: var(--cyan-neon);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header-action {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-add-primary {
+      background: var(--cyan-gradient);
+      color: #04060a;
+      border: none;
+    }
+
+    .btn-add-primary:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 15px var(--cyan-glow);
+      color: #04060a;
+    }
+
+    .btn-header-action.refreshing svg {
+      animation: spinIcon 0.8s linear infinite;
+    }
+
+    @keyframes spinIcon {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 57px;
+      bottom: 0;
+      left: -260px;
+      width: 250px;
+      background: rgba(8, 12, 22, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+      transition: left 0.3s var(--smooth-ease);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        left: 0;
+        z-index: 50;
+      }
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-overlay.active {
+        display: none;
+      }
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(0, 240, 255, 0.08);
+      border-color: var(--border-cyan);
+      color: var(--cyan-neon);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+    }
+
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .main-workspace {
+      flex: 1;
+      padding: 1.5rem 1rem 3rem;
+      width: 100%;
+      transition: margin 0.3s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .main-workspace {
+        margin-left: 250px;
+        padding: 2rem 2rem 4rem;
+      }
+    }
+
+    /* ==========================================================================
+       PAGE BANNER
+       ========================================================================== */
+    .page-banner {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       ERROR BANNER
+       ========================================================================== */
+    .error-banner {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.1rem;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-retry-action {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-retry-action:hover {
+      background: var(--ruby-neon);
+    }
+
+    /* ==========================================================================
+       7 LIVE STATISTICS TILES
+       ========================================================================== */
+    .stats-master-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .stats-master-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .stats-master-grid {
+        grid-template-columns: repeat(7, 1fr);
+      }
+    }
+
+    .stat-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 0.85rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s var(--smooth-ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-tile:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .stat-num {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+
+    .stat-label {
+      font-size: 0.66rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================================================
+       SEARCH & FILTERS TOOLBAR
+       ========================================================================== */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .filter-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .search-box-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.95rem;
+      gap: 8px;
+    }
+
+    .search-box-wrap:focus-within {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .filter-dropdowns {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select-control {
+      background: #0f1424;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .select-control:focus {
+      border-color: var(--cyan-neon);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       TASKS DATA TABLE
+       ========================================================================== */
+    .ui-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      margin-bottom: 1.5rem;
+    }
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .data-table th {
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .status-badge.active {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--emerald-neon);
+    }
+
+    .status-badge.inactive {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+    }
+
+    .status-badge.upcoming {
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan-neon);
+    }
+
+    .status-badge.expired {
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px solid #475569;
+      color: #94a3b8;
+    }
+
+    .actions-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-table-action {
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-edit {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-toggle-status {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--border-gold);
+      color: var(--gold-primary);
+    }
+
+    .btn-toggle-status:hover {
+      background: var(--gold-primary);
+      color: #04060a;
+    }
+
+    .btn-stats {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan-neon);
+    }
+
+    .btn-stats:hover {
+      background: var(--cyan-neon);
+      color: #04060a;
+    }
+
+    .btn-delete {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--ruby-neon);
+    }
+
+    .btn-delete:hover {
+      background: var(--ruby-neon);
+      color: #fff;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    /* ==========================================================================
+       PAGINATION CONTROLS
+       ========================================================================== */
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-page-step {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-page-step:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-page-step:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ==========================================================================
+       MODALS: TASK FORM & TASK STATS
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #0d1222;
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-head-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-sub-title {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (min-width: 600px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .col-span-full {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .btn-save-task {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--cyan-gradient);
+      color: #04060a;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px var(--cyan-glow);
+    }
+
+    .btn-save-task:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    /* Stats Modal Cards */
+    .stats-breakdown-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 1.25rem 0;
+    }
+
+    .modal-stat-box {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .modal-stat-num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cyan-neon);
+      font-family: monospace;
+    }
+
+    .modal-stat-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(10, 14, 23, 0.95);
+      border: 1px solid var(--cyan-neon);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(16px);
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--smooth-ease);
+      transform: translateY(15px);
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="toast-popup" role="status" aria-live="polite">
+    <span id="toastMessage">Task Action Successful</span>
+  </div>
+
+  <!-- ==========================================================================
+       TOP APP HEADER
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button type="button" class="btn-menu-toggle" id="btnMenuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="brand-meta">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+              <line x1="6" y1="12" x2="10" y2="12"></line>
+              <line x1="8" y1="10" x2="8" y2="14"></line>
+              <circle cx="15" cy="12" r="1"></circle>
+              <circle cx="18" cy="10" r="1"></circle>
+            </svg>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">THE GAME WITH FUN</span>
+            <span class="brand-subtitle-tag">ADMIN • TASK MANAGEMENT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="admin.html" class="btn-header-action" aria-label="Back to Admin Home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Admin Home</span>
+        </a>
+
+        <button type="button" class="btn-header-action" id="btnRefreshData" aria-label="Refresh Tasks">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          <span>Refresh</span>
+        </button>
+
+        <button type="button" class="btn-header-action btn-add-primary" id="btnOpenCreateModal">
+          <span>+ Add New Task</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== -->
+  <div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- RESPONSIVE SIDEBAR -->
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="admin.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="admin-users.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Users</span>
+      </a>
+      <a href="admin-tasks.html" class="sidebar-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Tasks</span>
+      </a>
+      <a href="admin-withdraw.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+        <span>Withdrawals</span>
+      </a>
+      <a href="index.html" class="sidebar-nav-item" style="margin-top: auto; border-color: rgba(255,255,255,0.08);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+        <span>Main Website</span>
+      </a>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- Page Banner -->
+      <div class="page-banner">
+        <h1 class="page-title">
+          <span>🎮</span>
+          <span>TASK & ADS MANAGEMENT</span>
+        </h1>
+        <p class="page-subtitle">Configure legitimate gaming activities, website exploration tasks, timers, and reward limits.</p>
+      </div>
+
+      <!-- Non-intrusive Error Banner -->
+      <div id="errorBanner" class="error-banner">
+        <span style="font-size: 0.82rem; color: #fca5a5;">Unable to load tasks. Realtime Database connection interrupted.</span>
+        <button type="button" id="btnRetrySync" class="btn-retry-action">RETRY</button>
+      </div>
+
+      <!-- 1. LIVE TASK STATISTICS TILES -->
+      <div class="stats-master-grid">
+        <div class="stat-tile">
+          <span class="stat-num" id="statTotalTasks">--</span>
+          <span class="stat-label">Total Tasks</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statActiveTasks" style="color: var(--emerald-neon);">--</span>
+          <span class="stat-label">Active Tasks</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statInactiveTasks" style="color: var(--ruby-neon);">--</span>
+          <span class="stat-label">Inactive Tasks</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statTotalCompletions" style="color: var(--cyan-neon);">--</span>
+          <span class="stat-label">Total Completions</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statTodayCompletions" style="color: var(--gold-primary);">--</span>
+          <span class="stat-label">Today's Done</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statTotalRewardsDist" style="color: #fff;">--</span>
+          <span class="stat-label">Total Rewards</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statEndingSoon" style="color: var(--purple-neon);">--</span>
+          <span class="stat-label">Ending Soon</span>
+        </div>
+      </div>
+
+      <!-- 2. SEARCH & FILTERS PANEL -->
+      <div class="filter-panel">
+        <div class="search-box-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-dim); flex-shrink: 0;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="taskSearchInput" class="search-input" placeholder="Search by Task Name, ID, URL, or Description..." autocomplete="off">
+        </div>
+
+        <div class="filter-dropdowns">
+          <select id="statusFilter" class="select-control" aria-label="Filter by Status">
+            <option value="all">Status: All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="expired">Expired</option>
+          </select>
+
+          <select id="typeFilter" class="select-control" aria-label="Filter by Type">
+            <option value="all">Type: All</option>
+            <option value="Website Link">Website Link</option>
+            <option value="Direct Task Link">Direct Task Link</option>
+          </select>
+
+          <select id="sortFilter" class="select-control" aria-label="Sort Order">
+            <option value="newest">Sort: Newest</option>
+            <option value="oldest">Sort: Oldest</option>
+            <option value="high-reward">Highest Reward</option>
+            <option value="low-reward">Lowest Reward</option>
+            <option value="high-completions">Most Completed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3. TASKS DATA TABLE -->
+      <div class="ui-panel">
+        <div class="table-scroll-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Task Name</th>
+                <th>Type</th>
+                <th>Reward</th>
+                <th>Timer</th>
+                <th>Daily Limit</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Completed</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableTasksBody">
+              <tr><td colspan="11" class="empty-placeholder">Loading tasks database...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-bar">
+          <span id="pageInfoText">Showing 0 of 0 tasks</span>
+          <div class="pagination-buttons">
+            <button type="button" id="btnPrevPage" class="btn-page-step" disabled>Previous</button>
+            <button type="button" id="btnNextPage" class="btn-page-step" disabled>Next</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: CREATE / EDIT TASK
+       ========================================================================== -->
+  <div id="taskModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseTaskModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title" id="modalTaskHeading">Add New Task</h3>
+      <div class="modal-sub-title" id="modalTaskIdSub">Configure legitimate user-initiated mission parameters</div>
+
+      <form id="taskForm" novalidate>
+        <div class="form-grid">
+          <!-- Task Name -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="taskNameInput">Task Name *</label>
+            <input type="text" id="taskNameInput" class="form-input" placeholder="e.g. Daily Arcade Quest" required>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="taskDescInput">Task Description</label>
+            <textarea id="taskDescInput" class="form-textarea" placeholder="Instructions for users on the platform..."></textarea>
+          </div>
+
+          <!-- Task Type -->
+          <div class="form-group">
+            <label class="form-label" for="taskTypeSelect">Task Type *</label>
+            <select id="taskTypeSelect" class="form-input" style="background:#0f1424;">
+              <option value="Website Link">Website Link</option>
+              <option value="Direct Task Link">Direct Task Link</option>
+            </select>
+          </div>
+
+          <!-- Reward -->
+          <div class="form-group">
+            <label class="form-label" for="taskRewardInput">Reward Amount (BDT / ৳) *</label>
+            <input type="number" id="taskRewardInput" class="form-input" placeholder="0.50" min="0" step="any" required>
+          </div>
+
+          <!-- Task URL -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="taskUrlInput">Task URL Destination *</label>
+            <input type="url" id="taskUrlInput" class="form-input" placeholder="https://example.com/legitimate-page" required>
+          </div>
+
+          <!-- Timer (Seconds) -->
+          <div class="form-group">
+            <label class="form-label" for="taskTimerInput">Countdown Timer (Seconds) *</label>
+            <input type="number" id="taskTimerInput" class="form-input" placeholder="30" min="1" step="1" required>
+          </div>
+
+          <!-- Daily Limit per User -->
+          <div class="form-group">
+            <label class="form-label" for="taskLimitInput">Daily Limit *</label>
+            <input type="number" id="taskLimitInput" class="form-input" placeholder="5" min="1" step="1" required>
+          </div>
+
+          <!-- Start Date -->
+          <div class="form-group">
+            <label class="form-label" for="taskStartDateInput">Start Date / Time *</label>
+            <input type="datetime-local" id="taskStartDateInput" class="form-input" required>
+          </div>
+
+          <!-- End Date -->
+          <div class="form-group">
+            <label class="form-label" for="taskEndDateInput">End Date / Time *</label>
+            <input type="datetime-local" id="taskEndDateInput" class="form-input" required>
+          </div>
+
+          <!-- Active Status Toggle -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="taskActiveSelect">Initial Availability Status *</label>
+            <select id="taskActiveSelect" class="form-input" style="background:#0f1424;">
+              <option value="true">Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="btnSaveTaskSubmit" class="btn-save-task">SAVE TASK</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: TASK AUDIT STATISTICS
+       ========================================================================== -->
+  <div id="statsModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:520px;">
+      <button type="button" class="modal-close-btn" id="btnCloseStatsModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title" id="statsModalTaskTitle">Mission Telemetry</h3>
+      <div class="modal-sub-title" id="statsModalTaskId">Audit breakdown of completed attempts</div>
+
+      <div class="stats-breakdown-grid">
+        <div class="modal-stat-box">
+          <div class="modal-stat-num" id="sTotalCompletions">0</div>
+          <div class="modal-stat-label">Total Completed</div>
+        </div>
+        <div class="modal-stat-box">
+          <div class="modal-stat-num" id="sTodayCompletions" style="color:var(--emerald-neon);">0</div>
+          <div class="modal-stat-label">Today's Runs</div>
+        </div>
+        <div class="modal-stat-box">
+          <div class="modal-stat-num" id="sWeekCompletions" style="color:var(--gold-primary);">0</div>
+          <div class="modal-stat-label">This Week</div>
+        </div>
+        <div class="modal-stat-box">
+          <div class="modal-stat-num" id="sMonthCompletions" style="color:var(--purple-neon);">0</div>
+          <div class="modal-stat-label">This Month</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; text-align:center;">
+        <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:800;">Total Reward Distributed:</span>
+        <div style="font-size:1.45rem; font-weight:900; color:var(--gold-primary); font-family:monospace;" id="sRewardDistributed">৳0.00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FIREBASE REALTIME DATABASE ONLY (DIRECT ACCESS)
+       ========================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      set, 
+      update, 
+      push, 
+      remove 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // ------------------------------------------------------------------------
+    // FIREBASE CONFIGURATION
+    // ------------------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
+      authDomain: "game-with-fun-a1988.firebaseapp.com",
+      databaseURL: "https://game-with-fun-a1988-default-rtdb.firebaseio.com",
+      projectId: "game-with-fun-a1988",
+      storageBucket: "game-with-fun-a1988.firebasestorage.app",
+      messagingSenderId: "226037846599",
+      appId: "1:226037846599:web:415dc67b9d06007646d762"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // ------------------------------------------------------------------------
+    // UI HOOKS
+    // ------------------------------------------------------------------------
+    const btnMenuToggle = document.getElementById('btnMenuToggle');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const btnRefreshData = document.getElementById('btnRefreshData');
+    const errorBanner = document.getElementById('errorBanner');
+    const btnRetrySync = document.getElementById('btnRetrySync');
+    const btnOpenCreateModal = document.getElementById('btnOpenCreateModal');
+
+    // Stats
+    const statTotalTasks = document.getElementById('statTotalTasks');
+    const statActiveTasks = document.getElementById('statActiveTasks');
+    const statInactiveTasks = document.getElementById('statInactiveTasks');
+    const statTotalCompletions = document.getElementById('statTotalCompletions');
+    const statTodayCompletions = document.getElementById('statTodayCompletions');
+    const statTotalRewardsDist = document.getElementById('statTotalRewardsDist');
+    const statEndingSoon = document.getElementById('statEndingSoon');
+
+    // Table & Controls
+    const taskSearchInput = document.getElementById('taskSearchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const typeFilter = document.getElementById('typeFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const tableTasksBody = document.getElementById('tableTasksBody');
+
+    // Pagination
+    const pageInfoText = document.getElementById('pageInfoText');
+    const btnPrevPage = document.getElementById('btnPrevPage');
+    const btnNextPage = document.getElementById('btnNextPage');
+
+    // Task Create/Edit Modal
+    const taskModal = document.getElementById('taskModal');
+    const btnCloseTaskModal = document.getElementById('btnCloseTaskModal');
+    const modalTaskHeading = document.getElementById('modalTaskHeading');
+    const modalTaskIdSub = document.getElementById('modalTaskIdSub');
+    const taskForm = document.getElementById('taskForm');
+    const taskNameInput = document.getElementById('taskNameInput');
+    const taskDescInput = document.getElementById('taskDescInput');
+    const taskTypeSelect = document.getElementById('taskTypeSelect');
+    const taskRewardInput = document.getElementById('taskRewardInput');
+    const taskUrlInput = document.getElementById('taskUrlInput');
+    const taskTimerInput = document.getElementById('taskTimerInput');
+    const taskLimitInput = document.getElementById('taskLimitInput');
+    const taskStartDateInput = document.getElementById('taskStartDateInput');
+    const taskEndDateInput = document.getElementById('taskEndDateInput');
+    const taskActiveSelect = document.getElementById('taskActiveSelect');
+    const btnSaveTaskSubmit = document.getElementById('btnSaveTaskSubmit');
+
+    // Task Stats Modal
+    const statsModal = document.getElementById('statsModal');
+    const btnCloseStatsModal = document.getElementById('btnCloseStatsModal');
+    const statsModalTaskTitle = document.getElementById('statsModalTaskTitle');
+    const statsModalTaskId = document.getElementById('statsModalTaskId');
+    const sTotalCompletions = document.getElementById('sTotalCompletions');
+    const sTodayCompletions = document.getElementById('sTodayCompletions');
+    const sWeekCompletions = document.getElementById('sWeekCompletions');
+    const sMonthCompletions = document.getElementById('sMonthCompletions');
+    const sRewardDistributed = document.getElementById('sRewardDistributed');
+
+    const toastNotification = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // ------------------------------------------------------------------------
+    // RUNTIME STATE
+    // ------------------------------------------------------------------------
+    let allTasks = [];
+    let filteredTasks = [];
+    let completionsMap = {}; // taskId -> { total, today, week, month, reward }
+    let globalStats = { totalComp: 0, todayComp: 0, totalReward: 0 };
+    let editingTaskId = null; // null = create mode
+    let currentPage = 1;
+    const PAGE_SIZE = 20;
+    let toastTimeout = null;
+
+    // ------------------------------------------------------------------------
+    // UI NAVIGATION & TOASTS
+    // ------------------------------------------------------------------------
+    function toggleSidebar() {
+      sidebarMenu.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active');
+    }
+    btnMenuToggle.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    function showToast(msg) {
+      toastMessage.textContent = msg;
+      toastNotification.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastNotification.classList.remove('show');
+      }, 2500);
+    }
+
+    // ------------------------------------------------------------------------
+    // REALTIME DATABASE LISTENERS (/tasks & /taskCompletions)
+    // ------------------------------------------------------------------------
+    function initDatabaseSync() {
+      errorBanner.style.display = 'none';
+
+      // 1. Fetch & Listen to /taskCompletions
+      onValue(ref(database, 'taskCompletions'), (snapshot) => {
+        completionsMap = {};
+        globalStats = { totalComp: 0, todayComp: 0, totalReward: 0 };
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((userKey) => {
+            const userComps = data[userKey];
+            if (typeof userComps === 'object' && userComps !== null) {
+              Object.keys(userComps).forEach((compKey) => {
+                const comp = userComps[compKey] || {};
+                const tId = comp.taskId;
+                const ts = extractTimestamp(comp.completedAt || comp.date);
+                const rew = Number(comp.rewardRef || comp.reward || 0);
+
+                globalStats.totalComp++;
+                if (isToday(ts)) globalStats.todayComp++;
+                globalStats.totalReward += rew;
+
+                if (tId) {
+                  if (!completionsMap[tId]) {
+                    completionsMap[tId] = { total: 0, today: 0, week: 0, month: 0, reward: 0 };
+                  }
+                  completionsMap[tId].total++;
+                  if (isToday(ts)) completionsMap[tId].today++;
+                  if (isThisWeek(ts)) completionsMap[tId].week++;
+                  if (isThisMonth(ts)) completionsMap[tId].month++;
+                  completionsMap[tId].reward += rew;
+                }
+              });
+            }
+          });
+        }
+
+        statTotalCompletions.textContent = globalStats.totalComp;
+        statTodayCompletions.textContent = globalStats.todayComp;
+        statTotalRewardsDist.textContent = `৳${globalStats.totalReward.toFixed(2)}`;
+
+        // Re-render table to display updated completion numbers
+        applyFiltersAndRender();
+      }, handleDatabaseError);
+
+      // 2. Fetch & Listen to /tasks
+      onValue(ref(database, 'tasks'), (snapshot) => {
+        allTasks = [];
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((id) => {
+            const task = data[id] || {};
+            task.taskId = id;
+            allTasks.push(task);
+          });
+        }
+
+        updateTaskCounters();
+        applyFiltersAndRender();
+      }, handleDatabaseError);
+    }
+
+    function handleDatabaseError(err) {
+      console.warn('Realtime Database read notice:', err);
+      errorBanner.style.display = 'flex';
+    }
+
+    btnRetrySync.addEventListener('click', initDatabaseSync);
+    btnRefreshData.addEventListener('click', () => {
+      btnRefreshData.classList.add('refreshing');
+      initDatabaseSync();
+      setTimeout(() => btnRefreshData.classList.remove('refreshing'), 700);
+    });
+
+    // ------------------------------------------------------------------------
+    // COMPUTE TASK STATUS & COUNTERS
+    // ------------------------------------------------------------------------
+    function computeStatus(task) {
+      const isManualActive = task.active === true || task.active === 'true';
+      if (!isManualActive) return 'inactive';
+
+      const now = Date.now();
+      const start = task.startDate ? new Date(task.startDate).getTime() : 0;
+      const end = task.endDate ? new Date(task.endDate).getTime() : Infinity;
+
+      if (start && now < start) return 'upcoming';
+      if (end && now > end) return 'expired';
+      return 'active';
+    }
+
+    function updateTaskCounters() {
+      let total = allTasks.length;
+      let active = 0, inactive = 0, endingSoon = 0;
+      const now = Date.now();
+      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+
+      allTasks.forEach((t) => {
+        const st = computeStatus(t);
+        if (st === 'active') active++;
+        else inactive++;
+
+        if (t.endDate) {
+          const endTs = new Date(t.endDate).getTime();
+          if (endTs > now && endTs - now <= threeDaysMs) {
+            endingSoon++;
+          }
+        }
+      });
+
+      statTotalTasks.textContent = total;
+      statActiveTasks.textContent = active;
+      statInactiveTasks.textContent = inactive;
+      statEndingSoon.textContent = endingSoon;
+    }
+
+    // ------------------------------------------------------------------------
+    // FILTERING, SEARCHING & SORTING
+    // ------------------------------------------------------------------------
+    function applyFiltersAndRender() {
+      const q = taskSearchInput.value.trim().toLowerCase();
+      const sFilter = statusFilter.value.toLowerCase();
+      const tFilter = typeFilter.value;
+      const sortMode = sortFilter.value;
+
+      filteredTasks = allTasks.filter((t) => {
+        // Search Filter
+        if (q) {
+          const name = (t.name || t.title || '').toLowerCase();
+          const desc = (t.description || '').toLowerCase();
+          const id = (t.taskId || '').toLowerCase();
+          const url = (t.url || '').toLowerCase();
+          if (!name.includes(q) && !desc.includes(q) && !id.includes(q) && !url.includes(q)) {
+            return false;
+          }
+        }
+
+        // Status Filter
+        if (sFilter !== 'all') {
+          const computed = computeStatus(t);
+          if (computed !== sFilter) return false;
+        }
+
+        // Type Filter
+        if (tFilter !== 'all') {
+          if ((t.type || 'Website Link') !== tFilter) return false;
+        }
+
+        return true;
+      });
+
+      // Sort
+      filteredTasks.sort((a, b) => {
+        if (sortMode === 'newest') {
+          return extractTimestamp(b.createdAt) - extractTimestamp(a.createdAt);
+        } else if (sortMode === 'oldest') {
+          return extractTimestamp(a.createdAt) - extractTimestamp(b.createdAt);
+        } else if (sortMode === 'high-reward') {
+          return Number(b.reward || 0) - Number(a.reward || 0);
+        } else if (sortMode === 'low-reward') {
+          return Number(a.reward || 0) - Number(b.reward || 0);
+        } else if (sortMode === 'high-completions') {
+          const countA = completionsMap[a.taskId]?.total || 0;
+          const countB = completionsMap[b.taskId]?.total || 0;
+          return countB - countA;
+        }
+        return 0;
+      });
+
+      const totalPages = Math.ceil(filteredTasks.length / PAGE_SIZE) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      renderTasksTable();
+    }
+
+    taskSearchInput.addEventListener('input', () => { currentPage = 1; applyFiltersAndRender(); });
+    statusFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+    typeFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+    sortFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+
+    // ------------------------------------------------------------------------
+    // RENDER TASKS TABLE
+    // ------------------------------------------------------------------------
+    function renderTasksTable() {
+      tableTasksBody.innerHTML = '';
+
+      if (filteredTasks.length === 0) {
+        tableTasksBody.innerHTML = `
+          <tr>
+            <td colspan="11" class="empty-placeholder">
+              No tasks have been created yet or none match your query.<br><br>
+              <button type="button" class="btn-header-action btn-add-primary" id="btnEmptyCreate">CREATE FIRST TASK</button>
+            </td>
+          </tr>
+        `;
+        const btnEmpty = document.getElementById('btnEmptyCreate');
+        if (btnEmpty) btnEmpty.addEventListener('click', openCreateModal);
+
+        pageInfoText.textContent = 'Showing 0 of 0 tasks';
+        btnPrevPage.disabled = true;
+        btnNextPage.disabled = true;
+        return;
+      }
+
+      const totalItems = filteredTasks.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const endIdx = Math.min(startIdx + PAGE_SIZE, totalItems);
+      const pageItems = filteredTasks.slice(startIdx, endIdx);
+
+      pageInfoText.textContent = `Showing ${startIdx + 1}–${endIdx} of ${totalItems} tasks (Page ${currentPage}/${totalPages})`;
+      btnPrevPage.disabled = currentPage <= 1;
+      btnNextPage.disabled = currentPage >= totalPages;
+
+      pageItems.forEach((t) => {
+        const tr = document.createElement('tr');
+        const st = computeStatus(t);
+        const name = t.name || t.title || 'Untitled Mission';
+        const type = t.type || 'Website Link';
+        const rew = Number(t.reward || 0).toFixed(2);
+        const timer = t.timer ? `${t.timer}s` : '15s';
+        const limit = t.dailyLimit || 5;
+        const start = formatShortDate(t.startDate);
+        const end = formatShortDate(t.endDate);
+        const compCount = completionsMap[t.taskId]?.total || 0;
+        const created = formatShortDate(t.createdAt);
+
+        const isCurrentlyActive = t.active === true || t.active === 'true';
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(name)}</strong></td>
+          <td><span style="font-size:0.75rem; color:var(--text-dim);">${escapeHtml(type)}</span></td>
+          <td><strong style="color:var(--gold-primary);">৳${rew}</strong></td>
+          <td>${timer}</td>
+          <td>${limit}/day</td>
+          <td>${start}</td>
+          <td>${end}</td>
+          <td><span class="status-badge ${st}">${st}</span></td>
+          <td><span style="font-family:monospace; font-weight:800;">${compCount}</span></td>
+          <td>${created}</td>
+          <td>
+            <div class="actions-btn-group">
+              <button type="button" class="btn-table-action btn-edit" data-id="${t.taskId}">Edit</button>
+              <button type="button" class="btn-table-action btn-toggle-status" data-id="${t.taskId}">
+                ${isCurrentlyActive ? 'Deactivate' : 'Activate'}
+              </button>
+              <button type="button" class="btn-table-action btn-stats" data-id="${t.taskId}">Stats</button>
+              <button type="button" class="btn-table-action btn-delete" data-id="${t.taskId}">Delete</button>
+            </div>
+          </td>
+        `;
+
+        // Action Handlers
+        tr.querySelector('.btn-edit').addEventListener('click', () => openEditModal(t));
+        tr.querySelector('.btn-toggle-status').addEventListener('click', () => toggleTaskActiveStatus(t));
+        tr.querySelector('.btn-stats').addEventListener('click', () => openStatsModal(t));
+        tr.querySelector('.btn-delete').addEventListener('click', () => deleteTaskPrompt(t));
+
+        tableTasksBody.appendChild(tr);
+      });
+    }
+
+    btnPrevPage.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTasksTable();
+      }
+    });
+
+    btnNextPage.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredTasks.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTasksTable();
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // CREATE / EDIT TASK MODAL LOGIC
+    // ------------------------------------------------------------------------
+    function openCreateModal() {
+      editingTaskId = null;
+      modalTaskHeading.textContent = 'Add New Task';
+      modalTaskIdSub.textContent = 'Configure legitimate user-initiated mission parameters';
+
+      taskNameInput.value = '';
+      taskDescInput.value = '';
+      taskTypeSelect.value = 'Website Link';
+      taskRewardInput.value = '0.50';
+      taskUrlInput.value = '';
+      taskTimerInput.value = '30';
+      taskLimitInput.value = '5';
+
+      // Default start = now, end = 30 days from now
+      const now = new Date();
+      const future = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000));
+      taskStartDateInput.value = toDateTimeLocal(now);
+      taskEndDateInput.value = toDateTimeLocal(future);
+      taskActiveSelect.value = 'true';
+
+      taskModal.classList.add('open');
+    }
+
+    function openEditModal(t) {
+      editingTaskId = t.taskId;
+      modalTaskHeading.textContent = 'Edit Task';
+      modalTaskIdSub.textContent = `Task ID: ${t.taskId}`;
+
+      taskNameInput.value = t.name || t.title || '';
+      taskDescInput.value = t.description || '';
+      taskTypeSelect.value = t.type || 'Website Link';
+      taskRewardInput.value = t.reward !== undefined ? t.reward : '0.50';
+      taskUrlInput.value = t.url || '';
+      taskTimerInput.value = t.timer || '30';
+      taskLimitInput.value = t.dailyLimit || '5';
+
+      taskStartDateInput.value = t.startDate ? toDateTimeLocal(new Date(t.startDate)) : '';
+      taskEndDateInput.value = t.endDate ? toDateTimeLocal(new Date(t.endDate)) : '';
+      taskActiveSelect.value = (t.active === true || t.active === 'true') ? 'true' : 'false';
+
+      taskModal.classList.add('open');
+    }
+
+    function closeTaskModal() {
+      taskModal.classList.remove('open');
+    }
+
+    btnOpenCreateModal.addEventListener('click', openCreateModal);
+    btnCloseTaskModal.addEventListener('click', closeTaskModal);
+    taskModal.addEventListener('click', (e) => {
+      if (e.target === taskModal) closeTaskModal();
+    });
+
+    // ------------------------------------------------------------------------
+    // SUBMIT TASK (CREATE OR UPDATE VIA FIREBASE)
+    // ------------------------------------------------------------------------
+    taskForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = taskNameInput.value.trim();
+      const desc = taskDescInput.value.trim();
+      const type = taskTypeSelect.value;
+      const reward = parseFloat(taskRewardInput.value);
+      const url = taskUrlInput.value.trim();
+      const timer = parseInt(taskTimerInput.value, 10);
+      const limit = parseInt(taskLimitInput.value, 10);
+      const start = taskStartDateInput.value;
+      const end = taskEndDateInput.value;
+      const active = taskActiveSelect.value === 'true';
+
+      // Validation
+      if (!name) {
+        alert('Please enter a valid task name.');
+        taskNameInput.focus();
+        return;
+      }
+
+      if (!url) {
+        alert('Please enter a valid task destination URL.');
+        taskUrlInput.focus();
+        return;
+      }
+
+      if (isNaN(reward) || reward < 0) {
+        alert('Reward must be a positive number or zero.');
+        taskRewardInput.focus();
+        return;
+      }
+
+      if (isNaN(timer) || timer < 1) {
+        alert('Timer must be at least 1 second.');
+        taskTimerInput.focus();
+        return;
+      }
+
+      if (isNaN(limit) || limit < 1) {
+        alert('Daily limit must be at least 1.');
+        taskLimitInput.focus();
+        return;
+      }
+
+      if (!start || !end) {
+        alert('Both start and end dates are required.');
+        return;
+      }
+
+      const startTs = new Date(start).getTime();
+      const endTs = new Date(end).getTime();
+      if (endTs < startTs) {
+        alert('End date cannot be prior to start date.');
+        taskEndDateInput.focus();
+        return;
+      }
+
+      btnSaveTaskSubmit.disabled = true;
+      btnSaveTaskSubmit.textContent = 'Saving...';
+
+      try {
+        const now = Date.now();
+        const payload = {
+          name: name,
+          title: name,
+          description: desc,
+          type: type,
+          reward: reward,
+          url: url,
+          timer: timer,
+          dailyLimit: limit,
+          startDate: new Date(start).toISOString(),
+          endDate: new Date(end).toISOString(),
+          active: active,
+          updatedAt: now
+        };
+
+        if (editingTaskId) {
+          // Targeted update to /tasks/{taskId}
+          await update(ref(database, `tasks/${editingTaskId}`), payload);
+          showToast('Task updated successfully.');
+        } else {
+          // Push new task
+          payload.createdAt = now;
+          const newRef = push(ref(database, 'tasks'));
+          payload.taskId = newRef.key;
+          await set(newRef, payload);
+          showToast('New task published.');
+        }
+
+        closeTaskModal();
+      } catch (err) {
+        console.error('Failed saving task:', err);
+        alert('Unable to save task. Please try again.');
+      } finally {
+        btnSaveTaskSubmit.disabled = false;
+        btnSaveTaskSubmit.textContent = 'SAVE TASK';
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // ACTIVATE / DEACTIVATE WITH CONFIRMATION
+    // ------------------------------------------------------------------------
+    async function toggleTaskActiveStatus(t) {
+      const isCurrentlyActive = t.active === true || t.active === 'true';
+      const newStatus = !isCurrentlyActive;
+      const promptMsg = isCurrentlyActive 
+        ? `Are you sure you want to DEACTIVATE "${t.name || t.title}"?`
+        : `Are you sure you want to ACTIVATE "${t.name || t.title}"?`;
+
+      if (!confirm(promptMsg)) return;
+
+      try {
+        await update(ref(database, `tasks/${t.taskId}`), {
+          active: newStatus,
+          updatedAt: Date.now()
+        });
+        showToast(`Task status changed to ${newStatus ? 'ACTIVE' : 'INACTIVE'}`);
+      } catch (err) {
+        console.error('Failed updating active status:', err);
+        alert('Could not toggle task status. Check database connection.');
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // DELETE TASK (SAFELY WARNED)
+    // ------------------------------------------------------------------------
+    async function deleteTaskPrompt(t) {
+      const confirmMsg = `WARNING: Are you sure you want to DELETE task "${t.name || t.title}"?\n\nDeleting a task removes it permanently from the task roster. (User completion records will remain intact in audit logs).`;
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        await remove(ref(database, `tasks/${t.taskId}`));
+        showToast('Task removed from registry.');
+      } catch (err) {
+        console.error('Failed deleting task:', err);
+        alert('Unable to delete task. Verify database permissions.');
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // TASK STATISTICS MODAL
+    // ------------------------------------------------------------------------
+    function openStatsModal(t) {
+      const stats = completionsMap[t.taskId] || { total: 0, today: 0, week: 0, month: 0, reward: 0 };
+
+      statsModalTaskTitle.textContent = t.name || t.title || 'Task Details';
+      statsModalTaskId.textContent = `Task ID: ${t.taskId}`;
+
+      sTotalCompletions.textContent = stats.total;
+      sTodayCompletions.textContent = stats.today;
+      sWeekCompletions.textContent = stats.week;
+      sMonthCompletions.textContent = stats.month;
+      sRewardDistributed.textContent = `৳${stats.reward.toFixed(2)}`;
+
+      statsModal.classList.add('open');
+    }
+
+    btnCloseStatsModal.addEventListener('click', () => statsModal.classList.remove('open'));
+    statsModal.addEventListener('click', (e) => {
+      if (e.target === statsModal) statsModal.classList.remove('open');
+    });
+
+    // ------------------------------------------------------------------------
+    // DATE & TIME HELPERS
+    // ------------------------------------------------------------------------
+    function extractTimestamp(val) {
+      if (!val) return 0;
+      if (typeof val === 'number') {
+        return val < 1e11 ? val * 1000 : val;
+      }
+      const parsed = new Date(val).getTime();
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
+    function isToday(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return d.toDateString() === now.toDateString();
+    }
+
+    function isThisWeek(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      const diffTime = Math.abs(now - d);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays <= 7;
+    }
+
+    function isThisMonth(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    }
+
+    function formatShortDate(val) {
+      if (!val) return '--';
+      const ts = extractTimestamp(val);
+      if (!ts) return '--';
+      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' });
+    }
+
+    function toDateTimeLocal(d) {
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize Realtime Data Streaming
+    initDatabaseSync();
+  </script>
+</body>
+</html>
