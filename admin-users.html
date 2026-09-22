@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>User Management | THE GAME WITH FUN</title>
+  <meta name="description" content="Direct-access administrative user management control center for THE GAME WITH FUN. Filter, inspect, adjust balances, and audit player credentials.">
+
+  <style>
+    /* ==========================================================================
+       ADMIN ULTRA-PREMIUM CYBER/DARK DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-base: #06080d;
+      --bg-surface: #0a0e17;
+      --bg-card: rgba(14, 19, 32, 0.82);
+      --bg-card-hover: rgba(20, 27, 46, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 240, 255, 0.3);
+      --border-gold: rgba(245, 158, 11, 0.35);
+
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%);
+
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --cyan-gradient: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
+
+      --purple-neon: #a855f7;
+      --emerald-neon: #10b981;
+      --ruby-neon: #f43f5e;
+
+      --text-white: #ffffff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 10% 5%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input, select {
+      font-family: inherit;
+      outline: none;
+      border: none;
+    }
+
+    /* ==========================================================================
+       TOP APP HEADER
+       ========================================================================== */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 8, 13, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-menu-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .btn-menu-toggle {
+        display: none;
+      }
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(0, 240, 255, 0.2));
+      border: 1px solid var(--gold-glow);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.25);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle-tag {
+      font-size: 0.65rem;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header-action {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-header-action.refreshing svg {
+      animation: spinIcon 0.8s linear infinite;
+    }
+
+    @keyframes spinIcon {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 57px;
+      bottom: 0;
+      left: -260px;
+      width: 250px;
+      background: rgba(8, 12, 22, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+      transition: left 0.3s var(--smooth-ease);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        left: 0;
+        z-index: 50;
+      }
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-overlay.active {
+        display: none;
+      }
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(245, 158, 11, 0.1);
+      border-color: var(--border-gold);
+      color: var(--gold-primary);
+      box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+    }
+
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .main-workspace {
+      flex: 1;
+      padding: 1.5rem 1rem 3rem;
+      width: 100%;
+      transition: margin 0.3s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .main-workspace {
+        margin-left: 250px;
+        padding: 2rem 2rem 4rem;
+      }
+    }
+
+    /* ==========================================================================
+       PAGE BANNER
+       ========================================================================== */
+    .page-banner {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       ERROR BANNER
+       ========================================================================== */
+    .error-banner {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.1rem;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-retry-action {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-retry-action:hover {
+      background: var(--ruby-neon);
+    }
+
+    /* ==========================================================================
+       7 LIVE STATISTICS CARDS
+       ========================================================================== */
+    .stats-master-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .stats-master-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .stats-master-grid {
+        grid-template-columns: repeat(7, 1fr);
+      }
+    }
+
+    .stat-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 0.85rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s var(--smooth-ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-tile:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .stat-num {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+
+    .stat-label {
+      font-size: 0.66rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================================================
+       SEARCH & FILTERS TOOLBAR
+       ========================================================================== */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .filter-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .search-box-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.95rem;
+      gap: 8px;
+    }
+
+    .search-box-wrap:focus-within {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .filter-dropdowns {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select-control {
+      background: #0f1424;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .select-control:focus {
+      border-color: var(--gold-primary);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       USERS DATA TABLE (DESKTOP) & USER CARDS (MOBILE)
+       ========================================================================== */
+    .ui-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      margin-bottom: 1.5rem;
+    }
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .data-table th {
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Status Badges */
+    .status-badge {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .status-badge.active {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--emerald-neon);
+    }
+
+    .status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--gold-primary);
+    }
+
+    .status-badge.blocked,
+    .status-badge.suspended {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+    }
+
+    .btn-view-details {
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid var(--border-cyan);
+      color: var(--cyan-neon);
+      font-size: 0.72rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-view-details:hover {
+      background: var(--cyan-neon);
+      color: #04060a;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    /* ==========================================================================
+       PAGINATION CONTROLS
+       ========================================================================== */
+    .pagination-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    .pagination-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-page-step {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.76rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-page-step:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-page-step:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ==========================================================================
+       USER DETAILS MODAL
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #0d1222;
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-head-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-sub-title {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-section-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 640px) {
+      .modal-section-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .modal-info-box {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-box-title {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding-bottom: 4px;
+    }
+
+    .modal-info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+    }
+
+    .modal-info-key {
+      color: var(--text-muted);
+    }
+
+    .modal-info-val {
+      font-weight: 800;
+      color: #fff;
+      font-family: monospace;
+    }
+
+    /* Admin Action Controls */
+    .admin-controls-card {
+      background: rgba(245, 158, 11, 0.04);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .control-group {
+      margin-bottom: 1rem;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .balance-adj-row {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr auto;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 540px) {
+      .balance-adj-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .adj-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.8rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .adj-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .btn-apply-adj {
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: var(--gold-gradient);
+      color: #04060a;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .btn-apply-adj:hover {
+      filter: brightness(1.1);
+    }
+
+    .btn-save-status {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: var(--cyan-gradient);
+      color: #04060a;
+      transition: all 0.2s ease;
+    }
+
+    .btn-save-status:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(10, 14, 23, 0.95);
+      border: 1px solid var(--cyan-neon);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(16px);
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--smooth-ease);
+      transform: translateY(15px);
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="toast-popup" role="status" aria-live="polite">
+    <span id="toastMessage">Action completed</span>
+  </div>
+
+  <!-- ==========================================================================
+       TOP APP HEADER
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button type="button" class="btn-menu-toggle" id="btnMenuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="brand-meta">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="2" y="6" width="20" height="12" rx="6"></rect>
+              <line x1="6" y1="12" x2="10" y2="12"></line>
+              <line x1="8" y1="10" x2="8" y2="14"></line>
+              <circle cx="15" cy="12" r="1"></circle>
+              <circle cx="18" cy="10" r="1"></circle>
+            </svg>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">THE GAME WITH FUN</span>
+            <span class="brand-subtitle-tag">ADMIN • USER MANAGEMENT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="admin.html" class="btn-header-action" aria-label="Back to Admin Home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Admin Home</span>
+        </a>
+
+        <button type="button" class="btn-header-action" id="btnRefreshData" aria-label="Refresh Users">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          <span>Refresh</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       LAYOUT: SIDEBAR + MAIN WORKSPACE
+       ========================================================================== -->
+  <div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- RESPONSIVE SIDEBAR -->
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="admin.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="admin-users.html" class="sidebar-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Users</span>
+      </a>
+      <a href="admin-tasks.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Tasks</span>
+      </a>
+      <a href="admin-withdraw.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+        <span>Withdrawals</span>
+      </a>
+      <a href="index.html" class="sidebar-nav-item" style="margin-top: auto; border-color: rgba(255,255,255,0.08);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+        <span>Main Website</span>
+      </a>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- Page Banner -->
+      <div class="page-banner">
+        <h1 class="page-title">
+          <span>👥</span>
+          <span>USER MANAGEMENT</span>
+        </h1>
+        <p class="page-subtitle">Inspect registered members, adjust balances safely, update account standing, and audit activity streaks.</p>
+      </div>
+
+      <!-- Non-intrusive Error Banner -->
+      <div id="errorBanner" class="error-banner">
+        <span style="font-size: 0.82rem; color: #fca5a5;">Unable to load users. Connection to Realtime Database failed.</span>
+        <button type="button" id="btnRetrySync" class="btn-retry-action">RETRY</button>
+      </div>
+
+      <!-- 1. LIVE USER STATISTICS CARDS -->
+      <div class="stats-master-grid">
+        <div class="stat-tile">
+          <span class="stat-num" id="statTotalUsers">--</span>
+          <span class="stat-label">Total Users</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statActiveUsers" style="color: var(--emerald-neon);">--</span>
+          <span class="stat-label">Active Users</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statBlockedUsers" style="color: var(--ruby-neon);">--</span>
+          <span class="stat-label">Blocked Users</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statVipUsers" style="color: var(--gold-primary);">--</span>
+          <span class="stat-label">VIP Users</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statNonVipUsers" style="color: var(--text-dim);">--</span>
+          <span class="stat-label">Non-VIP Users</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statNewUsersToday" style="color: var(--cyan-neon);">--</span>
+          <span class="stat-label">New Users Today</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statNewUsersMonth" style="color: var(--purple-neon);">--</span>
+          <span class="stat-label">New This Month</span>
+        </div>
+      </div>
+
+      <!-- 2. SEARCH & FILTERS PANEL -->
+      <div class="filter-panel">
+        <div class="search-box-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-dim); flex-shrink: 0;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="userSearchInput" class="search-input" placeholder="Search by Username, Email, UID, or Referral Code..." autocomplete="off">
+        </div>
+
+        <div class="filter-dropdowns">
+          <select id="statusFilter" class="select-control" aria-label="Filter by Status">
+            <option value="all">Status: All</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="blocked">Blocked</option>
+            <option value="suspended">Suspended</option>
+          </select>
+
+          <select id="vipFilter" class="select-control" aria-label="Filter by VIP">
+            <option value="all">VIP: All</option>
+            <option value="none">No VIP</option>
+            <option value="1">VIP 1</option>
+            <option value="2">VIP 2</option>
+            <option value="3">VIP 3</option>
+            <option value="4">VIP 4</option>
+          </select>
+
+          <select id="sortFilter" class="select-control" aria-label="Sort Order">
+            <option value="newest">Sort: Newest</option>
+            <option value="oldest">Sort: Oldest</option>
+            <option value="high-balance">Highest Balance</option>
+            <option value="low-balance">Lowest Balance</option>
+            <option value="high-earnings">Highest Earnings</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3. USER LIST PANEL (RESPONSIVE TABLE) -->
+      <div class="ui-panel">
+        <div class="table-scroll-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>UID</th>
+                <th>Referral Code</th>
+                <th>VIP Level</th>
+                <th>Balance</th>
+                <th>Total Earned</th>
+                <th>Withdrawn</th>
+                <th>Referrals</th>
+                <th>Status</th>
+                <th>Join Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tableUsersBody">
+              <tr><td colspan="12" class="empty-placeholder">Loading users roster...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="pagination-bar">
+          <span id="pageInfoText">Showing 0 of 0 users</span>
+          <div class="pagination-buttons">
+            <button type="button" id="btnPrevPage" class="btn-page-step" disabled>Previous</button>
+            <button type="button" id="btnNextPage" class="btn-page-step" disabled>Next</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       USER DETAILS & CONTROLS MODAL
+       ========================================================================== -->
+  <div id="detailsModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title" id="mUsername">Player Details</h3>
+      <div class="modal-sub-title" id="mUidDisplay">UID: Loading...</div>
+
+      <!-- User Information Breakdown Grid -->
+      <div class="modal-section-grid">
+        <!-- Profile Details -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Profile Info</span>
+          <div class="modal-info-row"><span class="modal-info-key">Email:</span><span class="modal-info-val" id="mEmail">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Referral Code:</span><span class="modal-info-val" id="mRefCode" style="color:var(--cyan-neon);">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Referred By:</span><span class="modal-info-val" id="mReferredBy">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Joined:</span><span class="modal-info-val" id="mCreatedAt">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Last Login:</span><span class="modal-info-val" id="mLastLogin">--</span></div>
+        </div>
+
+        <!-- Financial Overview -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Financial Records</span>
+          <div class="modal-info-row"><span class="modal-info-key">Current Balance:</span><span class="modal-info-val" id="mBalance" style="color:var(--gold-primary);">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Total Earnings:</span><span class="modal-info-val" id="mTotalEarnings">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Total Withdrawn:</span><span class="modal-info-val" id="mTotalWithdrawal">৳0.00</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Referral Earnings:</span><span class="modal-info-val" id="mReferralEarnings">৳0.00</span></div>
+        </div>
+
+        <!-- VIP Standing -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">VIP Standing</span>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Level:</span><span class="modal-info-val" id="mVipLevel">None</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Status:</span><span class="modal-info-val" id="mVipStatus">None</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">VIP Expiry:</span><span class="modal-info-val" id="mVipExpiry">None</span></div>
+        </div>
+
+        <!-- Activity & Streaks -->
+        <div class="modal-info-box">
+          <span class="modal-box-title">Activity Streaks</span>
+          <div class="modal-info-row"><span class="modal-info-key">Login Streak:</span><span class="modal-info-val" id="mLoginStreak">0 Days</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Task Streak:</span><span class="modal-info-val" id="mTaskStreak">0 Days</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Referral Count:</span><span class="modal-info-val" id="mReferralCount">0</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Last Task Date:</span><span class="modal-info-val" id="mLastTask">--</span></div>
+        </div>
+      </div>
+
+      <!-- Admin Actions: Status Control & Balance Adjustments -->
+      <div class="admin-controls-card">
+        <!-- 1. Account Status Selector -->
+        <div class="control-group">
+          <label class="control-label" for="mStatusSelect">Update Account Standing</label>
+          <div style="display:flex; gap:8px;">
+            <select id="mStatusSelect" class="select-control" style="flex:1;">
+              <option value="active">Active</option>
+              <option value="pending">Pending</option>
+              <option value="blocked">Blocked</option>
+              <option value="suspended">Suspended</option>
+            </select>
+            <button type="button" id="btnSaveStatus" class="btn-apply-adj" style="background:var(--cyan-gradient);">Save Status</button>
+          </div>
+        </div>
+
+        <!-- 2. Balance Adjustment Form -->
+        <div class="control-group" style="margin-bottom:0;">
+          <label class="control-label">Balance Adjustment (Adds Audit Transaction)</label>
+          <div class="balance-adj-row">
+            <select id="adjType" class="select-control">
+              <option value="add">+ Add Balance</option>
+              <option value="deduct">- Deduct Balance</option>
+            </select>
+            <input type="number" id="adjAmount" class="adj-input" placeholder="Amount (e.g. 50)" min="1" step="any">
+            <input type="text" id="adjReason" class="adj-input" placeholder="Reason (Required)">
+            <button type="button" id="btnApplyBalance" class="btn-apply-adj">Apply</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FIREBASE REALTIME DATABASE ONLY (NO AUTH / DIRECT ACCESS)
+       ========================================================================== -->
+  <script type="module">
+    // ------------------------------------------------------------------------
+    // 1. FIREBASE REALTIME DATABASE IMPORTS
+    // ------------------------------------------------------------------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      update, 
+      push, 
+      set 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // ------------------------------------------------------------------------
+    // 2. PROJECT FIREBASE CONFIGURATION
+    // ------------------------------------------------------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
+      authDomain: "game-with-fun-a1988.firebaseapp.com",
+      databaseURL: "https://game-with-fun-a1988-default-rtdb.firebaseio.com",
+      projectId: "game-with-fun-a1988",
+      storageBucket: "game-with-fun-a1988.firebasestorage.app",
+      messagingSenderId: "226037846599",
+      appId: "1:226037846599:web:415dc67b9d06007646d762"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // ------------------------------------------------------------------------
+    // 3. UI ELEMENT REFERENCES
+    // ------------------------------------------------------------------------
+    const btnMenuToggle = document.getElementById('btnMenuToggle');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const btnRefreshData = document.getElementById('btnRefreshData');
+    const errorBanner = document.getElementById('errorBanner');
+    const btnRetrySync = document.getElementById('btnRetrySync');
+
+    // Stats
+    const statTotalUsers = document.getElementById('statTotalUsers');
+    const statActiveUsers = document.getElementById('statActiveUsers');
+    const statBlockedUsers = document.getElementById('statBlockedUsers');
+    const statVipUsers = document.getElementById('statVipUsers');
+    const statNonVipUsers = document.getElementById('statNonVipUsers');
+    const statNewUsersToday = document.getElementById('statNewUsersToday');
+    const statNewUsersMonth = document.getElementById('statNewUsersMonth');
+
+    // Controls
+    const userSearchInput = document.getElementById('userSearchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const vipFilter = document.getElementById('vipFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const tableUsersBody = document.getElementById('tableUsersBody');
+
+    // Pagination
+    const pageInfoText = document.getElementById('pageInfoText');
+    const btnPrevPage = document.getElementById('btnPrevPage');
+    const btnNextPage = document.getElementById('btnNextPage');
+
+    // Modal
+    const detailsModal = document.getElementById('detailsModal');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const mUsername = document.getElementById('mUsername');
+    const mUidDisplay = document.getElementById('mUidDisplay');
+    const mEmail = document.getElementById('mEmail');
+    const mRefCode = document.getElementById('mRefCode');
+    const mReferredBy = document.getElementById('mReferredBy');
+    const mCreatedAt = document.getElementById('mCreatedAt');
+    const mLastLogin = document.getElementById('mLastLogin');
+    const mBalance = document.getElementById('mBalance');
+    const mTotalEarnings = document.getElementById('mTotalEarnings');
+    const mTotalWithdrawal = document.getElementById('mTotalWithdrawal');
+    const mReferralEarnings = document.getElementById('mReferralEarnings');
+    const mVipLevel = document.getElementById('mVipLevel');
+    const mVipStatus = document.getElementById('mVipStatus');
+    const mVipExpiry = document.getElementById('mVipExpiry');
+    const mLoginStreak = document.getElementById('mLoginStreak');
+    const mTaskStreak = document.getElementById('mTaskStreak');
+    const mReferralCount = document.getElementById('mReferralCount');
+    const mLastTask = document.getElementById('mLastTask');
+
+    // Admin Controls in Modal
+    const mStatusSelect = document.getElementById('mStatusSelect');
+    const btnSaveStatus = document.getElementById('btnSaveStatus');
+    const adjType = document.getElementById('adjType');
+    const adjAmount = document.getElementById('adjAmount');
+    const adjReason = document.getElementById('adjReason');
+    const btnApplyBalance = document.getElementById('btnApplyBalance');
+
+    const toastNotification = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // ------------------------------------------------------------------------
+    // 4. CLIENT RUNTIME STATE
+    // ------------------------------------------------------------------------
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 20;
+    let selectedUser = null;
+    let toastTimeout = null;
+
+    // ------------------------------------------------------------------------
+    // 5. NAVIGATION DRAWER & TOAST
+    // ------------------------------------------------------------------------
+    function toggleSidebar() {
+      sidebarMenu.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active');
+    }
+
+    btnMenuToggle.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    function showToast(text) {
+      toastMessage.textContent = text;
+      toastNotification.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastNotification.classList.remove('show');
+      }, 2500);
+    }
+
+    // ------------------------------------------------------------------------
+    // 6. REALTIME DATABASE LISTENER (/users)
+    // ------------------------------------------------------------------------
+    function initUsersListener() {
+      errorBanner.style.display = 'none';
+
+      onValue(ref(database, 'users'), (snapshot) => {
+        allUsers = [];
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((uid) => {
+            const u = data[uid] || {};
+            u.uid = uid;
+            allUsers.push(u);
+          });
+        }
+
+        updateLiveStatistics();
+        applyFiltersAndRender();
+
+        // Refresh modal if currently open for the selected user
+        if (selectedUser) {
+          const updated = allUsers.find((x) => x.uid === selectedUser.uid);
+          if (updated) {
+            selectedUser = updated;
+            populateModal(selectedUser);
+          }
+        }
+      }, (err) => {
+        console.warn('Realtime database read warning:', err);
+        errorBanner.style.display = 'flex';
+      });
+    }
+
+    btnRetrySync.addEventListener('click', initUsersListener);
+    btnRefreshData.addEventListener('click', () => {
+      btnRefreshData.classList.add('refreshing');
+      initUsersListener();
+      setTimeout(() => btnRefreshData.classList.remove('refreshing'), 700);
+    });
+
+    // ------------------------------------------------------------------------
+    // 7. USER STATISTICS CALCULATOR
+    // ------------------------------------------------------------------------
+    function updateLiveStatistics() {
+      let total = allUsers.length;
+      let active = 0, blocked = 0, vip = 0, nonVip = 0;
+      let todayCount = 0, monthCount = 0;
+
+      allUsers.forEach((u) => {
+        const st = (u.accountStatus || 'active').toLowerCase();
+        if (st === 'blocked' || st === 'suspended') {
+          blocked++;
+        } else {
+          active++;
+        }
+
+        const vipLvl = Number(u.vipLevel || 0);
+        const isVip = (u.vipStatus || '').toLowerCase() === 'active' && vipLvl > 0;
+        if (isVip) {
+          vip++;
+        } else {
+          nonVip++;
+        }
+
+        const createdTs = extractTimestamp(u.createdAt);
+        if (isToday(createdTs)) todayCount++;
+        if (isThisMonth(createdTs)) monthCount++;
+      });
+
+      statTotalUsers.textContent = total;
+      statActiveUsers.textContent = active;
+      statBlockedUsers.textContent = blocked;
+      statVipUsers.textContent = vip;
+      statNonVipUsers.textContent = nonVip;
+      statNewUsersToday.textContent = todayCount;
+      statNewUsersMonth.textContent = monthCount;
+    }
+
+    // ------------------------------------------------------------------------
+    // 8. FILTERING, SEARCHING & SORTING
+    // ------------------------------------------------------------------------
+    function applyFiltersAndRender() {
+      const q = userSearchInput.value.trim().toLowerCase();
+      const stFilter = statusFilter.value.toLowerCase();
+      const vFilter = vipFilter.value.toLowerCase();
+      const sortMode = sortFilter.value;
+
+      filteredUsers = allUsers.filter((u) => {
+        // Search Match
+        if (q) {
+          const name = (u.username || '').toLowerCase();
+          const email = (u.email || '').toLowerCase();
+          const uid = (u.uid || '').toLowerCase();
+          const refCode = (u.referralCode || '').toLowerCase();
+          if (!name.includes(q) && !email.includes(q) && !uid.includes(q) && !refCode.includes(q)) {
+            return false;
+          }
+        }
+
+        // Status Match
+        if (stFilter !== 'all') {
+          const accSt = (u.accountStatus || 'active').toLowerCase();
+          if (accSt !== stFilter) return false;
+        }
+
+        // VIP Match
+        if (vFilter !== 'all') {
+          const vipLvl = Number(u.vipLevel || 0);
+          const isVipActive = (u.vipStatus || '').toLowerCase() === 'active';
+          if (vFilter === 'none') {
+            if (isVipActive && vipLvl > 0) return false;
+          } else {
+            if (!isVipActive || vipLvl !== Number(vFilter)) return false;
+          }
+        }
+
+        return true;
+      });
+
+      // Sorting
+      filteredUsers.sort((a, b) => {
+        if (sortMode === 'newest') {
+          return extractTimestamp(b.createdAt) - extractTimestamp(a.createdAt);
+        } else if (sortMode === 'oldest') {
+          return extractTimestamp(a.createdAt) - extractTimestamp(b.createdAt);
+        } else if (sortMode === 'high-balance') {
+          return Number(b.balance || 0) - Number(a.balance || 0);
+        } else if (sortMode === 'low-balance') {
+          return Number(a.balance || 0) - Number(b.balance || 0);
+        } else if (sortMode === 'high-earnings') {
+          return Number(b.totalEarnings || 0) - Number(a.totalEarnings || 0);
+        }
+        return 0;
+      });
+
+      // Adjust page if out of bounds
+      const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+
+      renderUsersTable();
+    }
+
+    userSearchInput.addEventListener('input', () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+
+    statusFilter.addEventListener('change', () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+
+    vipFilter.addEventListener('change', () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+
+    sortFilter.addEventListener('change', () => {
+      currentPage = 1;
+      applyFiltersAndRender();
+    });
+
+    // ------------------------------------------------------------------------
+    // 9. RENDER USERS TABLE & PAGINATION
+    // ------------------------------------------------------------------------
+    function renderUsersTable() {
+      tableUsersBody.innerHTML = '';
+
+      if (filteredUsers.length === 0) {
+        tableUsersBody.innerHTML = '<tr><td colspan="12" class="empty-placeholder">No users found matching query.</td></tr>';
+        pageInfoText.textContent = 'Showing 0 of 0 users';
+        btnPrevPage.disabled = true;
+        btnNextPage.disabled = true;
+        return;
+      }
+
+      const totalItems = filteredUsers.length;
+      const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const endIdx = Math.min(startIdx + PAGE_SIZE, totalItems);
+      const pageItems = filteredUsers.slice(startIdx, endIdx);
+
+      pageInfoText.textContent = `Showing ${startIdx + 1}–${endIdx} of ${totalItems} users (Page ${currentPage}/${totalPages})`;
+      btnPrevPage.disabled = currentPage <= 1;
+      btnNextPage.disabled = currentPage >= totalPages;
+
+      pageItems.forEach((u) => {
+        const tr = document.createElement('tr');
+        const st = (u.accountStatus || 'active').toLowerCase();
+        const vipLvl = Number(u.vipLevel || 0);
+        const isVip = (u.vipStatus || '').toLowerCase() === 'active' && vipLvl > 0;
+        const bal = Number(u.balance || 0).toFixed(2);
+        const earned = Number(u.totalEarnings || 0).toFixed(2);
+        const withdrawn = Number(u.totalWithdrawal || 0).toFixed(2);
+        const refCount = Number(u.referralCount || 0);
+        const joinDate = formatDate(u.createdAt);
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(u.username || 'User')}</strong></td>
+          <td>${escapeHtml(u.email || '--')}</td>
+          <td><span style="font-family:monospace; color:var(--text-dim);">${maskId(u.uid)}</span></td>
+          <td><span style="font-family:monospace; color:var(--cyan-neon);">${escapeHtml(u.referralCode || '--')}</span></td>
+          <td>${isVip ? `<span class="status-badge" style="background:rgba(245,158,11,0.15); color:var(--gold-primary);">VIP ${vipLvl}</span>` : 'Free'}</td>
+          <td><strong>৳${bal}</strong></td>
+          <td>৳${earned}</td>
+          <td>৳${withdrawn}</td>
+          <td>${refCount}</td>
+          <td><span class="status-badge ${st}">${st}</span></td>
+          <td>${joinDate}</td>
+          <td><button type="button" class="btn-view-details" data-uid="${u.uid}">VIEW DETAILS</button></td>
+        `;
+
+        tr.querySelector('.btn-view-details').addEventListener('click', () => {
+          selectedUser = u;
+          populateModal(selectedUser);
+          detailsModal.classList.add('open');
+        });
+
+        tableUsersBody.appendChild(tr);
+      });
+    }
+
+    btnPrevPage.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderUsersTable();
+      }
+    });
+
+    btnNextPage.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderUsersTable();
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // 10. USER DETAILS MODAL POPULATION & ACTIONS
+    // ------------------------------------------------------------------------
+    function populateModal(u) {
+      mUsername.textContent = `${u.username || 'Player'}`;
+      mUidDisplay.textContent = `UID: ${u.uid}`;
+      mEmail.textContent = u.email || 'N/A';
+      mRefCode.textContent = u.referralCode || 'None';
+      mReferredBy.textContent = u.referredBy || 'None';
+      mCreatedAt.textContent = formatDate(u.createdAt);
+      mLastLogin.textContent = formatDate(u.lastLoginDate);
+
+      mBalance.textContent = `৳${Number(u.balance || 0).toFixed(2)}`;
+      mTotalEarnings.textContent = `৳${Number(u.totalEarnings || 0).toFixed(2)}`;
+      mTotalWithdrawal.textContent = `৳${Number(u.totalWithdrawal || 0).toFixed(2)}`;
+      mReferralEarnings.textContent = `৳${Number(u.referralEarnings || 0).toFixed(2)}`;
+
+      const vipLvl = Number(u.vipLevel || 0);
+      mVipLevel.textContent = vipLvl > 0 ? `VIP ${vipLvl}` : 'None';
+      mVipStatus.textContent = u.vipStatus || 'None';
+      mVipExpiry.textContent = u.vipExpiry ? formatDate(u.vipExpiry) : 'None';
+
+      mLoginStreak.textContent = `${u.loginStreak || 0} Days`;
+      mTaskStreak.textContent = `${u.taskStreak || 0} Days`;
+      mReferralCount.textContent = `${u.referralCount || 0} users`;
+      mLastTask.textContent = formatDate(u.lastTaskDate);
+
+      mStatusSelect.value = (u.accountStatus || 'active').toLowerCase();
+      adjAmount.value = '';
+      adjReason.value = '';
+    }
+
+    function closeModal() {
+      detailsModal.classList.remove('open');
+    }
+
+    btnCloseModal.addEventListener('click', closeModal);
+    detailsModal.addEventListener('click', (e) => {
+      if (e.target === detailsModal) closeModal();
+    });
+
+    // ------------------------------------------------------------------------
+    // 11. SAVE ACCOUNT STATUS (TARGETED FIREBASE UPDATE)
+    // ------------------------------------------------------------------------
+    btnSaveStatus.addEventListener('click', async () => {
+      if (!selectedUser) return;
+      const newStatus = mStatusSelect.value;
+
+      try {
+        await update(ref(database, `users/${selectedUser.uid}`), {
+          accountStatus: newStatus
+        });
+        showToast(`Status updated to ${newStatus}`);
+      } catch (err) {
+        console.error('Failed status update:', err);
+        alert('Failed to update account status. Verify permissions.');
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // 12. BALANCE ADJUSTMENT (+/-) & TRANSACTION LOG CREATION
+    // ------------------------------------------------------------------------
+    btnApplyBalance.addEventListener('click', async () => {
+      if (!selectedUser) return;
+
+      const type = adjType.value;
+      const amount = parseFloat(adjAmount.value);
+      const reason = adjReason.value.trim();
+      const currentBalance = Number(selectedUser.balance || 0);
+
+      // Validations
+      if (isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid amount greater than 0.');
+        adjAmount.focus();
+        return;
+      }
+
+      if (!reason) {
+        alert('Please provide a mandatory reason for this balance adjustment.');
+        adjReason.focus();
+        return;
+      }
+
+      let newBalance = currentBalance;
+      if (type === 'add') {
+        newBalance = currentBalance + amount;
+      } else {
+        if (currentBalance - amount < 0) {
+          alert('Cannot deduct: Balance cannot become negative.');
+          return;
+        }
+        newBalance = currentBalance - amount;
+      }
+
+      const confirmMsg = `Are you sure you want to ${type === 'add' ? 'ADD' : 'DEDUCT'} ৳${amount} for user "${selectedUser.username || selectedUser.uid}"?\n\nNew Balance: ৳${newBalance.toFixed(2)}\nReason: ${reason}`;
+      if (!confirm(confirmMsg)) return;
+
+      btnApplyBalance.disabled = true;
+      btnApplyBalance.textContent = 'Processing...';
+
+      try {
+        const now = Date.now();
+
+        // 1. Update user balance in /users/{uid}
+        await update(ref(database, `users/${selectedUser.uid}`), {
+          balance: newBalance
+        });
+
+        // 2. Record audit transaction in /transactions/{uid}
+        const txRef = push(ref(database, `transactions/${selectedUser.uid}`));
+        await set(txRef, {
+          type: "admin_balance_adjustment",
+          amount: type === 'add' ? amount : -amount,
+          reason: reason,
+          createdAt: now,
+          adminAction: true,
+          previousBalance: currentBalance,
+          newBalance: newBalance
+        });
+
+        adjAmount.value = '';
+        adjReason.value = '';
+        showToast('Balance updated and audit transaction recorded.');
+      } catch (err) {
+        console.error('Balance adjustment error:', err);
+        alert('Error adjusting balance. Check Realtime Database connection.');
+      } finally {
+        btnApplyBalance.disabled = false;
+        btnApplyBalance.textContent = 'Apply';
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // 13. DATE & IDENTIFIER HELPERS
+    // ------------------------------------------------------------------------
+    function extractTimestamp(val) {
+      if (!val) return 0;
+      if (typeof val === 'number') {
+        return val < 1e11 ? val * 1000 : val;
+      }
+      const parsed = new Date(val).getTime();
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
+    function isToday(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return d.toDateString() === now.toDateString();
+    }
+
+    function isThisMonth(ts) {
+      if (!ts) return false;
+      const d = new Date(ts);
+      const now = new Date();
+      return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    }
+
+    function formatDate(val) {
+      if (!val) return '--';
+      const ts = extractTimestamp(val);
+      if (!ts) return '--';
+      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function maskId(id) {
+      if (!id) return '--';
+      const s = String(id);
+      if (s.length < 8) return s;
+      return s.slice(0, 4) + '...' + s.slice(-4);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize data synchronization
+    initUsersListener();
+  </script>
+</body>
+</html>
