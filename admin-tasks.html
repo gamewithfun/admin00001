@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Task & Ads Management | THE GAME WITH FUN</title>
-  <meta name="description" content="Direct-access administrative task management control center for THE GAME WITH FUN. Create missions, set timers, allocate rewards, and audit completions.">
+  <meta name="description" content="Direct-access administrative task management control center for THE GAME WITH FUN. Create permanent missions, set timers, allocate rewards, and audit completions.">
 
   <style>
     /* ==========================================================================
@@ -380,7 +380,7 @@
     }
 
     /* ==========================================================================
-       7 LIVE STATISTICS TILES
+       6 LIVE TASK STATISTICS TILES (PERMANENT TASK MODEL)
        ========================================================================== */
     .stats-master-grid {
       display: grid;
@@ -397,7 +397,7 @@
 
     @media (min-width: 1024px) {
       .stats-master-grid {
-        grid-template-columns: repeat(7, 1fr);
+        grid-template-columns: repeat(6, 1fr);
       }
     }
 
@@ -430,7 +430,7 @@
     }
 
     .stat-label {
-      font-size: 0.66rem;
+      font-size: 0.68rem;
       font-weight: 800;
       color: var(--text-dim);
       text-transform: uppercase;
@@ -582,18 +582,6 @@
       color: var(--ruby-neon);
     }
 
-    .status-badge.upcoming {
-      background: rgba(0, 240, 255, 0.15);
-      border: 1px solid var(--border-cyan);
-      color: var(--cyan-neon);
-    }
-
-    .status-badge.expired {
-      background: rgba(148, 163, 184, 0.15);
-      border: 1px solid #475569;
-      color: #94a3b8;
-    }
-
     .actions-btn-group {
       display: flex;
       align-items: center;
@@ -704,7 +692,7 @@
     }
 
     /* ==========================================================================
-       MODALS: TASK FORM & TASK STATS
+       MODALS: TASK FORM, STATS & DELETE
        ========================================================================== */
     .modal-overlay {
       position: fixed;
@@ -878,6 +866,49 @@
       margin-top: 4px;
     }
 
+    /* Delete Confirmation Card */
+    .delete-confirm-card {
+      max-width: 440px;
+      text-align: center;
+    }
+
+    .delete-warning-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid var(--ruby-neon);
+      color: var(--ruby-neon);
+      display: grid;
+      place-items: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1rem;
+    }
+
+    .btn-confirm-delete {
+      padding: 0.8rem 1.2rem;
+      background: var(--ruby-neon);
+      color: #fff;
+      font-weight: 900;
+      border-radius: var(--radius-sm);
+      flex: 1;
+      transition: all 0.2s ease;
+    }
+
+    .btn-confirm-delete:hover {
+      filter: brightness(1.15);
+    }
+
+    .btn-cancel-action {
+      padding: 0.8rem 1.2rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      font-weight: 800;
+      border-radius: var(--radius-sm);
+      flex: 1;
+    }
+
     /* Toast Notification */
     .toast-popup {
       position: fixed;
@@ -1004,7 +1035,7 @@
           <span>🎮</span>
           <span>TASK & ADS MANAGEMENT</span>
         </h1>
-        <p class="page-subtitle">Configure legitimate gaming activities, website exploration tasks, timers, and reward limits.</p>
+        <p class="page-subtitle">Configure permanent gaming activities, reward quotas, countdown timers, and 24-hour player cooldowns.</p>
       </div>
 
       <!-- Non-intrusive Error Banner -->
@@ -1013,7 +1044,7 @@
         <button type="button" id="btnRetrySync" class="btn-retry-action">RETRY</button>
       </div>
 
-      <!-- 1. LIVE TASK STATISTICS TILES -->
+      <!-- 1. LIVE TASK STATISTICS TILES (PERMANENT TASK LIFETIME MODEL) -->
       <div class="stats-master-grid">
         <div class="stat-tile">
           <span class="stat-num" id="statTotalTasks">--</span>
@@ -1033,15 +1064,11 @@
         </div>
         <div class="stat-tile">
           <span class="stat-num" id="statTodayCompletions" style="color: var(--gold-primary);">--</span>
-          <span class="stat-label">Today's Done</span>
+          <span class="stat-label">Today's Runs</span>
         </div>
         <div class="stat-tile">
           <span class="stat-num" id="statTotalRewardsDist" style="color: #fff;">--</span>
-          <span class="stat-label">Total Rewards</span>
-        </div>
-        <div class="stat-tile">
-          <span class="stat-num" id="statEndingSoon" style="color: var(--purple-neon);">--</span>
-          <span class="stat-label">Ending Soon</span>
+          <span class="stat-label">Total Rewards Distributed</span>
         </div>
       </div>
 
@@ -1060,8 +1087,6 @@
             <option value="all">Status: All</option>
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
-            <option value="upcoming">Upcoming</option>
-            <option value="expired">Expired</option>
           </select>
 
           <select id="typeFilter" class="select-control" aria-label="Filter by Type">
@@ -1091,8 +1116,6 @@
                 <th>Reward</th>
                 <th>Timer</th>
                 <th>Daily Limit</th>
-                <th>Start Date</th>
-                <th>End Date</th>
                 <th>Status</th>
                 <th>Completed</th>
                 <th>Created</th>
@@ -1100,7 +1123,7 @@
               </tr>
             </thead>
             <tbody id="tableTasksBody">
-              <tr><td colspan="11" class="empty-placeholder">Loading tasks database...</td></tr>
+              <tr><td colspan="9" class="empty-placeholder">Loading permanent task database...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1118,14 +1141,14 @@
   </div>
 
   <!-- ==========================================================================
-       MODAL: CREATE / EDIT TASK
+       MODAL: CREATE / EDIT TASK (NO START/END DATES)
        ========================================================================== -->
   <div id="taskModal" class="modal-overlay" role="dialog" aria-modal="true">
     <div class="modal-card">
       <button type="button" class="modal-close-btn" id="btnCloseTaskModal" aria-label="Close">✕</button>
 
       <h3 class="modal-head-title" id="modalTaskHeading">Add New Task</h3>
-      <div class="modal-sub-title" id="modalTaskIdSub">Configure legitimate user-initiated mission parameters</div>
+      <div class="modal-sub-title" id="modalTaskIdSub">Configure permanent legitimate mission parameters</div>
 
       <form id="taskForm" novalidate>
         <div class="form-grid">
@@ -1174,24 +1197,12 @@
             <input type="number" id="taskLimitInput" class="form-input" placeholder="5" min="1" step="1" required>
           </div>
 
-          <!-- Start Date -->
-          <div class="form-group">
-            <label class="form-label" for="taskStartDateInput">Start Date / Time *</label>
-            <input type="datetime-local" id="taskStartDateInput" class="form-input" required>
-          </div>
-
-          <!-- End Date -->
-          <div class="form-group">
-            <label class="form-label" for="taskEndDateInput">End Date / Time *</label>
-            <input type="datetime-local" id="taskEndDateInput" class="form-input" required>
-          </div>
-
           <!-- Active Status Toggle -->
           <div class="form-group col-span-full">
             <label class="form-label" for="taskActiveSelect">Initial Availability Status *</label>
             <select id="taskActiveSelect" class="form-input" style="background:#0f1424;">
-              <option value="true">Active</option>
-              <option value="false">Inactive</option>
+              <option value="true">Active (Visible to users)</option>
+              <option value="false">Inactive (Hidden)</option>
             </select>
           </div>
         </div>
@@ -1209,7 +1220,7 @@
       <button type="button" class="modal-close-btn" id="btnCloseStatsModal" aria-label="Close">✕</button>
 
       <h3 class="modal-head-title" id="statsModalTaskTitle">Mission Telemetry</h3>
-      <div class="modal-sub-title" id="statsModalTaskId">Audit breakdown of completed attempts</div>
+      <div class="modal-sub-title" id="statsModalTaskId">Audit breakdown of completed attempts (24h cooldown tracking)</div>
 
       <div class="stats-breakdown-grid">
         <div class="modal-stat-box">
@@ -1233,6 +1244,27 @@
       <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:var(--radius-md); padding:1rem; text-align:center;">
         <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:800;">Total Reward Distributed:</span>
         <div style="font-size:1.45rem; font-weight:900; color:var(--gold-primary); font-family:monospace;" id="sRewardDistributed">৳0.00</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: DELETE TASK CONFIRMATION
+       ========================================================================== -->
+  <div id="deleteModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card delete-confirm-card">
+      <div class="delete-warning-icon">⚠️</div>
+      <h3 class="modal-head-title" style="margin-bottom: 0.4rem;">Delete Permanent Task?</h3>
+      <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.25rem;">
+        Are you sure you want to permanently delete <strong id="deleteTaskTargetName" style="color: #fff;">this task</strong>?
+      </p>
+      <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.25); border-radius: var(--radius-sm); padding: 0.85rem; font-size: 0.78rem; color: #fca5a5; line-height: 1.45; text-align: left; margin-bottom: 1.5rem;">
+        • This task will be removed immediately from the player task lists.<br>
+        • Historical user completion records under <strong>/taskCompletions</strong> and cooldown records will remain intact for audit logs.
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <button type="button" id="btnCancelDelete" class="btn-cancel-action">Cancel</button>
+        <button type="button" id="btnConfirmDelete" class="btn-confirm-delete">Delete Task</button>
       </div>
     </div>
   </div>
@@ -1269,7 +1301,7 @@
     const database = getDatabase(app);
 
     // ------------------------------------------------------------------------
-    // UI HOOKS
+    // UI REFERENCES
     // ------------------------------------------------------------------------
     const btnMenuToggle = document.getElementById('btnMenuToggle');
     const sidebarMenu = document.getElementById('sidebarMenu');
@@ -1286,9 +1318,8 @@
     const statTotalCompletions = document.getElementById('statTotalCompletions');
     const statTodayCompletions = document.getElementById('statTodayCompletions');
     const statTotalRewardsDist = document.getElementById('statTotalRewardsDist');
-    const statEndingSoon = document.getElementById('statEndingSoon');
 
-    // Table & Controls
+    // Table & Filters
     const taskSearchInput = document.getElementById('taskSearchInput');
     const statusFilter = document.getElementById('statusFilter');
     const typeFilter = document.getElementById('typeFilter');
@@ -1300,7 +1331,7 @@
     const btnPrevPage = document.getElementById('btnPrevPage');
     const btnNextPage = document.getElementById('btnNextPage');
 
-    // Task Create/Edit Modal
+    // Create / Edit Modal
     const taskModal = document.getElementById('taskModal');
     const btnCloseTaskModal = document.getElementById('btnCloseTaskModal');
     const modalTaskHeading = document.getElementById('modalTaskHeading');
@@ -1313,12 +1344,10 @@
     const taskUrlInput = document.getElementById('taskUrlInput');
     const taskTimerInput = document.getElementById('taskTimerInput');
     const taskLimitInput = document.getElementById('taskLimitInput');
-    const taskStartDateInput = document.getElementById('taskStartDateInput');
-    const taskEndDateInput = document.getElementById('taskEndDateInput');
     const taskActiveSelect = document.getElementById('taskActiveSelect');
     const btnSaveTaskSubmit = document.getElementById('btnSaveTaskSubmit');
 
-    // Task Stats Modal
+    // Stats Modal
     const statsModal = document.getElementById('statsModal');
     const btnCloseStatsModal = document.getElementById('btnCloseStatsModal');
     const statsModalTaskTitle = document.getElementById('statsModalTaskTitle');
@@ -1328,6 +1357,12 @@
     const sWeekCompletions = document.getElementById('sWeekCompletions');
     const sMonthCompletions = document.getElementById('sMonthCompletions');
     const sRewardDistributed = document.getElementById('sRewardDistributed');
+
+    // Delete Modal
+    const deleteModal = document.getElementById('deleteModal');
+    const deleteTaskTargetName = document.getElementById('deleteTaskTargetName');
+    const btnCancelDelete = document.getElementById('btnCancelDelete');
+    const btnConfirmDelete = document.getElementById('btnConfirmDelete');
 
     const toastNotification = document.getElementById('toastNotification');
     const toastMessage = document.getElementById('toastMessage');
@@ -1340,12 +1375,13 @@
     let completionsMap = {}; // taskId -> { total, today, week, month, reward }
     let globalStats = { totalComp: 0, todayComp: 0, totalReward: 0 };
     let editingTaskId = null; // null = create mode
+    let targetDeletingTask = null;
     let currentPage = 1;
     const PAGE_SIZE = 20;
     let toastTimeout = null;
 
     // ------------------------------------------------------------------------
-    // UI NAVIGATION & TOASTS
+    // NAVIGATION & TOAST NOTIFICATIONS
     // ------------------------------------------------------------------------
     function toggleSidebar() {
       sidebarMenu.classList.toggle('open');
@@ -1369,7 +1405,7 @@
     function initDatabaseSync() {
       errorBanner.style.display = 'none';
 
-      // 1. Fetch & Listen to /taskCompletions
+      // 1. Fetch & Listen to /taskCompletions (tracks completions & 24h metrics)
       onValue(ref(database, 'taskCompletions'), (snapshot) => {
         completionsMap = {};
         globalStats = { totalComp: 0, todayComp: 0, totalReward: 0 };
@@ -1383,7 +1419,7 @@
                 const comp = userComps[compKey] || {};
                 const tId = comp.taskId;
                 const ts = extractTimestamp(comp.completedAt || comp.date);
-                const rew = Number(comp.rewardRef || comp.reward || 0);
+                const rew = Number(comp.reward || comp.rewardRef || 0);
 
                 globalStats.totalComp++;
                 if (isToday(ts)) globalStats.todayComp++;
@@ -1408,11 +1444,11 @@
         statTodayCompletions.textContent = globalStats.todayComp;
         statTotalRewardsDist.textContent = `৳${globalStats.totalReward.toFixed(2)}`;
 
-        // Re-render table to display updated completion numbers
+        // Re-render table to display updated realtime counts
         applyFiltersAndRender();
       }, handleDatabaseError);
 
-      // 2. Fetch & Listen to /tasks
+      // 2. Fetch & Listen to /tasks (Permanent lifetime model)
       onValue(ref(database, 'tasks'), (snapshot) => {
         allTasks = [];
 
@@ -1431,7 +1467,7 @@
     }
 
     function handleDatabaseError(err) {
-      console.warn('Realtime Database read notice:', err);
+      console.warn('Realtime Database sync warning:', err);
       errorBanner.style.display = 'flex';
     }
 
@@ -1443,44 +1479,26 @@
     });
 
     // ------------------------------------------------------------------------
-    // COMPUTE TASK STATUS & COUNTERS
+    // COMPUTE PERMANENT TASK STATUS (ACTIVE vs INACTIVE)
     // ------------------------------------------------------------------------
     function computeStatus(task) {
       const isManualActive = task.active === true || task.active === 'true';
-      if (!isManualActive) return 'inactive';
-
-      const now = Date.now();
-      const start = task.startDate ? new Date(task.startDate).getTime() : 0;
-      const end = task.endDate ? new Date(task.endDate).getTime() : Infinity;
-
-      if (start && now < start) return 'upcoming';
-      if (end && now > end) return 'expired';
-      return 'active';
+      return isManualActive ? 'active' : 'inactive';
     }
 
     function updateTaskCounters() {
       let total = allTasks.length;
-      let active = 0, inactive = 0, endingSoon = 0;
-      const now = Date.now();
-      const threeDaysMs = 3 * 24 * 60 * 60 * 1000;
+      let active = 0, inactive = 0;
 
       allTasks.forEach((t) => {
         const st = computeStatus(t);
         if (st === 'active') active++;
         else inactive++;
-
-        if (t.endDate) {
-          const endTs = new Date(t.endDate).getTime();
-          if (endTs > now && endTs - now <= threeDaysMs) {
-            endingSoon++;
-          }
-        }
       });
 
       statTotalTasks.textContent = total;
       statActiveTasks.textContent = active;
       statInactiveTasks.textContent = inactive;
-      statEndingSoon.textContent = endingSoon;
     }
 
     // ------------------------------------------------------------------------
@@ -1504,7 +1522,7 @@
           }
         }
 
-        // Status Filter
+        // Status Filter (active / inactive)
         if (sFilter !== 'all') {
           const computed = computeStatus(t);
           if (computed !== sFilter) return false;
@@ -1556,7 +1574,7 @@
       if (filteredTasks.length === 0) {
         tableTasksBody.innerHTML = `
           <tr>
-            <td colspan="11" class="empty-placeholder">
+            <td colspan="9" class="empty-placeholder">
               No tasks have been created yet or none match your query.<br><br>
               <button type="button" class="btn-header-action btn-add-primary" id="btnEmptyCreate">CREATE FIRST TASK</button>
             </td>
@@ -1587,10 +1605,8 @@
         const name = t.name || t.title || 'Untitled Mission';
         const type = t.type || 'Website Link';
         const rew = Number(t.reward || 0).toFixed(2);
-        const timer = t.timer ? `${t.timer}s` : '15s';
+        const timer = (t.timerSeconds || t.timer) ? `${t.timerSeconds || t.timer}s` : '30s';
         const limit = t.dailyLimit || 5;
-        const start = formatShortDate(t.startDate);
-        const end = formatShortDate(t.endDate);
         const compCount = completionsMap[t.taskId]?.total || 0;
         const created = formatShortDate(t.createdAt);
 
@@ -1602,10 +1618,8 @@
           <td><strong style="color:var(--gold-primary);">৳${rew}</strong></td>
           <td>${timer}</td>
           <td>${limit}/day</td>
-          <td>${start}</td>
-          <td>${end}</td>
           <td><span class="status-badge ${st}">${st}</span></td>
-          <td><span style="font-family:monospace; font-weight:800;">${compCount}</span></td>
+          <td><span style="font-family:monospace; font-weight:800; color:var(--cyan-neon);">${compCount}</span></td>
           <td>${created}</td>
           <td>
             <div class="actions-btn-group">
@@ -1619,11 +1633,11 @@
           </td>
         `;
 
-        // Action Handlers
+        // Action Listeners
         tr.querySelector('.btn-edit').addEventListener('click', () => openEditModal(t));
         tr.querySelector('.btn-toggle-status').addEventListener('click', () => toggleTaskActiveStatus(t));
         tr.querySelector('.btn-stats').addEventListener('click', () => openStatsModal(t));
-        tr.querySelector('.btn-delete').addEventListener('click', () => deleteTaskPrompt(t));
+        tr.querySelector('.btn-delete').addEventListener('click', () => openDeleteModal(t));
 
         tableTasksBody.appendChild(tr);
       });
@@ -1645,12 +1659,12 @@
     });
 
     // ------------------------------------------------------------------------
-    // CREATE / EDIT TASK MODAL LOGIC
+    // CREATE / EDIT TASK MODAL (NO START/END DATES)
     // ------------------------------------------------------------------------
     function openCreateModal() {
       editingTaskId = null;
       modalTaskHeading.textContent = 'Add New Task';
-      modalTaskIdSub.textContent = 'Configure legitimate user-initiated mission parameters';
+      modalTaskIdSub.textContent = 'Configure permanent legitimate mission parameters';
 
       taskNameInput.value = '';
       taskDescInput.value = '';
@@ -1659,12 +1673,6 @@
       taskUrlInput.value = '';
       taskTimerInput.value = '30';
       taskLimitInput.value = '5';
-
-      // Default start = now, end = 30 days from now
-      const now = new Date();
-      const future = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000));
-      taskStartDateInput.value = toDateTimeLocal(now);
-      taskEndDateInput.value = toDateTimeLocal(future);
       taskActiveSelect.value = 'true';
 
       taskModal.classList.add('open');
@@ -1680,11 +1688,8 @@
       taskTypeSelect.value = t.type || 'Website Link';
       taskRewardInput.value = t.reward !== undefined ? t.reward : '0.50';
       taskUrlInput.value = t.url || '';
-      taskTimerInput.value = t.timer || '30';
+      taskTimerInput.value = t.timerSeconds || t.timer || '30';
       taskLimitInput.value = t.dailyLimit || '5';
-
-      taskStartDateInput.value = t.startDate ? toDateTimeLocal(new Date(t.startDate)) : '';
-      taskEndDateInput.value = t.endDate ? toDateTimeLocal(new Date(t.endDate)) : '';
       taskActiveSelect.value = (t.active === true || t.active === 'true') ? 'true' : 'false';
 
       taskModal.classList.add('open');
@@ -1701,7 +1706,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // SUBMIT TASK (CREATE OR UPDATE VIA FIREBASE)
+    // SUBMIT TASK (CREATE OR UPDATE VIA REALTIME DATABASE)
     // ------------------------------------------------------------------------
     taskForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1713,8 +1718,6 @@
       const url = taskUrlInput.value.trim();
       const timer = parseInt(taskTimerInput.value, 10);
       const limit = parseInt(taskLimitInput.value, 10);
-      const start = taskStartDateInput.value;
-      const end = taskEndDateInput.value;
       const active = taskActiveSelect.value === 'true';
 
       // Validation
@@ -1731,7 +1734,7 @@
       }
 
       if (isNaN(reward) || reward < 0) {
-        alert('Reward must be a positive number or zero.');
+        alert('Reward must be 0 or a positive number.');
         taskRewardInput.focus();
         return;
       }
@@ -1748,19 +1751,6 @@
         return;
       }
 
-      if (!start || !end) {
-        alert('Both start and end dates are required.');
-        return;
-      }
-
-      const startTs = new Date(start).getTime();
-      const endTs = new Date(end).getTime();
-      if (endTs < startTs) {
-        alert('End date cannot be prior to start date.');
-        taskEndDateInput.focus();
-        return;
-      }
-
       btnSaveTaskSubmit.disabled = true;
       btnSaveTaskSubmit.textContent = 'Saving...';
 
@@ -1773,25 +1763,24 @@
           type: type,
           reward: reward,
           url: url,
-          timer: timer,
+          timerSeconds: timer,
+          timer: timer, // backwards compatibility
           dailyLimit: limit,
-          startDate: new Date(start).toISOString(),
-          endDate: new Date(end).toISOString(),
           active: active,
           updatedAt: now
         };
 
         if (editingTaskId) {
-          // Targeted update to /tasks/{taskId}
+          // Targeted update
           await update(ref(database, `tasks/${editingTaskId}`), payload);
           showToast('Task updated successfully.');
         } else {
-          // Push new task
+          // Create new task
           payload.createdAt = now;
           const newRef = push(ref(database, 'tasks'));
           payload.taskId = newRef.key;
           await set(newRef, payload);
-          showToast('New task published.');
+          showToast('New task created successfully.');
         }
 
         closeTaskModal();
@@ -1811,8 +1800,8 @@
       const isCurrentlyActive = t.active === true || t.active === 'true';
       const newStatus = !isCurrentlyActive;
       const promptMsg = isCurrentlyActive 
-        ? `Are you sure you want to DEACTIVATE "${t.name || t.title}"?`
-        : `Are you sure you want to ACTIVATE "${t.name || t.title}"?`;
+        ? `Are you sure you want to DEACTIVATE "${t.name || t.title}"? (It will be hidden from users)`
+        : `Are you sure you want to ACTIVATE "${t.name || t.title}"? (It will be visible to users)`;
 
       if (!confirm(promptMsg)) return;
 
@@ -1821,7 +1810,7 @@
           active: newStatus,
           updatedAt: Date.now()
         });
-        showToast(`Task status changed to ${newStatus ? 'ACTIVE' : 'INACTIVE'}`);
+        showToast(`Task marked as ${newStatus ? 'ACTIVE' : 'INACTIVE'}`);
       } catch (err) {
         console.error('Failed updating active status:', err);
         alert('Could not toggle task status. Check database connection.');
@@ -1829,20 +1818,45 @@
     }
 
     // ------------------------------------------------------------------------
-    // DELETE TASK (SAFELY WARNED)
+    // DELETE TASK MODAL & LOGIC
     // ------------------------------------------------------------------------
-    async function deleteTaskPrompt(t) {
-      const confirmMsg = `WARNING: Are you sure you want to DELETE task "${t.name || t.title}"?\n\nDeleting a task removes it permanently from the task roster. (User completion records will remain intact in audit logs).`;
-      if (!confirm(confirmMsg)) return;
+    function openDeleteModal(t) {
+      targetDeletingTask = t;
+      deleteTaskTargetName.textContent = `"${t.name || t.title || 'this task'}"`;
+      deleteModal.classList.add('open');
+    }
+
+    function closeDeleteModal() {
+      deleteModal.classList.remove('open');
+      targetDeletingTask = null;
+    }
+
+    btnCancelDelete.addEventListener('click', closeDeleteModal);
+    deleteModal.addEventListener('click', (e) => {
+      if (e.target === deleteModal) closeDeleteModal();
+    });
+
+    btnConfirmDelete.addEventListener('click', async () => {
+      if (!targetDeletingTask) return;
+
+      const tId = targetDeletingTask.taskId;
+      btnConfirmDelete.disabled = true;
+      btnConfirmDelete.textContent = 'Deleting...';
 
       try {
-        await remove(ref(database, `tasks/${t.taskId}`));
-        showToast('Task removed from registry.');
+        // Remove task from /tasks/{taskId}.
+        // Old records in /taskCompletions remain intact for statistics.
+        await remove(ref(database, `tasks/${tId}`));
+        showToast('Task removed from registry permanently.');
+        closeDeleteModal();
       } catch (err) {
         console.error('Failed deleting task:', err);
         alert('Unable to delete task. Verify database permissions.');
+      } finally {
+        btnConfirmDelete.disabled = false;
+        btnConfirmDelete.textContent = 'Delete Task';
       }
-    }
+    });
 
     // ------------------------------------------------------------------------
     // TASK STATISTICS MODAL
@@ -1851,7 +1865,7 @@
       const stats = completionsMap[t.taskId] || { total: 0, today: 0, week: 0, month: 0, reward: 0 };
 
       statsModalTaskTitle.textContent = t.name || t.title || 'Task Details';
-      statsModalTaskId.textContent = `Task ID: ${t.taskId}`;
+      statsModalTaskId.textContent = `Task ID: ${t.taskId} • Cooldown: 24h per user`;
 
       sTotalCompletions.textContent = stats.total;
       sTodayCompletions.textContent = stats.today;
@@ -1868,7 +1882,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // DATE & TIME HELPERS
+    // DATE & HELPER UTILITIES
     // ------------------------------------------------------------------------
     function extractTimestamp(val) {
       if (!val) return 0;
@@ -1906,12 +1920,7 @@
       if (!val) return '--';
       const ts = extractTimestamp(val);
       if (!ts) return '--';
-      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric' });
-    }
-
-    function toDateTimeLocal(d) {
-      const pad = (n) => String(n).padStart(2, '0');
-      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
     }
 
     function escapeHtml(text) {
@@ -1924,7 +1933,7 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Initialize Realtime Data Streaming
+    // Initialize Realtime Data Streaming Immediately
     initDatabaseSync();
   </script>
 </body>
