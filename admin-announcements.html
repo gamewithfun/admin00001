@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Admin Announcements | THE GAME WITH FUN</title>
+  <meta name="description" content="Centralized system announcement and broadcast control panel for THE GAME WITH FUN.">
+
+  <style>
+    /* ==========================================================================
+       ADMIN ULTRA-PREMIUM CYBER/DARK DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      --bg-base: #06080d;
+      --bg-surface: #0a0e17;
+      --bg-card: rgba(14, 19, 32, 0.82);
+      --bg-card-hover: rgba(20, 27, 46, 0.92);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(0, 240, 255, 0.3);
+      --border-purple: rgba(168, 85, 247, 0.35);
+
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.4);
+      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #f59e0b 55%, #d97706 100%);
+
+      --cyan-neon: #00f0ff;
+      --cyan-glow: rgba(0, 240, 255, 0.35);
+      --cyan-gradient: linear-gradient(135deg, #00f0ff 0%, #0284c7 100%);
+
+      --purple-neon: #a855f7;
+      --purple-glow: rgba(168, 85, 247, 0.35);
+      --purple-gradient: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7e22ce 100%);
+
+      --emerald-neon: #10b981;
+      --ruby-neon: #f43f5e;
+
+      --text-white: #ffffff;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --smooth-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      font-family: var(--font-stack);
+      color: var(--text-main);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(168, 85, 247, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 20%, rgba(0, 240, 255, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 50% 70%, rgba(245, 158, 11, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input, select, textarea {
+      font-family: inherit;
+      outline: none;
+      border: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* ==========================================================================
+       TOP APP HEADER
+       ========================================================================== */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 8, 13, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.75rem 1.25rem;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-menu-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: grid;
+      place-items: center;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .btn-menu-toggle {
+        display: none;
+      }
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(0, 240, 255, 0.2));
+      border: 1px solid var(--border-purple);
+      border-radius: var(--radius-sm);
+      display: grid;
+      place-items: center;
+      color: var(--purple-neon);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.5px;
+      line-height: 1.1;
+    }
+
+    .brand-subtitle-tag {
+      font-size: 0.65rem;
+      color: var(--purple-neon);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 800;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-header-action {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .btn-header-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--purple-neon);
+      color: var(--purple-neon);
+    }
+
+    .btn-create-broadcast {
+      background: var(--purple-gradient);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 15px var(--purple-glow);
+    }
+
+    .btn-create-broadcast:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+      color: #fff;
+    }
+
+    .btn-header-action.refreshing svg {
+      animation: spinIcon 0.8s linear infinite;
+    }
+
+    @keyframes spinIcon {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== */
+    .app-layout {
+      display: flex;
+      flex: 1;
+      position: relative;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 57px;
+      bottom: 0;
+      left: -260px;
+      width: 250px;
+      background: rgba(8, 12, 22, 0.95);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-right: 1px solid var(--border-subtle);
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 1000;
+      transition: left 0.3s var(--smooth-ease);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar {
+        left: 0;
+        z-index: 50;
+      }
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+    }
+
+    .sidebar-overlay.active {
+      display: block;
+    }
+
+    @media (min-width: 1024px) {
+      .sidebar-overlay.active {
+        display: none;
+      }
+    }
+
+    .sidebar-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.85rem 1rem;
+      border-radius: var(--radius-md);
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .sidebar-nav-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+    }
+
+    .sidebar-nav-item.active {
+      background: rgba(168, 85, 247, 0.12);
+      border-color: var(--border-purple);
+      color: var(--purple-neon);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+    }
+
+    .sidebar-nav-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .main-workspace {
+      flex: 1;
+      padding: 1.5rem 1rem 3rem;
+      width: 100%;
+      transition: margin 0.3s ease;
+    }
+
+    @media (min-width: 1024px) {
+      .main-workspace {
+        margin-left: 250px;
+        padding: 2rem 2rem 4rem;
+      }
+    }
+
+    /* ==========================================================================
+       PAGE BANNER
+       ========================================================================== */
+    .page-banner {
+      margin-bottom: 1.5rem;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       ERROR BANNER
+       ========================================================================== */
+    .error-banner {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.1rem;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-retry-action {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      padding: 5px 12px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+    }
+
+    .btn-retry-action:hover {
+      background: var(--ruby-neon);
+    }
+
+    /* ==========================================================================
+       4 LIVE STATISTICS TILES
+       ========================================================================== */
+    .stats-master-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .stats-master-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-tile {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.1rem 0.85rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s var(--smooth-ease);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-tile:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    .stat-num {
+      font-size: 1.65rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      font-family: monospace;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ==========================================================================
+       SEARCH & FILTERS TOOLBAR
+       ========================================================================== */
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .filter-panel {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .search-box-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.95rem;
+      gap: 8px;
+    }
+
+    .search-box-wrap:focus-within {
+      border-color: var(--purple-neon);
+      box-shadow: 0 0 12px rgba(168, 85, 247, 0.25);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .filter-dropdowns {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .select-control {
+      background: #0f1424;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 0.85rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .select-control:focus {
+      border-color: var(--purple-neon);
+      color: #fff;
+    }
+
+    /* ==========================================================================
+       DATA TABLE / CARDS
+       ========================================================================== */
+    .ui-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      margin-bottom: 1.5rem;
+    }
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .data-table th {
+      padding: 0.8rem 0.9rem;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .data-table td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      vertical-align: middle;
+    }
+
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Type & Status Badges */
+    .type-badge {
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .type-badge.info {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid var(--border-glow);
+      color: var(--cyan-neon);
+    }
+
+    .type-badge.success {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--emerald-neon);
+    }
+
+    .type-badge.warning {
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid var(--border-glow);
+      color: var(--gold-primary);
+    }
+
+    .type-badge.important {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+      animation: pulseAlert 2s infinite;
+    }
+
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .status-badge {
+      font-size: 0.65rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .status-badge.active {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--emerald-neon);
+    }
+
+    .status-badge.inactive {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+    }
+
+    .status-badge.upcoming {
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid var(--border-glow);
+      color: var(--cyan-neon);
+    }
+
+    .status-badge.expired {
+      background: rgba(148, 163, 184, 0.15);
+      border: 1px solid #475569;
+      color: #94a3b8;
+    }
+
+    .priority-indicator {
+      font-family: monospace;
+      font-weight: 900;
+      color: var(--gold-primary);
+    }
+
+    .actions-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-table-action {
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 0.72rem;
+      font-weight: 800;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-edit {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--purple-neon);
+      color: var(--purple-neon);
+    }
+
+    .btn-toggle-status {
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px solid var(--border-purple);
+      color: var(--purple-neon);
+    }
+
+    .btn-toggle-status:hover {
+      background: var(--purple-neon);
+      color: #fff;
+    }
+
+    .btn-delete {
+      background: rgba(244, 63, 94, 0.1);
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      color: var(--ruby-neon);
+    }
+
+    .btn-delete:hover {
+      background: var(--ruby-neon);
+      color: #fff;
+    }
+
+    .empty-placeholder {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-dim);
+      font-size: 0.86rem;
+    }
+
+    /* Message preview clamp */
+    .msg-preview {
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       MODALS: CREATE/EDIT & DELETE CONFIRMATION
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 12, 0.88);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #0d1222;
+      border: 1px solid var(--border-purple);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(168, 85, 247, 0.2);
+      position: relative;
+      transform: scale(0.95);
+      transition: transform 0.3s var(--smooth-ease);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-head-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .modal-sub-title {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (min-width: 600px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .col-span-full {
+        grid-column: 1 / -1;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--purple-neon);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-textarea {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      border-color: var(--purple-neon);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+      line-height: 1.45;
+    }
+
+    /* Cyber switch control */
+    .switch-wrap {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .switch-wrap input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-full);
+      transition: all 0.3s var(--smooth-ease);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .switch-slider::before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #fff;
+      border-radius: 50%;
+      transition: all 0.3s var(--smooth-ease);
+    }
+
+    input:checked + .switch-slider {
+      background: var(--purple-neon);
+      border-color: var(--purple-neon);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    }
+
+    input:checked + .switch-slider::before {
+      transform: translateX(20px);
+      background-color: #05070e;
+    }
+
+    .btn-modal-submit {
+      width: 100%;
+      padding: 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: var(--purple-gradient);
+      color: #fff;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px var(--purple-glow);
+    }
+
+    .btn-modal-submit:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: rgba(10, 14, 23, 0.95);
+      border: 1px solid var(--purple-neon);
+      color: #fff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+      backdrop-filter: blur(16px);
+      z-index: 3000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s var(--smooth-ease);
+      transform: translateY(15px);
+    }
+
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="toast-popup" role="status" aria-live="polite">
+    <span id="toastMessage">Announcement saved</span>
+  </div>
+
+  <!-- ==========================================================================
+       TOP APP HEADER
+       ========================================================================== -->
+  <header class="top-header">
+    <div class="header-content">
+      <div class="header-left">
+        <button type="button" class="btn-menu-toggle" id="btnMenuToggle" aria-label="Toggle Navigation Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="brand-meta">
+          <div class="brand-logo-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title">THE GAME WITH FUN</span>
+            <span class="brand-subtitle-tag">ADMIN • ANNOUNCEMENTS</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <a href="admin.html" class="btn-header-action" aria-label="Back to Admin Home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Admin Home</span>
+        </a>
+
+        <button type="button" class="btn-header-action" id="btnRefreshData" aria-label="Refresh Data">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+          </svg>
+          <span>Refresh</span>
+        </button>
+
+        <button type="button" class="btn-header-action btn-create-broadcast" id="btnOpenCreateModal">
+          <span>+ New Announcement</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SIDEBAR & WORKSPACE LAYOUT
+       ========================================================================== -->
+  <div class="app-layout">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- RESPONSIVE SIDEBAR -->
+    <aside class="sidebar" id="sidebarMenu">
+      <a href="admin.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="admin-users.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Users</span>
+      </a>
+      <a href="admin-tasks.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Tasks</span>
+      </a>
+      <a href="admin-withdraw.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+        <span>Withdrawals</span>
+      </a>
+      <a href="admin-settings.html" class="sidebar-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>Settings</span>
+      </a>
+      <a href="admin-announcements.html" class="sidebar-nav-item active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span>Announcements</span>
+      </a>
+      <a href="index.html" class="sidebar-nav-item" style="margin-top: auto; border-color: rgba(255,255,255,0.08);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="12 8 8 12 12 16 12 8"></polygon></svg>
+        <span>Main Website</span>
+      </a>
+    </aside>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="main-workspace">
+      <!-- Page Banner -->
+      <div class="page-banner">
+        <h1 class="page-title">
+          <span>📢</span>
+          <span>ANNOUNCEMENTS MANAGER</span>
+        </h1>
+        <p class="page-subtitle">Publish system broadcasts, news alerts, urgent warnings, and updates to the player portal.</p>
+      </div>
+
+      <!-- Non-intrusive Error Banner -->
+      <div id="errorBanner" class="error-banner">
+        <span style="font-size: 0.82rem; color: #fca5a5;">Unable to load announcements. Realtime Database connection interrupted.</span>
+        <button type="button" id="btnRetrySync" class="btn-retry-action">RETRY</button>
+      </div>
+
+      <!-- 1. LIVE STATISTICS CARDS -->
+      <div class="stats-master-grid">
+        <div class="stat-tile">
+          <span class="stat-num" id="statTotalAnnouncements">--</span>
+          <span class="stat-label">Total Announcements</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statActiveAnnouncements" style="color: var(--emerald-neon);">--</span>
+          <span class="stat-label">Active Broadcasts</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statInactiveAnnouncements" style="color: var(--ruby-neon);">--</span>
+          <span class="stat-label">Inactive Broadcasts</span>
+        </div>
+        <div class="stat-tile">
+          <span class="stat-num" id="statImportantAnnouncements" style="color: var(--gold-primary);">--</span>
+          <span class="stat-label">Important Alerts</span>
+        </div>
+      </div>
+
+      <!-- 2. SEARCH & FILTERS PANEL -->
+      <div class="filter-panel">
+        <div class="search-box-wrap">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: var(--text-dim); flex-shrink: 0;">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="annSearchInput" class="search-input" placeholder="Search by Title, Message content, or Type..." autocomplete="off">
+        </div>
+
+        <div class="filter-dropdowns">
+          <select id="filterTypeStatus" class="select-control" aria-label="Filter by Type or Status">
+            <option value="all">Filter: All</option>
+            <option value="active">Status: Active</option>
+            <option value="inactive">Status: Inactive</option>
+            <option value="important">Type: Important</option>
+            <option value="warning">Type: Warning</option>
+            <option value="success">Type: Success</option>
+            <option value="info">Type: Info</option>
+          </select>
+
+          <select id="sortOrder" class="select-control" aria-label="Sort Order">
+            <option value="newest">Sort: Newest</option>
+            <option value="oldest">Sort: Oldest</option>
+            <option value="priority">Highest Priority</option>
+            <option value="status">Status</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 3. ANNOUNCEMENTS LIST / TABLE -->
+      <div class="ui-panel">
+        <div class="table-scroll-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Message Preview</th>
+                <th>Type</th>
+                <th>Priority</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tableAnnouncementsBody">
+              <tr><td colspan="9" class="empty-placeholder">Loading announcements database...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: CREATE / EDIT ANNOUNCEMENT
+       ========================================================================== -->
+  <div id="annModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btnCloseModal" aria-label="Close">✕</button>
+
+      <h3 class="modal-head-title" id="modalHeading">New Announcement</h3>
+      <div class="modal-sub-title" id="modalSubHeading">Broadcast real-time notices directly to the player dashboard</div>
+
+      <form id="annForm" novalidate>
+        <div class="form-grid">
+          <!-- Title -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="annTitleInput">Announcement Title *</label>
+            <input type="text" id="annTitleInput" class="form-input" placeholder="e.g. System Maintenance Notice" required>
+          </div>
+
+          <!-- Type -->
+          <div class="form-group">
+            <label class="form-label" for="annTypeSelect">Type Category *</label>
+            <select id="annTypeSelect" class="form-input" style="background:#0f1424;">
+              <option value="info">Info</option>
+              <option value="success">Success</option>
+              <option value="warning">Warning</option>
+              <option value="important">Important</option>
+            </select>
+          </div>
+
+          <!-- Priority -->
+          <div class="form-group">
+            <label class="form-label" for="annPriorityInput">Priority (1 - 5) *</label>
+            <input type="number" id="annPriorityInput" class="form-input" placeholder="3" min="1" max="5" value="3" required>
+          </div>
+
+          <!-- Message -->
+          <div class="form-group col-span-full">
+            <label class="form-label" for="annMessageInput">Message Content *</label>
+            <textarea id="annMessageInput" class="form-textarea" placeholder="Write announcement details for users..." required></textarea>
+          </div>
+
+          <!-- Start Date -->
+          <div class="form-group">
+            <label class="form-label" for="annStartDateInput">Start Date / Time (Optional)</label>
+            <input type="datetime-local" id="annStartDateInput" class="form-input">
+          </div>
+
+          <!-- End Date -->
+          <div class="form-group">
+            <label class="form-label" for="annEndDateInput">End Date / Time (Optional)</label>
+            <input type="datetime-local" id="annEndDateInput" class="form-input">
+          </div>
+
+          <!-- Active Toggle -->
+          <div class="form-group col-span-full" style="flex-direction:row; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.02); padding:0.85rem 1rem; border-radius:var(--radius-md); border:1px solid rgba(255,255,255,0.06);">
+            <div>
+              <div style="font-size:0.85rem; font-weight:800; color:#fff;">Active Broadcast</div>
+              <div style="font-size:0.72rem; color:var(--text-dim);">Enable to make visible on user dashboards</div>
+            </div>
+            <label class="switch-wrap">
+              <input type="checkbox" id="annActiveToggle" checked>
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:1rem;">
+          <button type="button" id="btnCancelModal" style="flex:1; padding:0.85rem; border-radius:var(--radius-sm); background:rgba(255,255,255,0.05); border:1px solid var(--border-subtle); color:#fff; font-weight:800; font-size:0.85rem;">Cancel</button>
+          <button type="submit" id="btnSubmitModal" class="btn-modal-submit" style="flex:1.5;">SAVE BROADCAST</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       MODAL: DELETE CONFIRMATION
+       ========================================================================== -->
+  <div id="deleteModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width:440px; text-align:center;">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🗑️</div>
+      <h3 class="modal-head-title" style="margin-bottom: 0.5rem;">Delete Announcement</h3>
+      <p style="font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 1.5rem;">
+        Are you sure you want to permanently remove this announcement? It will be deleted from the database immediately.
+      </p>
+      <div style="display:flex; gap:10px;">
+        <button type="button" id="btnCancelDelete" style="flex:1; padding:0.8rem; border-radius:var(--radius-sm); background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; font-weight:800;">Cancel</button>
+        <button type="button" id="btnConfirmDelete" style="flex:1; padding:0.8rem; border-radius:var(--radius-sm); background:var(--ruby-neon); color:#fff; font-weight:800;">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FIREBASE REALTIME DATABASE ONLY (DIRECT ACCESS)
+       ========================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { 
+      getDatabase, 
+      ref, 
+      onValue, 
+      set, 
+      update, 
+      push, 
+      remove 
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // ------------------------------------------------------------------------
+    // FIREBASE CONFIGURATION
+    // ------------------------------------------------------------------------
+   const firebaseConfig = {
+  apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
+  authDomain: "game-with-fun-a1988.firebaseapp.com",
+  databaseURL: "https://game-with-fun-a1988-default-rtdb.firebaseio.com",
+  projectId: "game-with-fun-a1988",
+  storageBucket: "game-with-fun-a1988.firebasestorage.app",
+  messagingSenderId: "226037846599",
+  appId: "1:226037846599:web:415dc67b9d06007646d762"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // ------------------------------------------------------------------------
+    // UI HOOKS
+    // ------------------------------------------------------------------------
+    const btnMenuToggle = document.getElementById('btnMenuToggle');
+    const sidebarMenu = document.getElementById('sidebarMenu');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const btnRefreshData = document.getElementById('btnRefreshData');
+    const errorBanner = document.getElementById('errorBanner');
+    const btnRetrySync = document.getElementById('btnRetrySync');
+    const btnOpenCreateModal = document.getElementById('btnOpenCreateModal');
+
+    // Stats
+    const statTotalAnnouncements = document.getElementById('statTotalAnnouncements');
+    const statActiveAnnouncements = document.getElementById('statActiveAnnouncements');
+    const statInactiveAnnouncements = document.getElementById('statInactiveAnnouncements');
+    const statImportantAnnouncements = document.getElementById('statImportantAnnouncements');
+
+    // Table & Filters
+    const annSearchInput = document.getElementById('annSearchInput');
+    const filterTypeStatus = document.getElementById('filterTypeStatus');
+    const sortOrder = document.getElementById('sortOrder');
+    const tableAnnouncementsBody = document.getElementById('tableAnnouncementsBody');
+
+    // Modals
+    const annModal = document.getElementById('annModal');
+    const btnCloseModal = document.getElementById('btnCloseModal');
+    const btnCancelModal = document.getElementById('btnCancelModal');
+    const modalHeading = document.getElementById('modalHeading');
+    const modalSubHeading = document.getElementById('modalSubHeading');
+    const annForm = document.getElementById('annForm');
+    const annTitleInput = document.getElementById('annTitleInput');
+    const annTypeSelect = document.getElementById('annTypeSelect');
+    const annPriorityInput = document.getElementById('annPriorityInput');
+    const annMessageInput = document.getElementById('annMessageInput');
+    const annStartDateInput = document.getElementById('annStartDateInput');
+    const annEndDateInput = document.getElementById('annEndDateInput');
+    const annActiveToggle = document.getElementById('annActiveToggle');
+
+    const deleteModal = document.getElementById('deleteModal');
+    const btnCancelDelete = document.getElementById('btnCancelDelete');
+    const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+
+    const toastNotification = document.getElementById('toastNotification');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // ------------------------------------------------------------------------
+    // RUNTIME STATE
+    // ------------------------------------------------------------------------
+    let allAnnouncements = [];
+    let filteredList = [];
+    let editingId = null;
+    let deletingId = null;
+    let toastTimeout = null;
+
+    // ------------------------------------------------------------------------
+    // UI NAVIGATION & TOASTS
+    // ------------------------------------------------------------------------
+    function toggleSidebar() {
+      sidebarMenu.classList.toggle('open');
+      sidebarOverlay.classList.toggle('active');
+    }
+    btnMenuToggle.addEventListener('click', toggleSidebar);
+    sidebarOverlay.addEventListener('click', toggleSidebar);
+
+    function showToast(msg) {
+      toastMessage.textContent = msg;
+      toastNotification.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toastNotification.classList.remove('show');
+      }, 2500);
+    }
+
+    // ------------------------------------------------------------------------
+    // REALTIME DATABASE SYNC (/announcements)
+    // ------------------------------------------------------------------------
+    function initAnnouncementsSync() {
+      errorBanner.style.display = 'none';
+
+      onValue(ref(database, 'announcements'), (snapshot) => {
+        allAnnouncements = [];
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          Object.keys(data).forEach((id) => {
+            const item = data[id] || {};
+            item.id = id;
+            allAnnouncements.push(item);
+          });
+        }
+
+        updateStats();
+        applyFiltersAndRender();
+      }, (err) => {
+        console.warn('Realtime database sync notice:', err);
+        errorBanner.style.display = 'flex';
+      });
+    }
+
+    btnRetrySync.addEventListener('click', initAnnouncementsSync);
+    btnRefreshData.addEventListener('click', () => {
+      btnRefreshData.classList.add('refreshing');
+      initAnnouncementsSync();
+      setTimeout(() => btnRefreshData.classList.remove('refreshing'), 700);
+    });
+
+    // ------------------------------------------------------------------------
+    // STATUS COMPUTATION & STATISTICS
+    // ------------------------------------------------------------------------
+    function computeStatus(item) {
+      const isManualActive = item.active === true || item.active === 'true';
+      if (!isManualActive) return 'inactive';
+
+      const now = Date.now();
+      const start = item.startDate ? new Date(item.startDate).getTime() : 0;
+      const end = item.endDate ? new Date(item.endDate).getTime() : Infinity;
+
+      if (start && now < start) return 'upcoming';
+      if (end && now > end) return 'expired';
+      return 'active';
+    }
+
+    function updateStats() {
+      let total = allAnnouncements.length;
+      let active = 0, inactive = 0, important = 0;
+
+      allAnnouncements.forEach((a) => {
+        const st = computeStatus(a);
+        if (st === 'active') active++;
+        else inactive++;
+
+        if ((a.type || '').toLowerCase() === 'important') {
+          important++;
+        }
+      });
+
+      statTotalAnnouncements.textContent = total;
+      statActiveAnnouncements.textContent = active;
+      statInactiveAnnouncements.textContent = inactive;
+      statImportantAnnouncements.textContent = important;
+    }
+
+    // ------------------------------------------------------------------------
+    // FILTERING, SEARCHING & SORTING
+    // ------------------------------------------------------------------------
+    function applyFiltersAndRender() {
+      const q = annSearchInput.value.trim().toLowerCase();
+      const filterVal = filterTypeStatus.value.toLowerCase();
+      const sortVal = sortOrder.value;
+
+      filteredList = allAnnouncements.filter((item) => {
+        // Search
+        if (q) {
+          const title = (item.title || '').toLowerCase();
+          const msg = (item.message || '').toLowerCase();
+          const type = (item.type || '').toLowerCase();
+          if (!title.includes(q) && !msg.includes(q) && !type.includes(q)) {
+            return false;
+          }
+        }
+
+        // Dropdown Filter
+        if (filterVal !== 'all') {
+          if (filterVal === 'active' || filterVal === 'inactive') {
+            const st = computeStatus(item);
+            if (st !== filterVal) return false;
+          } else {
+            // Filter by type: important, warning, success, info
+            if ((item.type || 'info').toLowerCase() !== filterVal) return false;
+          }
+        }
+
+        return true;
+      });
+
+      // Sorting
+      filteredList.sort((a, b) => {
+        if (sortVal === 'newest') {
+          return extractTimestamp(b.createdAt) - extractTimestamp(a.createdAt);
+        } else if (sortVal === 'oldest') {
+          return extractTimestamp(a.createdAt) - extractTimestamp(b.createdAt);
+        } else if (sortVal === 'priority') {
+          return Number(b.priority || 1) - Number(a.priority || 1);
+        } else if (sortVal === 'status') {
+          const stA = computeStatus(a);
+          const stB = computeStatus(b);
+          return stA.localeCompare(stB);
+        }
+        return 0;
+      });
+
+      renderTable();
+    }
+
+    annSearchInput.addEventListener('input', applyFiltersAndRender);
+    filterTypeStatus.addEventListener('change', applyFiltersAndRender);
+    sortOrder.addEventListener('change', applyFiltersAndRender);
+
+    // ------------------------------------------------------------------------
+    // RENDER TABLE
+    // ------------------------------------------------------------------------
+    function renderTable() {
+      tableAnnouncementsBody.innerHTML = '';
+
+      if (filteredList.length === 0) {
+        tableAnnouncementsBody.innerHTML = `
+          <tr>
+            <td colspan="9" class="empty-placeholder">
+              No announcements yet.<br><br>
+              <button type="button" class="btn-header-action btn-create-broadcast" id="btnEmptyCreate">CREATE FIRST ANNOUNCEMENT</button>
+            </td>
+          </tr>
+        `;
+        const btnEmpty = document.getElementById('btnEmptyCreate');
+        if (btnEmpty) btnEmpty.addEventListener('click', openCreateModal);
+        return;
+      }
+
+      filteredList.forEach((item) => {
+        const tr = document.createElement('tr');
+        const st = computeStatus(item);
+        const type = (item.type || 'info').toLowerCase();
+        const priority = item.priority || 3;
+        const start = formatShortDate(item.startDate);
+        const end = formatShortDate(item.endDate);
+        const created = formatShortDate(item.createdAt);
+        const isCurrentlyActive = item.active === true || item.active === 'true';
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(item.title || 'Announcement')}</strong></td>
+          <td><div class="msg-preview">${escapeHtml(item.message || '--')}</div></td>
+          <td><span class="type-badge ${type}">${type}</span></td>
+          <td><span class="priority-indicator">P${priority}</span></td>
+          <td>${start}</td>
+          <td>${end}</td>
+          <td><span class="status-badge ${st}">${st}</span></td>
+          <td>${created}</td>
+          <td>
+            <div class="actions-btn-group">
+              <button type="button" class="btn-table-action btn-edit" data-id="${item.id}">Edit</button>
+              <button type="button" class="btn-table-action btn-toggle-status" data-id="${item.id}">
+                ${isCurrentlyActive ? 'Deactivate' : 'Activate'}
+              </button>
+              <button type="button" class="btn-table-action btn-delete" data-id="${item.id}">Delete</button>
+            </div>
+          </td>
+        `;
+
+        tr.querySelector('.btn-edit').addEventListener('click', () => openEditModal(item));
+        tr.querySelector('.btn-toggle-status').addEventListener('click', () => toggleActiveStatus(item));
+        tr.querySelector('.btn-delete').addEventListener('click', () => confirmDeleteModal(item.id));
+
+        tableAnnouncementsBody.appendChild(tr);
+      });
+    }
+
+    // ------------------------------------------------------------------------
+    // CREATE / EDIT MODAL LOGIC
+    // ------------------------------------------------------------------------
+    function openCreateModal() {
+      editingId = null;
+      modalHeading.textContent = 'New Announcement';
+      modalSubHeading.textContent = 'Broadcast real-time notices directly to the player dashboard';
+
+      annTitleInput.value = '';
+      annMessageInput.value = '';
+      annTypeSelect.value = 'info';
+      annPriorityInput.value = '3';
+      annStartDateInput.value = '';
+      annEndDateInput.value = '';
+      annActiveToggle.checked = true;
+
+      annModal.classList.add('open');
+    }
+
+    function openEditModal(item) {
+      editingId = item.id;
+      modalHeading.textContent = 'Edit Announcement';
+      modalSubHeading.textContent = `Editing announcement ID: ${item.id}`;
+
+      annTitleInput.value = item.title || '';
+      annMessageInput.value = item.message || '';
+      annTypeSelect.value = (item.type || 'info').toLowerCase();
+      annPriorityInput.value = item.priority || 3;
+      annStartDateInput.value = item.startDate ? toDateTimeLocal(new Date(item.startDate)) : '';
+      annEndDateInput.value = item.endDate ? toDateTimeLocal(new Date(item.endDate)) : '';
+      annActiveToggle.checked = item.active === true || item.active === 'true';
+
+      annModal.classList.add('open');
+    }
+
+    function closeModal() {
+      annModal.classList.remove('open');
+    }
+
+    btnOpenCreateModal.addEventListener('click', openCreateModal);
+    btnCloseModal.addEventListener('click', closeModal);
+    btnCancelModal.addEventListener('click', closeModal);
+    annModal.addEventListener('click', (e) => {
+      if (e.target === annModal) closeModal();
+    });
+
+    annForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const title = annTitleInput.value.trim();
+      const message = annMessageInput.value.trim();
+      const type = annTypeSelect.value;
+      const priority = parseInt(annPriorityInput.value, 10) || 3;
+      const startDate = annStartDateInput.value;
+      const endDate = annEndDateInput.value;
+      const active = annActiveToggle.checked;
+
+      if (!title) {
+        alert('Announcement title is required.');
+        annTitleInput.focus();
+        return;
+      }
+
+      if (!message) {
+        alert('Announcement message is required.');
+        annMessageInput.focus();
+        return;
+      }
+
+      if (startDate && endDate) {
+        const sTime = new Date(startDate).getTime();
+        const eTime = new Date(endDate).getTime();
+        if (eTime < sTime) {
+          alert('End date cannot be prior to start date.');
+          annEndDateInput.focus();
+          return;
+        }
+      }
+
+      const now = Date.now();
+      const payload = {
+        title: title,
+        message: message,
+        type: type,
+        priority: priority,
+        startDate: startDate ? new Date(startDate).toISOString() : null,
+        endDate: endDate ? new Date(endDate).toISOString() : null,
+        active: active,
+        updatedAt: now
+      };
+
+      try {
+        if (editingId) {
+          await update(ref(database, `announcements/${editingId}`), payload);
+          showToast('Announcement updated successfully.');
+        } else {
+          payload.createdAt = now;
+          const newRef = push(ref(database, 'announcements'));
+          payload.id = newRef.key;
+          await set(newRef, payload);
+          showToast('New announcement broadcasted.');
+        }
+        closeModal();
+      } catch (err) {
+        console.error('Failed to save announcement:', err);
+        alert('Failed to save announcement. Please check database connectivity.');
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // ACTIVATE / DEACTIVATE ONE-CLICK TOGGLE
+    // ------------------------------------------------------------------------
+    async function toggleActiveStatus(item) {
+      const isCurrentlyActive = item.active === true || item.active === 'true';
+      const newStatus = !isCurrentlyActive;
+
+      try {
+        await update(ref(database, `announcements/${item.id}`), {
+          active: newStatus,
+          updatedAt: Date.now()
+        });
+        showToast(`Announcement set to ${newStatus ? 'ACTIVE' : 'INACTIVE'}`);
+      } catch (err) {
+        console.error('Failed to toggle status:', err);
+        alert('Could not update status. Verify database permissions.');
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // DELETE ANNOUNCEMENT
+    // ------------------------------------------------------------------------
+    function confirmDeleteModal(id) {
+      deletingId = id;
+      deleteModal.classList.add('open');
+    }
+
+    btnCancelDelete.addEventListener('click', () => {
+      deletingId = null;
+      deleteModal.classList.remove('open');
+    });
+
+    btnConfirmDelete.addEventListener('click', async () => {
+      if (!deletingId) return;
+
+      try {
+        await remove(ref(database, `announcements/${deletingId}`));
+        showToast('Announcement permanently removed.');
+      } catch (err) {
+        console.error('Failed to delete announcement:', err);
+        alert('Could not delete announcement.');
+      } finally {
+        deletingId = null;
+        deleteModal.classList.remove('open');
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // DATE & FORMATTING HELPERS
+    // ------------------------------------------------------------------------
+    function extractTimestamp(val) {
+      if (!val) return 0;
+      if (typeof val === 'number') return val < 1e11 ? val * 1000 : val;
+      const parsed = new Date(val).getTime();
+      return isNaN(parsed) ? 0 : parsed;
+    }
+
+    function formatShortDate(val) {
+      if (!val) return '--';
+      const ts = extractTimestamp(val);
+      if (!ts) return '--';
+      return new Date(ts).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function toDateTimeLocal(d) {
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initialize synchronization on load
+    initAnnouncementsSync();
+  </script>
+</body>
+</html>
