@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading... Please Wait</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #0a0c10;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট */
+        .glow-bg {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            filter: blur(150px);
+            border-radius: 50%;
+            z-index: 1;
+            opacity: 0.4;
+            animation: pulse 4s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.3; }
+            100% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        /* কার্ড কনটেইনার */
+        .loading-container {
+            position: relative;
+            z-index: 2;
+            background: rgba(18, 22, 34, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 24px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* প্রিমিয়াম স্পিনার */
+        .spinner-box {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #00f2fe;
+            border-right-color: #4facfe;
+            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+
+        .circle-inner {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-bottom-color: #fff;
+            animation: spin-reverse 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        /* টেক্সট ডিজাইন */
+        h2 {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #8f9ca7;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        /* প্রগ্রেস বার */
+        .progress-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 8px;
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            border-radius: 20px;
+            box-shadow: 0 0 10px #00f2fe;
+            transition: width 0.1s ease;
+        }
+
+        /* পার্সেন্টেজ টেক্সট */
+        .percentage {
+            color: #00f2fe;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glow-bg"></div>
+
+    <div class="loading-container">
+        <!-- স্পিনার -->
+        <div class="spinner-box">
+            <div class="circle"></div>
+            <div class="circle-inner"></div>
+        </div>
+
+        <!-- টেক্সট -->
+        <h2>ADMIN PORTAL</h2>
+        <p>Securing connection & initializing...</p>
+
+        <!-- প্রগ্রেস বার -->
+        <div class="progress-box">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percentage" id="percentText">0%</div>
+    </div>
+
+    <!-- রিডাইরেক্ট স্ক্রিপ্ট -->
+    <script>
+        let progress = 0;
+        const progressBar = document.getElementById("progressBar");
+        const percentText = document.getElementById("percentText");
+
+        // লোডিং স্পিড নিয়ন্ত্রণ (চাইলে সময় পরিবর্তন করতে পারেন)
+        const interval = setInterval(() => {
+            // র‍্যান্ডম ভাবে লোডিং বাড়বে যাতে রিয়েল মনে হয়
+            progress += Math.floor(Math.random() * 5) + 2; 
+
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                
+                // ১০০% হলে admin.html এ রিডাইরেক্ট হবে
+                setTimeout(() => {
+                    window.location.href = "admin.html";
+                }, 500); // ১০০% হওয়ার আধা সেকেন্ড পর পেজ পরিবর্তন হবে
+            }
+
+            progressBar.style.width = progress + "%";
+            percentText.innerText = progress + "%";
+        }, 80); // প্রতি ৮০ মিলিসেকেন্ড পর পর আপডেট হবে
+    </script>
+</body>
+</html>
