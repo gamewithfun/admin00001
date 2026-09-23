@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-  <title>User Management | THE GAME WITH FUN</title>
-  <meta name="description" content="Direct-access administrative user management control center for THE GAME WITH FUN. Filter, inspect, adjust balances, and audit player credentials.">
+  <title>User & Balance Management | THE GAME WITH FUN</title>
+  <meta name="description" content="Direct-access administrative user and balance management control center for THE GAME WITH FUN. Adjust balances safely, audit credentials, and manage account standings.">
 
   <style>
     /* ==========================================================================
@@ -87,6 +87,13 @@
       font-family: inherit;
       outline: none;
       border: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
     }
 
     /* ==========================================================================
@@ -493,7 +500,7 @@
     }
 
     /* ==========================================================================
-       USERS DATA TABLE (DESKTOP) & USER CARDS (MOBILE)
+       USERS DATA TABLE (DESKTOP) & CARDS (MOBILE)
        ========================================================================== */
     .ui-panel {
       background: var(--bg-card);
@@ -594,9 +601,7 @@
       font-size: 0.86rem;
     }
 
-    /* ==========================================================================
-       PAGINATION CONTROLS
-       ========================================================================== */
+    /* Pagination */
     .pagination-bar {
       display: flex;
       align-items: center;
@@ -665,7 +670,7 @@
       max-height: 90vh;
       overflow-y: auto;
       background: #0d1222;
-      border: 1px solid var(--border-glow);
+      border: 1px solid var(--border-gold);
       border-radius: var(--radius-lg);
       padding: 1.8rem;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95);
@@ -714,7 +719,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 12px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     @media (min-width: 640px) {
@@ -760,63 +765,116 @@
       font-family: monospace;
     }
 
-    /* Admin Action Controls */
-    .admin-controls-card {
-      background: rgba(245, 158, 11, 0.04);
-      border: 1px solid rgba(245, 158, 11, 0.3);
+    /* ==========================================================================
+       WALLET / BALANCE MANAGEMENT SECTION (MODAL)
+       ========================================================================== */
+    .balance-management-card {
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08), rgba(20, 27, 46, 0.95));
+      border: 1px solid var(--border-gold);
       border-radius: var(--radius-md);
       padding: 1.25rem;
       margin-bottom: 1.25rem;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.12);
     }
 
-    .control-group {
-      margin-bottom: 1rem;
+    .bm-header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    @media (min-width: 520px) {
+      .bm-header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .bm-tag {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: var(--gold-primary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .bm-current-balance-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #fff;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .bm-btn-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-balance-action {
+      padding: 0.65rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-add-bal {
+      background: var(--gold-gradient);
+      color: #04060a;
+      box-shadow: 0 4px 12px var(--gold-glow);
+    }
+
+    .btn-add-bal:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn-remove-bal {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: var(--ruby-neon);
+    }
+
+    .btn-remove-bal:hover {
+      background: var(--ruby-neon);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* Account Standing Card */
+    .admin-standing-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-md);
+      padding: 1rem;
     }
 
     .control-label {
       display: block;
       font-size: 0.74rem;
       font-weight: 800;
-      color: var(--gold-primary);
+      color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 6px;
     }
 
-    .balance-adj-row {
-      display: grid;
-      grid-template-columns: 1fr 1.2fr auto;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    @media (max-width: 540px) {
-      .balance-adj-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .adj-input {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-sm);
-      padding: 0.6rem 0.8rem;
-      color: #fff;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .adj-input:focus {
-      border-color: var(--gold-primary);
-    }
-
     .btn-apply-adj {
-      padding: 0.6rem 1rem;
+      padding: 0.65rem 1rem;
       border-radius: var(--radius-sm);
       font-size: 0.76rem;
       font-weight: 900;
       text-transform: uppercase;
-      background: var(--gold-gradient);
+      background: var(--cyan-gradient);
       color: #04060a;
       white-space: nowrap;
       transition: all 0.2s ease;
@@ -826,21 +884,103 @@
       filter: brightness(1.1);
     }
 
-    .btn-save-status {
-      width: 100%;
+    /* ==========================================================================
+       BALANCE ADJUSTMENT CONFIRMATION MODAL (ADD / REMOVE)
+       ========================================================================== */
+    .balance-preview-box {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .bp-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+    }
+
+    .bp-row strong {
+      font-family: monospace;
+      color: #fff;
+    }
+
+    .bp-row.highlight {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 6px;
+      margin-top: 2px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--gold-primary);
+      text-transform: uppercase;
+    }
+
+    .form-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 0.9rem;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--cyan-neon);
+    }
+
+    .btn-confirm-action {
+      flex: 1.5;
       padding: 0.85rem;
       border-radius: var(--radius-sm);
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 900;
       text-transform: uppercase;
-      background: var(--cyan-gradient);
+      letter-spacing: 0.5px;
+      background: var(--gold-gradient);
       color: #04060a;
       transition: all 0.2s ease;
     }
 
-    .btn-save-status:hover {
+    .btn-confirm-action:hover:not(:disabled) {
       filter: brightness(1.1);
-      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    .btn-confirm-action:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+    }
+
+    .btn-cancel-action {
+      flex: 1;
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cancel-action:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
     /* Toast Notification */
@@ -903,7 +1043,7 @@
           </div>
           <div class="brand-title-wrap">
             <span class="brand-title">THE GAME WITH FUN</span>
-            <span class="brand-subtitle-tag">ADMIN • USER MANAGEMENT</span>
+            <span class="brand-subtitle-tag">ADMIN • USER & BALANCE</span>
           </div>
         </div>
       </div>
@@ -941,7 +1081,7 @@
       </a>
       <a href="admin-users.html" class="sidebar-nav-item active">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-        <span>Users</span>
+        <span>Users & Balance</span>
       </a>
       <a href="admin-tasks.html" class="sidebar-nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -963,7 +1103,7 @@
       <div class="page-banner">
         <h1 class="page-title">
           <span>👥</span>
-          <span>USER MANAGEMENT</span>
+          <span>USER & BALANCE MANAGEMENT</span>
         </h1>
         <p class="page-subtitle">Inspect registered members, adjust balances safely, update account standing, and audit activity streaks.</p>
       </div>
@@ -1092,6 +1232,27 @@
       <h3 class="modal-head-title" id="mUsername">Player Details</h3>
       <div class="modal-sub-title" id="mUidDisplay">UID: Loading...</div>
 
+      <!-- PROMINENT WALLET / BALANCE MANAGEMENT SECTION -->
+      <div class="balance-management-card">
+        <div class="bm-header">
+          <div>
+            <span class="bm-tag">WALLET / BALANCE MANAGEMENT</span>
+            <div class="bm-current-balance-title">
+              <span>Current Balance:</span>
+              <strong id="bmCurrentBalance">৳0.00</strong>
+            </div>
+          </div>
+          <div class="bm-btn-actions">
+            <button type="button" class="btn-balance-action btn-add-bal" id="btnOpenAddBalance">
+              <span>+ ADD BALANCE</span>
+            </button>
+            <button type="button" class="btn-balance-action btn-remove-bal" id="btnOpenRemoveBalance">
+              <span>− REMOVE BALANCE</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- User Information Breakdown Grid -->
       <div class="modal-section-grid">
         <!-- Profile Details -->
@@ -1100,7 +1261,7 @@
           <div class="modal-info-row"><span class="modal-info-key">Email:</span><span class="modal-info-val" id="mEmail">--</span></div>
           <div class="modal-info-row"><span class="modal-info-key">Referral Code:</span><span class="modal-info-val" id="mRefCode" style="color:var(--cyan-neon);">--</span></div>
           <div class="modal-info-row"><span class="modal-info-key">Referred By:</span><span class="modal-info-val" id="mReferredBy">--</span></div>
-          <div class="modal-info-row"><span class="modal-info-key">Joined:</span><span class="modal-info-val" id="mCreatedAt">--</span></div>
+          <div class="modal-info-row"><span class="modal-info-key">Created Date:</span><span class="modal-info-val" id="mCreatedAt">--</span></div>
           <div class="modal-info-row"><span class="modal-info-key">Last Login:</span><span class="modal-info-val" id="mLastLogin">--</span></div>
         </div>
 
@@ -1131,58 +1292,86 @@
         </div>
       </div>
 
-      <!-- Admin Actions: Status Control & Balance Adjustments -->
-      <div class="admin-controls-card">
-        <!-- 1. Account Status Selector -->
-        <div class="control-group">
-          <label class="control-label" for="mStatusSelect">Update Account Standing</label>
-          <div style="display:flex; gap:8px;">
-            <select id="mStatusSelect" class="select-control" style="flex:1;">
-              <option value="active">Active</option>
-              <option value="pending">Pending</option>
-              <option value="blocked">Blocked</option>
-              <option value="suspended">Suspended</option>
-            </select>
-            <button type="button" id="btnSaveStatus" class="btn-apply-adj" style="background:var(--cyan-gradient);">Save Status</button>
-          </div>
-        </div>
-
-        <!-- 2. Balance Adjustment Form -->
-        <div class="control-group" style="margin-bottom:0;">
-          <label class="control-label">Balance Adjustment (Adds Audit Transaction)</label>
-          <div class="balance-adj-row">
-            <select id="adjType" class="select-control">
-              <option value="add">+ Add Balance</option>
-              <option value="deduct">- Deduct Balance</option>
-            </select>
-            <input type="number" id="adjAmount" class="adj-input" placeholder="Amount (e.g. 50)" min="1" step="any">
-            <input type="text" id="adjReason" class="adj-input" placeholder="Reason (Required)">
-            <button type="button" id="btnApplyBalance" class="btn-apply-adj">Apply</button>
-          </div>
+      <!-- Account Standing Control -->
+      <div class="admin-standing-card">
+        <label class="control-label" for="mStatusSelect">Update Account Status</label>
+        <div style="display:flex; gap:8px;">
+          <select id="mStatusSelect" class="select-control" style="flex:1;">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="blocked">Blocked</option>
+            <option value="suspended">Suspended</option>
+          </select>
+          <button type="button" id="btnSaveStatus" class="btn-apply-adj">Save Status</button>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ==========================================================================
-       FIREBASE REALTIME DATABASE ONLY (NO AUTH / DIRECT ACCESS)
+       MODAL: BALANCE ADJUSTMENT CONFIRMATION (ADD / REMOVE)
+       ========================================================================== -->
+  <div id="balanceActionModal" class="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal-card" style="max-width: 460px;">
+      <button type="button" class="modal-close-btn" id="btnCloseBalActionModal">✕</button>
+      
+      <h3 class="modal-head-title" id="balModalTitle">Add Balance</h3>
+      <div class="modal-sub-title">User: <strong id="balModalUsername" style="color:#fff;">Player</strong></div>
+
+      <!-- Live Calculated Preview Box -->
+      <div class="balance-preview-box">
+        <div class="bp-row">
+          <span>Previous Balance:</span>
+          <strong id="bpPrevBal">৳0.00</strong>
+        </div>
+        <div class="bp-row">
+          <span id="bpActionLabel">Amount to Add:</span>
+          <strong id="bpAmountDisplay">৳0.00</strong>
+        </div>
+        <div class="bp-row highlight">
+          <span>New Balance:</span>
+          <strong id="bpNewBal" style="color:var(--gold-primary);">৳0.00</strong>
+        </div>
+      </div>
+
+      <form id="balanceActionForm" novalidate>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label class="form-label" id="balInputLabel">Amount to Add (৳) *</label>
+          <input type="number" id="balAmountInput" class="form-input" placeholder="e.g. 100" min="0.01" step="0.01" required>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label class="form-label" style="color:var(--text-dim);">Reason / Note (Optional)</label>
+          <input type="text" id="balReasonInput" class="form-input" placeholder="Optional audit memo (e.g. Manual correction)">
+        </div>
+
+        <div id="balActionError" style="display:none; color:var(--ruby-neon); font-size:0.78rem; font-weight:800; margin-bottom:12px;"></div>
+
+        <div style="display:flex; gap:10px;">
+          <button type="button" id="btnCancelBalAction" class="btn-cancel-action">Cancel</button>
+          <button type="submit" id="btnConfirmBalAction" class="btn-confirm-action">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FIREBASE REALTIME DATABASE ONLY (DIRECT ACCESS)
        ========================================================================== -->
   <script type="module">
-    // ------------------------------------------------------------------------
-    // 1. FIREBASE REALTIME DATABASE IMPORTS
-    // ------------------------------------------------------------------------
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { 
       getDatabase, 
       ref, 
       onValue, 
+      get,
       update, 
       push, 
       set 
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     // ------------------------------------------------------------------------
-    // 2. PROJECT FIREBASE CONFIGURATION
+    // FIREBASE CONFIGURATION
     // ------------------------------------------------------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyCypPyOyk2gh42SS8z8bnK5emKQmr40v5U",
@@ -1198,7 +1387,7 @@
     const database = getDatabase(app);
 
     // ------------------------------------------------------------------------
-    // 3. UI ELEMENT REFERENCES
+    // UI REFERENCES
     // ------------------------------------------------------------------------
     const btnMenuToggle = document.getElementById('btnMenuToggle');
     const sidebarMenu = document.getElementById('sidebarMenu');
@@ -1207,7 +1396,7 @@
     const errorBanner = document.getElementById('errorBanner');
     const btnRetrySync = document.getElementById('btnRetrySync');
 
-    // Stats
+    // Stats Elements
     const statTotalUsers = document.getElementById('statTotalUsers');
     const statActiveUsers = document.getElementById('statActiveUsers');
     const statBlockedUsers = document.getElementById('statBlockedUsers');
@@ -1216,7 +1405,7 @@
     const statNewUsersToday = document.getElementById('statNewUsersToday');
     const statNewUsersMonth = document.getElementById('statNewUsersMonth');
 
-    // Controls
+    // Filter Controls
     const userSearchInput = document.getElementById('userSearchInput');
     const statusFilter = document.getElementById('statusFilter');
     const vipFilter = document.getElementById('vipFilter');
@@ -1228,7 +1417,7 @@
     const btnPrevPage = document.getElementById('btnPrevPage');
     const btnNextPage = document.getElementById('btnNextPage');
 
-    // Modal
+    // Details Modal
     const detailsModal = document.getElementById('detailsModal');
     const btnCloseModal = document.getElementById('btnCloseModal');
     const mUsername = document.getElementById('mUsername');
@@ -1250,29 +1439,49 @@
     const mReferralCount = document.getElementById('mReferralCount');
     const mLastTask = document.getElementById('mLastTask');
 
-    // Admin Controls in Modal
     const mStatusSelect = document.getElementById('mStatusSelect');
     const btnSaveStatus = document.getElementById('btnSaveStatus');
-    const adjType = document.getElementById('adjType');
-    const adjAmount = document.getElementById('adjAmount');
-    const adjReason = document.getElementById('adjReason');
-    const btnApplyBalance = document.getElementById('btnApplyBalance');
+
+    // Prominent Balance Management Bar
+    const bmCurrentBalance = document.getElementById('bmCurrentBalance');
+    const btnOpenAddBalance = document.getElementById('btnOpenAddBalance');
+    const btnOpenRemoveBalance = document.getElementById('btnOpenRemoveBalance');
+
+    // Balance Action Confirmation Modal
+    const balanceActionModal = document.getElementById('balanceActionModal');
+    const btnCloseBalActionModal = document.getElementById('btnCloseBalActionModal');
+    const balModalTitle = document.getElementById('balModalTitle');
+    const balModalUsername = document.getElementById('balModalUsername');
+    const bpPrevBal = document.getElementById('bpPrevBal');
+    const bpActionLabel = document.getElementById('bpActionLabel');
+    const bpAmountDisplay = document.getElementById('bpAmountDisplay');
+    const bpNewBal = document.getElementById('bpNewBal');
+    const balanceActionForm = document.getElementById('balanceActionForm');
+    const balInputLabel = document.getElementById('balInputLabel');
+    const balAmountInput = document.getElementById('balAmountInput');
+    const balReasonInput = document.getElementById('balReasonInput');
+    const balActionError = document.getElementById('balActionError');
+    const btnCancelBalAction = document.getElementById('btnCancelBalAction');
+    const btnConfirmBalAction = document.getElementById('btnConfirmBalAction');
 
     const toastNotification = document.getElementById('toastNotification');
     const toastMessage = document.getElementById('toastMessage');
 
     // ------------------------------------------------------------------------
-    // 4. CLIENT RUNTIME STATE
+    // RUNTIME DATA STATE
     // ------------------------------------------------------------------------
     let allUsers = [];
     let filteredUsers = [];
     let currentPage = 1;
     const PAGE_SIZE = 20;
+
     let selectedUser = null;
+    let balanceModalMode = 'add'; // 'add' | 'remove'
+    let isSubmittingBalance = false;
     let toastTimeout = null;
 
     // ------------------------------------------------------------------------
-    // 5. NAVIGATION DRAWER & TOAST
+    // UI NAVIGATION DRAWER & TOAST
     // ------------------------------------------------------------------------
     function toggleSidebar() {
       sidebarMenu.classList.toggle('open');
@@ -1292,7 +1501,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 6. REALTIME DATABASE LISTENER (/users)
+    // REALTIME DATABASE LISTENER (/users)
     // ------------------------------------------------------------------------
     function initUsersListener() {
       errorBanner.style.display = 'none';
@@ -1334,7 +1543,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // 7. USER STATISTICS CALCULATOR
+    // USER STATISTICS CALCULATOR
     // ------------------------------------------------------------------------
     function updateLiveStatistics() {
       let total = allUsers.length;
@@ -1372,7 +1581,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 8. FILTERING, SEARCHING & SORTING
+    // FILTERING, SEARCHING & SORTING
     // ------------------------------------------------------------------------
     function applyFiltersAndRender() {
       const q = userSearchInput.value.trim().toLowerCase();
@@ -1428,35 +1637,19 @@
         return 0;
       });
 
-      // Adjust page if out of bounds
       const totalPages = Math.ceil(filteredUsers.length / PAGE_SIZE) || 1;
       if (currentPage > totalPages) currentPage = totalPages;
 
       renderUsersTable();
     }
 
-    userSearchInput.addEventListener('input', () => {
-      currentPage = 1;
-      applyFiltersAndRender();
-    });
-
-    statusFilter.addEventListener('change', () => {
-      currentPage = 1;
-      applyFiltersAndRender();
-    });
-
-    vipFilter.addEventListener('change', () => {
-      currentPage = 1;
-      applyFiltersAndRender();
-    });
-
-    sortFilter.addEventListener('change', () => {
-      currentPage = 1;
-      applyFiltersAndRender();
-    });
+    userSearchInput.addEventListener('input', () => { currentPage = 1; applyFiltersAndRender(); });
+    statusFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+    vipFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+    sortFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
 
     // ------------------------------------------------------------------------
-    // 9. RENDER USERS TABLE & PAGINATION
+    // RENDER USERS TABLE
     // ------------------------------------------------------------------------
     function renderUsersTable() {
       tableUsersBody.innerHTML = '';
@@ -1484,9 +1677,9 @@
         const st = (u.accountStatus || 'active').toLowerCase();
         const vipLvl = Number(u.vipLevel || 0);
         const isVip = (u.vipStatus || '').toLowerCase() === 'active' && vipLvl > 0;
-        const bal = Number(u.balance || 0).toFixed(2);
-        const earned = Number(u.totalEarnings || 0).toFixed(2);
-        const withdrawn = Number(u.totalWithdrawal || 0).toFixed(2);
+        const bal = formatCurrency(u.balance);
+        const earned = formatCurrency(u.totalEarnings);
+        const withdrawn = formatCurrency(u.totalWithdrawal);
         const refCount = Number(u.referralCount || 0);
         const joinDate = formatDate(u.createdAt);
 
@@ -1496,9 +1689,9 @@
           <td><span style="font-family:monospace; color:var(--text-dim);">${maskId(u.uid)}</span></td>
           <td><span style="font-family:monospace; color:var(--cyan-neon);">${escapeHtml(u.referralCode || '--')}</span></td>
           <td>${isVip ? `<span class="status-badge" style="background:rgba(245,158,11,0.15); color:var(--gold-primary);">VIP ${vipLvl}</span>` : 'Free'}</td>
-          <td><strong>৳${bal}</strong></td>
-          <td>৳${earned}</td>
-          <td>৳${withdrawn}</td>
+          <td><strong style="color:var(--gold-primary); font-family:monospace;">${bal}</strong></td>
+          <td style="font-family:monospace;">${earned}</td>
+          <td style="font-family:monospace;">${withdrawn}</td>
           <td>${refCount}</td>
           <td><span class="status-badge ${st}">${st}</span></td>
           <td>${joinDate}</td>
@@ -1531,7 +1724,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // 10. USER DETAILS MODAL POPULATION & ACTIONS
+    // POPULATE USER DETAILS MODAL
     // ------------------------------------------------------------------------
     function populateModal(u) {
       mUsername.textContent = `${u.username || 'Player'}`;
@@ -1542,10 +1735,14 @@
       mCreatedAt.textContent = formatDate(u.createdAt);
       mLastLogin.textContent = formatDate(u.lastLoginDate);
 
-      mBalance.textContent = `৳${Number(u.balance || 0).toFixed(2)}`;
-      mTotalEarnings.textContent = `৳${Number(u.totalEarnings || 0).toFixed(2)}`;
-      mTotalWithdrawal.textContent = `৳${Number(u.totalWithdrawal || 0).toFixed(2)}`;
-      mReferralEarnings.textContent = `৳${Number(u.referralEarnings || 0).toFixed(2)}`;
+      // Balance & Finances
+      const curBalFormatted = formatCurrency(u.balance);
+      mBalance.textContent = curBalFormatted;
+      bmCurrentBalance.textContent = curBalFormatted;
+
+      mTotalEarnings.textContent = formatCurrency(u.totalEarnings);
+      mTotalWithdrawal.textContent = formatCurrency(u.totalWithdrawal);
+      mReferralEarnings.textContent = formatCurrency(u.referralEarnings);
 
       const vipLvl = Number(u.vipLevel || 0);
       mVipLevel.textContent = vipLvl > 0 ? `VIP ${vipLvl}` : 'None';
@@ -1558,8 +1755,6 @@
       mLastTask.textContent = formatDate(u.lastTaskDate);
 
       mStatusSelect.value = (u.accountStatus || 'active').toLowerCase();
-      adjAmount.value = '';
-      adjReason.value = '';
     }
 
     function closeModal() {
@@ -1572,7 +1767,7 @@
     });
 
     // ------------------------------------------------------------------------
-    // 11. SAVE ACCOUNT STATUS (TARGETED FIREBASE UPDATE)
+    // SAVE ACCOUNT STATUS
     // ------------------------------------------------------------------------
     btnSaveStatus.addEventListener('click', async () => {
       if (!selectedUser) return;
@@ -1582,7 +1777,7 @@
         await update(ref(database, `users/${selectedUser.uid}`), {
           accountStatus: newStatus
         });
-        showToast(`Status updated to ${newStatus}`);
+        showToast(`Account status updated to ${newStatus}`);
       } catch (err) {
         console.error('Failed status update:', err);
         alert('Failed to update account status. Verify permissions.');
@@ -1590,81 +1785,194 @@
     });
 
     // ------------------------------------------------------------------------
-    // 12. BALANCE ADJUSTMENT (+/-) & TRANSACTION LOG CREATION
+    // BALANCE MANAGEMENT MODAL LOGIC (ADD / REMOVE CONFIRMATION)
     // ------------------------------------------------------------------------
-    btnApplyBalance.addEventListener('click', async () => {
+    btnOpenAddBalance.addEventListener('click', () => {
       if (!selectedUser) return;
+      openBalanceActionModal('add');
+    });
 
-      const type = adjType.value;
-      const amount = parseFloat(adjAmount.value);
-      const reason = adjReason.value.trim();
-      const currentBalance = Number(selectedUser.balance || 0);
+    btnOpenRemoveBalance.addEventListener('click', () => {
+      if (!selectedUser) return;
+      openBalanceActionModal('remove');
+    });
 
-      // Validations
-      if (isNaN(amount) || amount <= 0) {
-        alert('Please enter a valid amount greater than 0.');
-        adjAmount.focus();
-        return;
-      }
+    function openBalanceActionModal(mode) {
+      balanceModalMode = mode;
+      isSubmittingBalance = false;
+      balActionError.style.display = 'none';
 
-      if (!reason) {
-        alert('Please provide a mandatory reason for this balance adjustment.');
-        adjReason.focus();
-        return;
-      }
+      const curBal = Number(selectedUser.balance || 0);
+      balModalUsername.textContent = selectedUser.username || selectedUser.uid;
+      bpPrevBal.textContent = formatCurrency(curBal);
 
-      let newBalance = currentBalance;
-      if (type === 'add') {
-        newBalance = currentBalance + amount;
+      balAmountInput.value = '';
+      balReasonInput.value = '';
+
+      if (mode === 'add') {
+        balModalTitle.textContent = 'Add Balance';
+        balModalTitle.style.color = 'var(--gold-primary)';
+        balInputLabel.textContent = 'Amount to Add (৳) *';
+        bpActionLabel.textContent = 'Amount to Add:';
+        bpAmountDisplay.textContent = '৳0.00';
+        bpNewBal.textContent = formatCurrency(curBal);
+        btnConfirmBalAction.textContent = 'Confirm Add Balance';
+        btnConfirmBalAction.style.background = 'var(--gold-gradient)';
+        btnConfirmBalAction.style.color = '#04060a';
       } else {
-        if (currentBalance - amount < 0) {
-          alert('Cannot deduct: Balance cannot become negative.');
-          return;
-        }
-        newBalance = currentBalance - amount;
+        balModalTitle.textContent = 'Remove Balance';
+        balModalTitle.style.color = 'var(--ruby-neon)';
+        balInputLabel.textContent = 'Amount to Remove (৳) *';
+        bpActionLabel.textContent = 'Amount to Remove:';
+        bpAmountDisplay.textContent = '৳0.00';
+        bpNewBal.textContent = formatCurrency(curBal);
+        btnConfirmBalAction.textContent = 'Confirm Remove Balance';
+        btnConfirmBalAction.style.background = 'var(--ruby-neon)';
+        btnConfirmBalAction.style.color = '#ffffff';
       }
 
-      const confirmMsg = `Are you sure you want to ${type === 'add' ? 'ADD' : 'DEDUCT'} ৳${amount} for user "${selectedUser.username || selectedUser.uid}"?\n\nNew Balance: ৳${newBalance.toFixed(2)}\nReason: ${reason}`;
-      if (!confirm(confirmMsg)) return;
+      btnConfirmBalAction.disabled = false;
+      balanceActionModal.classList.add('open');
+      setTimeout(() => balAmountInput.focus(), 150);
+    }
 
-      btnApplyBalance.disabled = true;
-      btnApplyBalance.textContent = 'Processing...';
+    function closeBalanceActionModal() {
+      balanceActionModal.classList.remove('open');
+      balAmountInput.value = '';
+      balReasonInput.value = '';
+    }
 
-      try {
-        const now = Date.now();
+    btnCloseBalActionModal.addEventListener('click', closeBalanceActionModal);
+    btnCancelBalAction.addEventListener('click', closeBalanceActionModal);
+    balanceActionModal.addEventListener('click', (e) => {
+      if (e.target === balanceActionModal) closeBalanceActionModal();
+    });
 
-        // 1. Update user balance in /users/{uid}
-        await update(ref(database, `users/${selectedUser.uid}`), {
-          balance: newBalance
-        });
+    // Realtime Input Recalculation & Validation
+    balAmountInput.addEventListener('input', () => {
+      balActionError.style.display = 'none';
+      const curBal = Number(selectedUser?.balance || 0);
+      const inputVal = parseFloat(balAmountInput.value);
 
-        // 2. Record audit transaction in /transactions/{uid}
-        const txRef = push(ref(database, `transactions/${selectedUser.uid}`));
-        await set(txRef, {
-          type: "admin_balance_adjustment",
-          amount: type === 'add' ? amount : -amount,
-          reason: reason,
-          createdAt: now,
-          adminAction: true,
-          previousBalance: currentBalance,
-          newBalance: newBalance
-        });
+      if (isNaN(inputVal) || inputVal <= 0) {
+        bpAmountDisplay.textContent = '৳0.00';
+        bpNewBal.textContent = formatCurrency(curBal);
+        btnConfirmBalAction.disabled = false;
+        return;
+      }
 
-        adjAmount.value = '';
-        adjReason.value = '';
-        showToast('Balance updated and audit transaction recorded.');
-      } catch (err) {
-        console.error('Balance adjustment error:', err);
-        alert('Error adjusting balance. Check Realtime Database connection.');
-      } finally {
-        btnApplyBalance.disabled = false;
-        btnApplyBalance.textContent = 'Apply';
+      // Check 2 decimal places max
+      const cleanAmt = Math.round(inputVal * 100) / 100;
+      bpAmountDisplay.textContent = formatCurrency(cleanAmt);
+
+      if (balanceModalMode === 'add') {
+        const newBal = curBal + cleanAmt;
+        bpNewBal.textContent = formatCurrency(newBal);
+        btnConfirmBalAction.disabled = false;
+      } else {
+        const newBal = curBal - cleanAmt;
+        if (newBal < 0) {
+          bpNewBal.textContent = 'Negative (Blocked)';
+          balActionError.textContent = 'Insufficient balance: A user balance can never become negative.';
+          balActionError.style.display = 'block';
+          btnConfirmBalAction.disabled = true;
+        } else {
+          bpNewBal.textContent = formatCurrency(newBal);
+          btnConfirmBalAction.disabled = false;
+        }
       }
     });
 
     // ------------------------------------------------------------------------
-    // 13. DATE & IDENTIFIER HELPERS
+    // BALANCE SUBMISSION & REALTIME ATOMIC-STYLE TRANSACTION RECORDING
     // ------------------------------------------------------------------------
+    balanceActionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!selectedUser || isSubmittingBalance) return;
+
+      const rawAmount = parseFloat(balAmountInput.value);
+      const reason = balReasonInput.value.trim();
+
+      // Validations: Positive, numeric, max 2 decimals, not zero
+      if (isNaN(rawAmount) || rawAmount <= 0) {
+        alert('Please enter a valid positive numeric amount greater than zero.');
+        balAmountInput.focus();
+        return;
+      }
+
+      const amount = Math.round(rawAmount * 100) / 100;
+
+      // Double-click protection & loading state
+      isSubmittingBalance = true;
+      btnConfirmBalAction.disabled = true;
+      btnConfirmBalAction.textContent = 'Processing...';
+
+      try {
+        // 1. Fetch FRESH balance from Firebase to prevent stale calculation
+        const userBalRef = ref(database, `users/${selectedUser.uid}/balance`);
+        const freshSnap = await get(userBalRef);
+        const currentBal = Number(freshSnap.exists() ? freshSnap.val() : (selectedUser.balance || 0));
+
+        let newBalance = currentBal;
+
+        if (balanceModalMode === 'add') {
+          newBalance = Math.round((currentBal + amount) * 100) / 100;
+        } else {
+          if (currentBal - amount < 0) {
+            alert('Insufficient balance: User balance cannot become negative.');
+            btnConfirmBalAction.disabled = false;
+            btnConfirmBalAction.textContent = 'Confirm Remove Balance';
+            isSubmittingBalance = false;
+            return;
+          }
+          newBalance = Math.round((currentBal - amount) * 100) / 100;
+        }
+
+        const now = Date.now();
+
+        // 2. Perform Targeted Balance Update on /users/{uid}/balance ONLY (Do NOT modify totalEarnings)
+        await update(ref(database, `users/${selectedUser.uid}`), {
+          balance: newBalance
+        });
+
+        // 3. Record Audit Transaction in /transactions/{uid}/{transactionId}
+        const txType = balanceModalMode === 'add' ? "admin_balance_add" : "admin_balance_remove";
+        const txRef = push(ref(database, `transactions/${selectedUser.uid}`));
+
+        await set(txRef, {
+          type: txType,
+          amount: amount,
+          previousBalance: currentBal,
+          newBalance: newBalance,
+          reason: reason || (balanceModalMode === 'add' ? 'Manual Admin Balance Add' : 'Manual Admin Balance Remove'),
+          createdAt: now,
+          source: "admin"
+        });
+
+        // 4. Update local selectedUser state for immediate screen feedback
+        selectedUser.balance = newBalance;
+        populateModal(selectedUser);
+
+        closeBalanceActionModal();
+        showToast('Balance updated successfully.');
+      } catch (err) {
+        console.error('Balance update error:', err);
+        alert('Unable to update balance. Verify network connection and permissions.');
+      } finally {
+        isSubmittingBalance = false;
+        btnConfirmBalAction.disabled = false;
+      }
+    });
+
+    // ------------------------------------------------------------------------
+    // DATE, MASKING & FORMATTING HELPERS
+    // ------------------------------------------------------------------------
+    function formatCurrency(val) {
+      const num = Number(val || 0);
+      return `৳${num.toFixed(2)}`;
+    }
+
     function extractTimestamp(val) {
       if (!val) return 0;
       if (typeof val === 'number') {
@@ -1712,7 +2020,7 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Initialize data synchronization
+    // Initialize Realtime User Stream Immediately
     initUsersListener();
   </script>
 </body>
