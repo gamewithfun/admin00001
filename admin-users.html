@@ -76,19 +76,30 @@
     button { font-family: inherit; border: none; outline: none; cursor: pointer; }
     input, select { font-family: inherit; outline: none; border: none; }
 
-    .container {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 1rem;
+    /* Custom Sleek Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--gold-primary);
     }
 
-    /* TOP HEADER */
+    /* ==========================================================================
+       TOP APP HEADER
+       ========================================================================== */
     .top-header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(6, 8, 13, 0.92);
+      background: rgba(6, 8, 13, 0.94);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-subtle);
@@ -196,10 +207,14 @@
       to { transform: rotate(360deg); }
     }
 
-    /* SIDEBAR & WORKSPACE LAYOUT */
+    /* ==========================================================================
+       LAYOUT: SIDEBAR + MAIN WORKSPACE (NO CUTOFF / RESPONSIVE)
+       ========================================================================== */
     .app-layout {
       display: flex;
       flex: 1;
+      width: 100%;
+      min-width: 0;
       position: relative;
     }
 
@@ -208,12 +223,12 @@
       top: 57px;
       bottom: 0;
       left: -260px;
-      width: 250px;
-      background: rgba(8, 12, 22, 0.95);
+      width: 240px;
+      background: rgba(8, 12, 22, 0.97);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border-right: 1px solid var(--border-subtle);
-      padding: 1.5rem 1rem;
+      padding: 1.5rem 0.85rem;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -273,21 +288,24 @@
       flex-shrink: 0;
     }
 
+    /* Main Workspace Container */
     .main-workspace {
       flex: 1;
-      padding: 1.25rem 0.85rem 3rem;
+      min-width: 0; /* CRITICAL: Prevents horizontal blowout in flexbox */
       width: 100%;
+      padding: 1.25rem 1rem 3rem;
       transition: margin 0.3s ease;
     }
 
     @media (min-width: 1024px) {
       .main-workspace {
-        margin-left: 250px;
-        padding: 2rem 2rem 4rem;
+        margin-left: 240px;
+        padding: 1.5rem 1.5rem 4rem;
+        max-width: calc(100vw - 240px);
       }
     }
 
-    /* PAGE BANNER */
+    /* Page Banner */
     .page-banner {
       margin-bottom: 1.25rem;
     }
@@ -345,7 +363,7 @@
       .stats-master-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
     }
 
-    @media (min-width: 1024px) {
+    @media (min-width: 1200px) {
       .stats-master-grid { grid-template-columns: repeat(7, 1fr); }
     }
 
@@ -353,7 +371,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 0.95rem 0.75rem;
+      padding: 0.9rem 0.7rem;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -361,8 +379,14 @@
       transition: all 0.2s var(--smooth-ease);
     }
 
+    .stat-tile:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
     .stat-num {
-      font-size: 1.45rem;
+      font-size: 1.4rem;
       font-weight: 900;
       color: #fff;
       line-height: 1.1;
@@ -382,7 +406,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-lg);
-      padding: 0.9rem 1rem;
+      padding: 0.85rem 1rem;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -437,7 +461,6 @@
       font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
-      flex: 1;
     }
 
     .select-control:focus {
@@ -445,7 +468,9 @@
       color: #fff;
     }
 
-    /* USERS DISPLAY: TABLE ON DESKTOP, CARDS ON MOBILE */
+    /* ==========================================================================
+       USERS DISPLAY PANEL (NO CUTOFF / ULTRA CLEAN)
+       ========================================================================== */
     .ui-panel {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
@@ -453,16 +478,20 @@
       padding: 1rem;
       backdrop-filter: blur(24px);
       margin-bottom: 1.5rem;
+      width: 100%;
+      min-width: 0;
     }
 
-    /* Desktop Table View */
+    /* Desktop Table View (Optimized Columns - No Cutoff on Laptop) */
     .table-scroll-wrap {
       display: none;
       width: 100%;
       overflow-x: auto;
+      overscroll-behavior-x: contain;
+      padding-bottom: 4px;
     }
 
-    @media (min-width: 900px) {
+    @media (min-width: 960px) {
       .table-scroll-wrap { display: block; }
       .mobile-cards-list { display: none !important; }
     }
@@ -476,7 +505,7 @@
     }
 
     .data-table th {
-      padding: 0.8rem 0.9rem;
+      padding: 0.75rem 0.75rem;
       background: rgba(255, 255, 255, 0.03);
       color: var(--text-dim);
       font-size: 0.68rem;
@@ -487,16 +516,51 @@
     }
 
     .data-table td {
-      padding: 0.85rem 0.9rem;
+      padding: 0.75rem 0.75rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       color: var(--text-main);
+      vertical-align: middle;
     }
 
     .data-table tr:hover td {
       background: rgba(255, 255, 255, 0.02);
     }
 
-    /* MOBILE USER CARD LAYOUT (< 900px) */
+    /* Combined User Cell */
+    .user-info-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      max-width: 190px;
+    }
+
+    .uic-name {
+      font-size: 0.86rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .uic-email {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Compact Financial Summary Cell */
+    .finance-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+
+    .fc-earned { color: var(--emerald-neon); }
+    .fc-withdrawn { color: var(--text-dim); }
+
+    /* MOBILE USER CARD LAYOUT (< 960px) */
     .mobile-cards-list {
       display: flex;
       flex-direction: column;
@@ -523,6 +587,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 8px;
     }
 
     .um-name {
@@ -534,6 +599,7 @@
     .um-email {
       font-size: 0.74rem;
       color: var(--text-dim);
+      word-break: break-all;
     }
 
     .um-grid-metrics {
@@ -655,7 +721,7 @@
       cursor: not-allowed;
     }
 
-    /* USER DETAILS MODAL (MOBILE FIT) */
+    /* USER DETAILS MODAL */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -671,10 +737,7 @@
       transition: opacity 0.3s var(--smooth-ease);
     }
 
-    .modal-overlay.open {
-      display: flex;
-      opacity: 1;
-    }
+    .modal-overlay.open { display: flex; opacity: 1; }
 
     .modal-card {
       width: 100%;
@@ -1049,7 +1112,7 @@
   <div class="app-layout">
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- RESPONSIVE SIDEBAR (INCLUDES SETTINGS LINK) -->
+    <!-- RESPONSIVE SIDEBAR (WITH SETTINGS) -->
     <aside class="sidebar" id="sidebarMenu">
       <a href="admin.html" class="sidebar-nav-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
@@ -1165,32 +1228,30 @@
 
       <!-- 3. USER LIST PANEL (DESKTOP TABLE & MOBILE CARDS) -->
       <div class="ui-panel">
-        <!-- Desktop Table View -->
+        <!-- Desktop Table View (Streamlined Columns - No Cutoff on Laptops) -->
         <div class="table-scroll-wrap">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>UID</th>
+                <th style="min-width: 170px;">Player / Account</th>
+                <th style="min-width: 110px;">UID</th>
                 <th>Referral Code</th>
                 <th>VIP Level</th>
                 <th>Balance</th>
-                <th>Total Earned</th>
-                <th>Withdrawn</th>
-                <th>Referrals</th>
+                <th>Earned / Withdrawn</th>
+                <th>Refs</th>
                 <th>Status</th>
-                <th>Join Date</th>
-                <th>Action</th>
+                <th>Joined</th>
+                <th style="text-align: right;">Action</th>
               </tr>
             </thead>
             <tbody id="tableUsersBody">
-              <tr><td colspan="12" class="empty-placeholder">Loading users roster...</td></tr>
+              <tr><td colspan="10" class="empty-placeholder">Loading users roster...</td></tr>
             </tbody>
           </table>
         </div>
 
-        <!-- Mobile User Cards Layout (< 900px) -->
+        <!-- Mobile User Cards Layout (< 960px) -->
         <div class="mobile-cards-list" id="mobileCardsList">
           <div class="empty-placeholder">Loading users roster...</div>
         </div>
@@ -1376,7 +1437,7 @@
     const errorBanner = document.getElementById('errorBanner');
     const btnRetrySync = document.getElementById('btnRetrySync');
 
-    // Stats
+    // Stats Elements
     const statTotalUsers = document.getElementById('statTotalUsers');
     const statActiveUsers = document.getElementById('statActiveUsers');
     const statBlockedUsers = document.getElementById('statBlockedUsers');
@@ -1614,14 +1675,14 @@
     sortFilter.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
 
     // ------------------------------------------------------------------------
-    // RENDER USERS UI (TABLE FOR DESKTOP + CARDS FOR MOBILE)
+    // RENDER USERS UI (STREAMLINED TABLE FOR LAPTOP + CARDS FOR MOBILE)
     // ------------------------------------------------------------------------
     function renderUsersUI() {
       tableUsersBody.innerHTML = '';
       mobileCardsList.innerHTML = '';
 
       if (filteredUsers.length === 0) {
-        tableUsersBody.innerHTML = '<tr><td colspan="12" class="empty-placeholder">No users found matching query.</td></tr>';
+        tableUsersBody.innerHTML = '<tr><td colspan="10" class="empty-placeholder">No users found matching query.</td></tr>';
         mobileCardsList.innerHTML = '<div class="empty-placeholder">No users found matching query.</div>';
         pageInfoText.textContent = 'Showing 0 of 0 users';
         btnPrevPage.disabled = true;
@@ -1649,27 +1710,35 @@
         const refCount = Number(u.referralCount || 0);
         const joinDate = formatDate(u.createdAt);
 
-        // 1. Desktop Table Row
+        // 1. DESKTOP / LAPTOP STREAMLINED ROW (Fits 1366x768 without horizontal clipping)
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong>${escapeHtml(u.username || 'User')}</strong></td>
-          <td>${escapeHtml(u.email || '--')}</td>
+          <td>
+            <div class="user-info-cell">
+              <span class="uic-name">${escapeHtml(u.username || 'User')}</span>
+              <span class="uic-email" title="${escapeHtml(u.email || '--')}">${escapeHtml(u.email || '--')}</span>
+            </div>
+          </td>
           <td><span style="font-family:monospace; color:var(--text-dim);">${maskId(u.uid)}</span></td>
-          <td><span style="font-family:monospace; color:var(--cyan-neon);">${escapeHtml(u.referralCode || '--')}</span></td>
-          <td>${isVip ? `<span class="status-badge" style="background:rgba(245,158,11,0.15); color:var(--gold-primary);">VIP ${vipLvl}</span>` : 'Free'}</td>
-          <td><strong style="color:var(--gold-primary); font-family:monospace;">${bal}</strong></td>
-          <td style="font-family:monospace;">${earned}</td>
-          <td style="font-family:monospace;">${withdrawn}</td>
-          <td>${refCount}</td>
+          <td><span style="font-family:monospace; color:var(--cyan-neon); font-weight:800;">${escapeHtml(u.referralCode || '--')}</span></td>
+          <td>${isVip ? `<span class="status-badge" style="background:rgba(245,158,11,0.15); color:var(--gold-primary);">VIP ${vipLvl}</span>` : '<span style="color:var(--text-dim);">Free</span>'}</td>
+          <td><strong style="color:var(--gold-primary); font-family:monospace; font-size:0.92rem;">${bal}</strong></td>
+          <td>
+            <div class="finance-cell">
+              <span class="fc-earned">+${earned}</span>
+              <span class="fc-withdrawn">-${withdrawn}</span>
+            </div>
+          </td>
+          <td><span style="font-weight:800; font-family:monospace;">${refCount}</span></td>
           <td><span class="status-badge ${st}">${st}</span></td>
-          <td>${joinDate}</td>
-          <td><button type="button" class="btn-view-details">VIEW DETAILS</button></td>
+          <td><span style="font-size:0.75rem; color:var(--text-muted);">${joinDate}</span></td>
+          <td style="text-align: right;"><button type="button" class="btn-view-details">VIEW DETAILS</button></td>
         `;
 
         tr.querySelector('.btn-view-details').addEventListener('click', () => openUserDetails(u));
         tableUsersBody.appendChild(tr);
 
-        // 2. Mobile User Card (< 900px)
+        // 2. MOBILE CARD LAYOUT (< 960px)
         const card = document.createElement('div');
         card.className = 'user-mobile-card';
         card.innerHTML = `
